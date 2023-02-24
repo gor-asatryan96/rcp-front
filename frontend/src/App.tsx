@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type PropTypes = {
   isTest: boolean;
@@ -6,7 +7,9 @@ type PropTypes = {
 };
 
 const App: FC<PropTypes> = () => {
-  return <div className='App'>aaaaaaaaa</div>;
+  const { t } = useTranslation();
+
+  return <div className='App'>{t('name')}</div>;
 };
 
 export default App;
