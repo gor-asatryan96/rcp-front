@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
 import { setupAxios } from './api/axios';
 
@@ -15,7 +16,9 @@ const root = createRoot(container);
 setupAxios();
 
 root.render(
-  <Provider store={store}>
-    <App isTest age={45} />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <App isTest age={45} />
+    </Provider>
+  </BrowserRouter>,
 );
