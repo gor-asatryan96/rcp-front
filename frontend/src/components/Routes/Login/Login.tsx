@@ -1,14 +1,17 @@
 import { FC } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { useSelector } from 'react-redux';
 
 import { serverConfigsDispatches } from '../../../redux/reducers/serverConfigs/serverConfigs.dispatches';
+import { selectIsServerConfigsLoading } from '../../../redux/reducers/serverConfigs/serverConfigs.slice';
 
 import classes from './Login.module.css';
 
 const Login: FC = () => {
   const loginThunk = serverConfigsDispatches.useLogin();
   const [form] = Form.useForm();
+  const isServerConfigsLoading = useSelector(selectIsServerConfigsLoading);
   // const [isSecretTokenExist, setIsSecretTokenExist] = useState(false);
 
   // console.log('isSecretTokenExist', isSecretTokenExist);
@@ -29,6 +32,7 @@ const Login: FC = () => {
 
   return (
     <Form
+      disabled={isServerConfigsLoading}
       form={form}
       name='normal_login'
       className={classes.form}
@@ -79,6 +83,7 @@ const Login: FC = () => {
       </Form.Item> */}
       <Form.Item>
         <Button
+          loading={isServerConfigsLoading}
           type='primary'
           htmlType='submit'
           className={classes.loginButton}>

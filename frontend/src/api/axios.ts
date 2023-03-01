@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { store } from '../redux/store';
+
 export function setupAxios() {
   const cancels = new Map();
 
@@ -7,8 +9,7 @@ export function setupAxios() {
     req => {
       const { url, method } = req;
 
-      // TODO
-      const token = 'test';
+      const { token } = store.getState().serverConfigs;
 
       if (!req.baseURL) {
         req.baseURL = process.env.REACT_APP_API_URL;

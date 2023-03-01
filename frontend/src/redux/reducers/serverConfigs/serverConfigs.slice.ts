@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store.types';
 
 import { IServerConfigs } from './serverConfigs.types';
-import { loginThunk } from './serverConfigs.thunks';
+import { loginByTokenThunk, loginThunk } from './serverConfigs.thunks';
 
 const initialState: IServerConfigs = {
   isConnected: false,
@@ -23,11 +23,26 @@ export const serverConfigsSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(loginThunk.fulfilled, state => {
+      .addCase(loginThunk.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(loginThunk.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.userId = action.payload.userId;
+        state.token = action.payload.token;
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(loginThunk.rejected, state => {
         state.isLoading = false;
+      })
+      .addCase(loginByTokenThunk.fulfilled, (state, action) => {
+        state.isConnected = true;
+        state.token = action.payload[0].token;
+        state.userId = action.payload[0].userId;
+      })
+      .addCase(loginByTokenThunk.rejected, state => {
+        state.isConnected = true;
+        localStorage.removeItem('token');
       });
   },
 });
