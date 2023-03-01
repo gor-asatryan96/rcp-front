@@ -3,8 +3,10 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import { setupAxios } from './api/axios';
-import App from './App';
+import App from './components/App/App';
 import { store } from './redux/store';
+import ConnectProvider from './providers/ConnectProvider';
+
 import './assets/translations';
 import './assets/styles/index.css';
 
@@ -18,7 +20,9 @@ setupAxios();
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App isTest age={45} />
+      <ConnectProvider>
+        <App />
+      </ConnectProvider>
     </Provider>
   </BrowserRouter>,
 );
