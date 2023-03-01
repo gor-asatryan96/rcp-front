@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+// import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 
 import { serverConfigsDispatches } from '../../../redux/reducers/serverConfigs/serverConfigs.dispatches';
@@ -21,7 +21,9 @@ const Login: FC = () => {
     console.log('Received values of form: ', values);
     loginThunk();
   };
-
+  const onFinishFailed = (errorInfo: object) => {
+    console.log('Failed:', errorInfo);
+  };
   // useEffect(() => {
   //   if (!isSecretTokenExist) {
   //     form.setFieldValue('secretToken', '');
@@ -34,59 +36,38 @@ const Login: FC = () => {
       name='normal_login'
       className={classes.form}
       initialValues={{ remember: true }}
-      onFinish={onFinish}>
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete='off'
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}>
       <Form.Item
+        label='Username'
         name='username'
-        rules={[{ required: true, message: 'Please input your Username!' }]}>
-        <Input
-          prefix={<UserOutlined className='site-form-item-icon' />}
-          placeholder='Username'
-        />
+        rules={[{ required: true, message: 'Please input your username!' }]}>
+        <Input />
       </Form.Item>
       <Form.Item
+        label='Password'
         name='password'
-        rules={[{ required: true, message: 'Please input your Password!' }]}>
-        <Input.Password
-          prefix={<LockOutlined className='site-form-item-icon' />}
-          placeholder='Password'
-        />
+        rules={[{ required: true, message: 'Please input your password!' }]}>
+        <Input.Password />
       </Form.Item>
+      <Form.Item label='Token' name='token'>
+        <Input.Password />
+      </Form.Item>
+
       <Form.Item
-        className={classes.secretToken}
-        name='secretToken'
-        // rules={[
-        //   {
-        //     required: isSecretTokenExist,
-        //     message: 'Please input your secret token!',
-        //   },
-        // ]}
-      >
-        <Input.Password
-          prefix={<LockOutlined className='site-form-item-icon' />}
-          placeholder='Secret Token'
-        />
-      </Form.Item>
-      {/* <Form.Item
-        name='secret_key_checkbox'
-        valuePropName='secret_key_checkbox'
-        noStyle>
-        <Switch
-          className={classes.secretTokenSwitcher}
-          checked={isSecretTokenExist}
-          onChange={onCheckboxChange}
-        />
-        Do you have Secret Token?
-      </Form.Item> */}
-      <Form.Item>
-        <Button
-          type='primary'
-          htmlType='submit'
-          className={classes.loginButton}>
-          Log in
-        </Button>
-      </Form.Item>
-      <Form.Item name='remember' valuePropName='checked' noStyle>
+        name='remember'
+        valuePropName='checked'
+        wrapperCol={{ offset: 8, span: 16 }}>
         <Checkbox>Remember me</Checkbox>
+      </Form.Item>
+
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type='primary' htmlType='submit'>
+          Submit
+        </Button>
       </Form.Item>
     </Form>
   );
