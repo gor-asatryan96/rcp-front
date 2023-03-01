@@ -3,17 +3,16 @@ import axios from 'axios';
 export function setupAxios() {
   const cancels = new Map();
 
-  const token = new URLSearchParams(window.location.search).get('token');
-
   axios.interceptors.request.use(
     req => {
       const { url, method } = req;
 
+      // TODO
+      const token = 'test';
+
       if (!req.baseURL) {
         req.baseURL = process.env.REACT_APP_API_URL;
       }
-
-      req.params.token = token;
 
       if (token) {
         req.headers.Authorization = token;

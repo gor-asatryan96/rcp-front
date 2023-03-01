@@ -1,0 +1,15 @@
+.form {
+  max-width: 300px;
+}
+
+.loginButton {
+  width: 100%;
+}
+
+/* .secretToken { */
+/* margin-bottom: 8px; */
+/* } */
+
+.secretTokenSwitcher {
+  margin-right: 10px;
+}

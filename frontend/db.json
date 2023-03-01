@@ -1,0 +1,20 @@
+{
+  "login": {
+    "userId": "777",
+    "token": "test-token"
+  },
+  "users": [
+    {
+      "userId": "777",
+      "token": "test-token"
+    },
+    {
+      "userId": "888",
+      "token": "another-test-token"
+    },
+    {
+      "userId": "999",
+      "token": "ano-another-test-token"
+    }
+  ]
+}
