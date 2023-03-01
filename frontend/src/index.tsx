@@ -6,9 +6,9 @@ import { setupAxios } from './api/axios';
 import App from './components/App/App';
 import { store } from './redux/store';
 import ConnectProvider from './providers/ConnectProvider';
-
 import './assets/translations';
 import './assets/styles/index.css';
+import AlertProvider from './providers/AlertProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const container = document.getElementById('root')!;
@@ -20,9 +20,11 @@ setupAxios();
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <ConnectProvider>
-        <App />
-      </ConnectProvider>
+      <AlertProvider>
+        <ConnectProvider>
+          <App />
+        </ConnectProvider>
+      </AlertProvider>
     </Provider>
   </BrowserRouter>,
 );
