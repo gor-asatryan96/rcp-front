@@ -6,3 +6,10 @@ export interface IServerConfigs {
   userId: string;
   token: UserToken;
 }
+
+export interface ILoginForm {
+  username: string;
+  password: string;
+  secretToken?: string;
+  isRemember: boolean;
+}

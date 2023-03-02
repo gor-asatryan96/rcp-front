@@ -1,0 +1,31 @@
+.sidebar {
+  @media screen and (max-width: 1024px) {
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 101;
+  }
+}
+
+.sidebarHeader {
+  position: relative;
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+}
+
+.closeIconWrapper {
+  position: absolute;
+  right: 10px;
+}
+
+.closeIcon {
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  color: white;
+}

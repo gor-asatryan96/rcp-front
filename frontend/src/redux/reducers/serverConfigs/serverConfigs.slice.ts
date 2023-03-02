@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 import { RootState } from '../../store.types';
 
@@ -19,6 +20,13 @@ export const serverConfigsSlice = createSlice({
     setIsConnected: state => {
       state.isConnected = true;
     },
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    logout: () => {
+      localStorage.removeItem('token');
+      return { ...initialState, isConnected: true };
+    },
     resetServerConfigs: () => initialState,
   },
   extraReducers: builder => {
@@ -27,13 +35,18 @@ export const serverConfigsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
+        const { payload, meta } = action;
+
         state.isLoading = false;
-        state.userId = action.payload.userId;
-        state.token = action.payload.token;
-        localStorage.setItem('token', action.payload.token);
+        state.userId = payload.userId;
+        state.token = payload.token;
+        if (meta.arg.isRemember) {
+          localStorage.setItem('token', payload.token);
+        }
       })
       .addCase(loginThunk.rejected, state => {
         state.isLoading = false;
+        toast.error('username or password incorrect!');
       })
       .addCase(loginByTokenThunk.fulfilled, (state, action) => {
         state.isConnected = true;
@@ -48,7 +61,7 @@ export const serverConfigsSlice = createSlice({
 });
 
 // ACTIONS
-export const { setIsConnected, resetServerConfigs } =
+export const { setIsConnected, setIsLoading, logout, resetServerConfigs } =
   serverConfigsSlice.actions;
 
 // SELECTORS

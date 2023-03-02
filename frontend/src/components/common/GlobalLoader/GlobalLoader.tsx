@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Layout, Spin } from 'antd';
 
-import classes from './GlobalLoader.module.css';
+import classes from './GlobalLoader.module.scss';
 
 const GlobalLoader: FC = () => {
   return (

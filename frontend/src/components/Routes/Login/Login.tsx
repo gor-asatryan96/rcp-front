@@ -3,13 +3,15 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
 
-import { serverConfigsDispatches } from '../../../redux/reducers/serverConfigs/serverConfigs.dispatches';
 import { selectIsServerConfigsLoading } from '../../../redux/reducers/serverConfigs/serverConfigs.slice';
+import { ILoginForm } from '../../../redux/reducers/serverConfigs/serverConfigs.types';
+import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
+import { loginThunk } from '../../../redux/reducers/serverConfigs/serverConfigs.thunks';
 
-import classes from './Login.module.css';
+import classes from './Login.module.scss';
 
 const Login: FC = () => {
-  const loginThunk = serverConfigsDispatches.useLogin();
+  const dispatch = useAppDispatch();
   const [form] = Form.useForm();
   const isServerConfigsLoading = useSelector(selectIsServerConfigsLoading);
   // const [isSecretTokenExist, setIsSecretTokenExist] = useState(false);
@@ -20,9 +22,8 @@ const Login: FC = () => {
   //   setIsSecretTokenExist(prev => !prev);
   // };
 
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    loginThunk();
+  const onFinish = (values: ILoginForm) => {
+    dispatch(loginThunk(values));
   };
   // useEffect(() => {
   //   if (!isSecretTokenExist) {
@@ -90,7 +91,7 @@ const Login: FC = () => {
           Log in
         </Button>
       </Form.Item>
-      <Form.Item name='remember' valuePropName='checked' noStyle>
+      <Form.Item name='isRemember' valuePropName='checked' noStyle>
         <Checkbox>Remember me</Checkbox>
       </Form.Item>
     </Form>
