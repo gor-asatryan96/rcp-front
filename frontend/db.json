@@ -1,20 +1,36 @@
 {
   "login": {
     "userId": "777",
-    "token": "test-token"
+    "token": "test-token",
+    "acl": {
+      "reports": 2,
+      "photos": 1
+    }
   },
   "users": [
     {
       "userId": "777",
-      "token": "test-token"
+      "token": "test-token",
+      "acl": {
+        "reports": 2,
+        "photos": 1
+      }
     },
     {
       "userId": "888",
-      "token": "another-test-token"
+      "token": "another-test-token",
+      "acl": {
+        "reports": 2,
+        "photos": 1
+      }
     },
     {
       "userId": "999",
-      "token": "ano-another-test-token"
+      "token": "ano-another-test-token",
+      "acl": {
+        "reports": 2,
+        "photos": 1
+      }
     }
   ]
 }

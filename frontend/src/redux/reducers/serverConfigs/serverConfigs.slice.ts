@@ -11,6 +11,7 @@ const initialState: IServerConfigs = {
   isLoading: false,
   userId: '',
   token: '',
+  acl: {},
 };
 
 export const serverConfigsSlice = createSlice({
@@ -40,6 +41,9 @@ export const serverConfigsSlice = createSlice({
         state.isLoading = false;
         state.userId = payload.userId;
         state.token = payload.token;
+        if (payload.acl) {
+          state.acl = payload.acl;
+        }
         if (meta.arg.isRemember) {
           localStorage.setItem('token', payload.token);
         }
@@ -49,9 +53,13 @@ export const serverConfigsSlice = createSlice({
         toast.error('username or password incorrect!');
       })
       .addCase(loginByTokenThunk.fulfilled, (state, action) => {
+        const data = action.payload[0];
         state.isConnected = true;
-        state.token = action.payload[0].token;
-        state.userId = action.payload[0].userId;
+        state.token = data.token;
+        state.userId = data.userId;
+        if (data.acl) {
+          state.acl = data.acl;
+        }
       })
       .addCase(loginByTokenThunk.rejected, state => {
         state.isConnected = true;
@@ -67,6 +75,7 @@ export const { setIsConnected, setIsLoading, logout, resetServerConfigs } =
 // SELECTORS
 export const selectIsConnected = (state: RootState) =>
   state.serverConfigs.isConnected;
+export const selectUserAcl = (state: RootState) => state.serverConfigs.acl;
 export const selectIsServerConfigsLoading = (state: RootState) =>
   state.serverConfigs.isLoading;
 export const selectIsAuth = (state: RootState) => !!state.serverConfigs.userId;

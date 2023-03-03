@@ -3,11 +3,12 @@ import axios from 'axios';
 
 import { wait } from '../../../helpers/utils';
 
-import { UserToken, ILoginForm } from './serverConfigs.types';
+import { UserToken, ILoginForm, IAcl } from './serverConfigs.types';
 
 interface IConfigsResponse {
   userId: string;
   token: UserToken;
+  acl: IAcl;
 }
 
 export const loginThunk = createAsyncThunk<IConfigsResponse, ILoginForm>(
