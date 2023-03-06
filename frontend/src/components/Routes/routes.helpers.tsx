@@ -7,40 +7,70 @@ import { MENU_ROUTES } from './routes';
 
 import type { IAcl } from 'redux/reducers/serverConfigs/serverConfigs.types';
 
-export const filterMenuRoutesByAcl = (acl: IAcl) => {
-  return MENU_ROUTES.filter(
-    route => !route.isProtected || acl[route.serverKey] > 0,
-  );
+export const filterRoutesByAcl = (
+  acl: IAcl,
+  routeList: IMenuRoute[],
+): IMenuRoute[] => {
+  const routes: IMenuRoute[] = [];
+  routeList.forEach(route => {
+    const isHasAcces = !route.aclKey || acl.includes(route.aclKey);
+    if (isHasAcces) {
+      routes.push({
+        ...route,
+        children: route.children
+          ? filterRoutesByAcl(acl, route.children)
+          : undefined,
+      });
+    }
+  });
+  return routes;
+};
+
+export const createValidRoutesTree = (
+  routeList: IMenuRoute[],
+): IMenuRoute[] => {
+  const routes: IMenuRoute[] = [];
+  routeList.forEach(route => {
+    if (route.children) {
+      routes.push(...createValidRoutesTree(route.children));
+    } else {
+      routes.push({
+        path: route.path,
+        element: route.element,
+      });
+    }
+  });
+  return routes;
 };
 
 export const createValidMenuRoutes = (routes: IMenuRoute[]): MenuItem[] => {
-  if (!routes) return [];
-  return routes.map(route => ({
-    label: route.label,
-    icon: route.icon,
-    key: route.path,
-    children: route.children
-      ? createValidMenuRoutes(route.children)
-      : undefined,
-  }));
-};
+  const menuItems: MenuItem[] = [];
+  if (routes) {
+    routes.forEach(route => {
+      const currentMenu: MenuItem = {
+        label: route.label || '',
+        icon: route.icon || '',
+        key: route.path || route.label || '',
+      };
 
-export const createValidRoutesFromMenuItems = (
-  routes: IMenuRoute[],
-): RouteObject[] => {
-  if (!routes) return [];
-  return routes.map(route => ({
-    path: route.path,
-    element: route.element,
-    children: route.children
-      ? createValidRoutesFromMenuItems(route.children)
-      : undefined,
-  }));
+      if (route.children) {
+        const childrenRoutes: MenuItem[] = createValidMenuRoutes(
+          route.children,
+        );
+        if (childrenRoutes.length) {
+          menuItems.push({ ...currentMenu, children: childrenRoutes });
+        }
+      } else {
+        menuItems.push(currentMenu);
+      }
+    });
+  }
+  return menuItems;
 };
 
 export const createLoginRoutes = (acl: IAcl): RouteObject[] => {
-  const menuValidRoutes: RouteObject[] = createValidRoutesFromMenuItems(
-    filterMenuRoutesByAcl(acl),
+  const menuValidRoutes: RouteObject[] = createValidRoutesTree(
+    filterRoutesByAcl(acl, MENU_ROUTES),
   );
 
   return [

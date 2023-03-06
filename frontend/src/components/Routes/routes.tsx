@@ -1,13 +1,23 @@
 import { Navigate } from 'react-router-dom';
-import { HomeOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  AimOutlined,
+  GifOutlined,
+  HomeOutlined,
+  QqOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 
 import AuthLayout from '../Layouts/AuthLayout/AuthLayout';
 
 import ChangePassword from './ChangePassword/ChangePassword';
 import Login from './Login/Login';
 import Settings from './Settings/Settings';
-import { IMenuServerKey, IMenuPath, IMenuRoute } from './routes.types';
+import { IMenuAclKey, IMenuPath, IMenuRoute } from './routes.types';
 import Home from './Home/Home';
+import { PasswordChangeNeedRestrict } from './routes.restricts';
+import CasinoReports from './Reports/CasinoReports/CasinoReports';
+import SportReports from './Reports/SportReports/SportReports';
 
 import type { RouteObject } from 'react-router-dom';
 
@@ -22,11 +32,19 @@ export const LOGOUT_ROUTES: RouteObject[] = [
       },
       {
         path: '/login',
-        element: <Login />,
+        element: (
+          <PasswordChangeNeedRestrict isPasswordPage={false}>
+            <Login />
+          </PasswordChangeNeedRestrict>
+        ),
       },
       {
         path: '/change-password',
-        element: <ChangePassword />,
+        element: (
+          <PasswordChangeNeedRestrict isPasswordPage>
+            <ChangePassword />
+          </PasswordChangeNeedRestrict>
+        ),
       },
       {
         path: '*',
@@ -39,26 +57,42 @@ export const LOGOUT_ROUTES: RouteObject[] = [
 export const MENU_ROUTES: IMenuRoute[] = [
   {
     path: IMenuPath.home,
-    serverKey: IMenuServerKey.home,
-    isProtected: false,
-    element: <Home />,
     icon: <HomeOutlined />,
     label: 'Home',
+    element: <Home />,
   },
   {
-    path: IMenuPath.settings,
-    serverKey: IMenuServerKey.settings,
-    isProtected: false,
-    element: <Settings />,
+    aclKey: IMenuAclKey.reports,
+    icon: <GifOutlined />,
+    label: 'Reports',
+    children: [
+      {
+        path: IMenuPath.reports_sports,
+        aclKey: IMenuAclKey.reports_sports,
+        icon: <QqOutlined />,
+        label: 'Sport',
+        element: <SportReports />,
+      },
+      {
+        path: IMenuPath.reports_casino,
+        aclKey: IMenuAclKey.reports_casino,
+        icon: <AimOutlined />,
+        label: 'Casino',
+        element: <CasinoReports />,
+      },
+    ],
+  },
+  {
+    aclKey: IMenuAclKey.settings,
     icon: <SettingOutlined />,
     label: 'Settings',
     children: [
       {
-        path: IMenuPath.setting_user,
-        serverKey: IMenuServerKey.setting_user,
-        element: <Settings />,
+        path: IMenuPath.setting_account,
+        aclKey: IMenuAclKey.setting_account,
         icon: <UserOutlined />,
         label: 'Account',
+        element: <Settings />,
       },
     ],
   },

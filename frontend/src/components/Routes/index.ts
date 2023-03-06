@@ -1,15 +1,15 @@
-import { LOGOUT_ROUTES } from './routes';
+import { LOGOUT_ROUTES, MENU_ROUTES } from './routes';
 import {
   createLoginRoutes,
   createValidMenuRoutes,
-  filterMenuRoutesByAcl,
+  filterRoutesByAcl,
 } from './routes.helpers';
 
 import type { IAcl } from 'redux/reducers/serverConfigs/serverConfigs.types';
 import type { RouteObject } from 'react-router-dom';
 
 export const getValidMenuItems = (acl: IAcl) => {
-  return createValidMenuRoutes(filterMenuRoutesByAcl(acl));
+  return createValidMenuRoutes(filterRoutesByAcl(acl, MENU_ROUTES));
 };
 
 export const getValidRoutes = (isAuth: boolean, acl: IAcl): RouteObject[] => {

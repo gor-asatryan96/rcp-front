@@ -1,8 +1,8 @@
+import { IMenuAclKey } from 'components/Routes/routes.types';
+
 export type UserToken = string;
 
-export interface IAcl {
-  [key: string]: number;
-}
+export type IAcl = IMenuAclKey[];
 
 export interface IServerConfigs {
   isConnected: boolean;
@@ -10,6 +10,7 @@ export interface IServerConfigs {
   userId: string;
   token: UserToken;
   acl: IAcl;
+  isPasswordChangeNeed: boolean;
 }
 
 export interface ILoginForm {

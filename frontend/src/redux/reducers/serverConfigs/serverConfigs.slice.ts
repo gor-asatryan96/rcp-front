@@ -11,7 +11,8 @@ const initialState: IServerConfigs = {
   isLoading: false,
   userId: '',
   token: '',
-  acl: {},
+  acl: [],
+  isPasswordChangeNeed: false,
 };
 
 export const serverConfigsSlice = createSlice({
@@ -79,5 +80,7 @@ export const selectUserAcl = (state: RootState) => state.serverConfigs.acl;
 export const selectIsServerConfigsLoading = (state: RootState) =>
   state.serverConfigs.isLoading;
 export const selectIsAuth = (state: RootState) => !!state.serverConfigs.userId;
+export const selectIsPasswordChangeNeed = (state: RootState) =>
+  state.serverConfigs.isPasswordChangeNeed;
 
 export default serverConfigsSlice.reducer;

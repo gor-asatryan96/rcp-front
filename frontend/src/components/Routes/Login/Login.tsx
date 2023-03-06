@@ -12,7 +12,6 @@ import classes from './Login.module.scss';
 
 const Login: FC = () => {
   const dispatch = useAppDispatch();
-  const [form] = Form.useForm();
   const isServerConfigsLoading = useSelector(selectIsServerConfigsLoading);
   // const [isSecretTokenExist, setIsSecretTokenExist] = useState(false);
 
@@ -34,7 +33,6 @@ const Login: FC = () => {
   return (
     <Form
       disabled={isServerConfigsLoading}
-      form={form}
       name='normal_login'
       className={classes.form}
       initialValues={{ remember: true }}
@@ -68,7 +66,7 @@ const Login: FC = () => {
       >
         <Input.Password
           prefix={<LockOutlined className='site-form-item-icon' />}
-          placeholder='Secret Token'
+          placeholder='Secret Token (optional)'
         />
       </Form.Item>
       {/* <Form.Item
