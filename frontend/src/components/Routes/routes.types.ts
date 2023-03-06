@@ -3,26 +3,29 @@ import { ReactNode } from 'react';
 
 export type MenuItem = Required<MenuProps>['items'][number];
 
-export enum IMenuServerKey {
-  // ADD YOUR PROJECT SERVER KEYS HERE
+export enum IMenuAclKey {
+  // ADD YOUR PROJECT ACL KEYS HERE
   home = 'home',
   settings = 'settings',
-  setting_user = 'settings_account',
+  setting_account = 'settings.account',
+  reports = 'reports',
+  reports_sports = 'reports.sports',
+  reports_casino = 'reports.casino',
 }
 
 export enum IMenuPath {
   // ADD YOUR PROJECT PATHS HERE
   home = '/',
-  settings = '/settings',
-  setting_user = '/settings/account',
+  reports_sports = '/reports/sports',
+  reports_casino = '/reports/casino',
+  setting_account = '/setting/account',
 }
 
 export interface IMenuRoute {
-  serverKey: IMenuServerKey;
-  path: IMenuPath;
+  aclKey?: IMenuAclKey; // protected if exist
+  path?: IMenuPath;
   icon?: ReactNode;
-  label: string;
-  isProtected?: boolean;
-  element: ReactNode;
+  label?: string;
+  element?: ReactNode;
   children?: IMenuRoute[];
 }

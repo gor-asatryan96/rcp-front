@@ -2,19 +2,26 @@
   "login": {
     "userId": "777",
     "token": "test-token",
-    "acl": {
-      "reports": 2,
-      "photos": 1
-    }
+    "isPasswordChangeNeed": true,
+    "acl": [
+      "reports",
+      "reports.sports",
+      "reports.casino",
+      "settings",
+      "settings.account"
+    ]
   },
   "users": [
     {
       "userId": "777",
       "token": "test-token",
-      "acl": {
-        "reports": 2,
-        "photos": 1
-      }
+      "acl": [
+        "reports",
+        "reports.sports",
+        "reports.casino",
+        "settings",
+        "settings.account"
+      ]
     },
     {
       "userId": "888",
