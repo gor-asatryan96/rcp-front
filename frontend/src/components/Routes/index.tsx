@@ -32,16 +32,20 @@ const LOGOUT_ROUTES: RouteObject[] = [
   },
 ];
 
+export const MENU_ROUTES: RouteObject[] = [
+  {
+    path: 'settings',
+    element: <Settings />,
+  },
+];
+
 const LOGIN_ROUTES: RouteObject[] = [
   {
     path: '/',
     element: <DashboardLayout />,
     children: [
       // ADD YOUR ADMIN PANEL ROUTES HERE
-      {
-        path: 'settings',
-        element: <Settings />,
-      },
+      ...MENU_ROUTES,
       {
         path: '*',
         element: <Navigate to='/' />,

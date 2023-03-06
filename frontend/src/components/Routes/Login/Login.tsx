@@ -1,14 +1,19 @@
 import { FC } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { useSelector } from 'react-redux';
 
-import { serverConfigsDispatches } from '../../../redux/reducers/serverConfigs/serverConfigs.dispatches';
+import { selectIsServerConfigsLoading } from '../../../redux/reducers/serverConfigs/serverConfigs.slice';
+import { ILoginForm } from '../../../redux/reducers/serverConfigs/serverConfigs.types';
+import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
+import { loginThunk } from '../../../redux/reducers/serverConfigs/serverConfigs.thunks';
 
-import classes from './Login.module.css';
+import classes from './Login.module.scss';
 
 const Login: FC = () => {
-  const loginThunk = serverConfigsDispatches.useLogin();
+  const dispatch = useAppDispatch();
   const [form] = Form.useForm();
+  const isServerConfigsLoading = useSelector(selectIsServerConfigsLoading);
   // const [isSecretTokenExist, setIsSecretTokenExist] = useState(false);
 
   // console.log('isSecretTokenExist', isSecretTokenExist);
@@ -17,11 +22,9 @@ const Login: FC = () => {
   //   setIsSecretTokenExist(prev => !prev);
   // };
 
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    loginThunk();
+  const onFinish = (values: ILoginForm) => {
+    dispatch(loginThunk(values));
   };
-
   // useEffect(() => {
   //   if (!isSecretTokenExist) {
   //     form.setFieldValue('secretToken', '');
@@ -30,11 +33,13 @@ const Login: FC = () => {
 
   return (
     <Form
+      disabled={isServerConfigsLoading}
       form={form}
       name='normal_login'
       className={classes.form}
       initialValues={{ remember: true }}
-      onFinish={onFinish}>
+      onFinish={onFinish}
+      autoComplete='off'>
       <Form.Item
         name='username'
         rules={[{ required: true, message: 'Please input your Username!' }]}>
@@ -79,13 +84,14 @@ const Login: FC = () => {
       </Form.Item> */}
       <Form.Item>
         <Button
+          loading={isServerConfigsLoading}
           type='primary'
           htmlType='submit'
           className={classes.loginButton}>
           Log in
         </Button>
       </Form.Item>
-      <Form.Item name='remember' valuePropName='checked' noStyle>
+      <Form.Item name='isRemember' valuePropName='checked' noStyle>
         <Checkbox>Remember me</Checkbox>
       </Form.Item>
     </Form>

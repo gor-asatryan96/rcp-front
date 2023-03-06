@@ -3,27 +3,30 @@ import axios from 'axios';
 
 import { wait } from '../../../helpers/utils';
 
-import { UserToken } from './serverConfigs.types';
+import { UserToken, ILoginForm, IAcl } from './serverConfigs.types';
 
 interface IConfigsResponse {
   userId: string;
+  token: UserToken;
+  acl: IAcl;
 }
 
-export const loginThunk = createAsyncThunk<IConfigsResponse, undefined>(
+export const loginThunk = createAsyncThunk<IConfigsResponse, ILoginForm>(
   'configs/get',
   async () => {
     const response = await axios.get<IConfigsResponse>('/login');
-    await wait(3000);
+    await wait();
     return response.data;
   },
 );
 
-export const loginByTokenThunk = createAsyncThunk<IConfigsResponse, UserToken>(
-  'configs/getByToken',
-  async token => {
-    const response = await axios.get<IConfigsResponse>('/users', {
-      params: { token },
-    });
-    return response.data;
-  },
-);
+export const loginByTokenThunk = createAsyncThunk<
+  IConfigsResponse[],
+  UserToken
+>('configs/getByToken', async token => {
+  const response = await axios.get<IConfigsResponse[]>('/users', {
+    params: { token },
+  });
+  await wait();
+  return response.data;
+});

@@ -37,7 +37,10 @@
     },
     "import/resolver": {
       "typescript": true,
-      "node": true
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "moduleDirectory": ["node_modules", "src/"]
+      }
     }
   },
   "rules": {

@@ -2,7 +2,7 @@ import { Card, Layout } from 'antd';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import classes from './AuthLayout.module.css';
+import classes from './AuthLayout.module.scss';
 
 const AuthLayout: FC = () => {
   return (

@@ -7,7 +7,7 @@ import App from './components/App/App';
 import { store } from './redux/store';
 import ConnectProvider from './providers/ConnectProvider';
 import './assets/translations';
-import './assets/styles/index.css';
+import './assets/styles/index.scss';
 import AlertProvider from './providers/AlertProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
