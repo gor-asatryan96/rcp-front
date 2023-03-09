@@ -26,7 +26,9 @@ const Header: FC = () => {
   };
 
   return (
-    <Layout.Header style={{ padding: 0, background: token.colorBgContainer }}>
+    <Layout.Header
+      style={{ background: token.colorBgContainer }}
+      className={classes.root}>
       <div className={classes.headerActions}>
         {isMobile && <NrgLogo />}
         <CurrentIcon className={classes.trigger} onClick={onTriggerClick} />

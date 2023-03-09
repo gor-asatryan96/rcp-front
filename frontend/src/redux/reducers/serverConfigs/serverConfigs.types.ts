@@ -1,8 +1,8 @@
-import { IMenuAclKey } from 'components/Routes/routes.types';
+import { IAclPath } from 'components/Routes/routes.types';
 
 export type UserToken = string;
 
-export type IAcl = IMenuAclKey[];
+export type IAcl = IAclPath[];
 
 export interface IServerConfigs {
   isConnected: boolean;

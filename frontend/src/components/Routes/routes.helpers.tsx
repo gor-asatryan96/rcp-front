@@ -13,7 +13,7 @@ export const filterRoutesByAcl = (
 ): IMenuRoute[] => {
   const routes: IMenuRoute[] = [];
   routeList.forEach(route => {
-    const isHasAcces = !route.aclKey || acl.includes(route.aclKey);
+    const isHasAcces = !route.aclPath || acl.includes(route.aclPath);
     if (isHasAcces) {
       routes.push({
         ...route,

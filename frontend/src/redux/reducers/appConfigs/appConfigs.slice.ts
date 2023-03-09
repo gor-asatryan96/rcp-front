@@ -13,6 +13,7 @@ export const appConfigsSlice = createSlice({
   initialState,
   reducers: {
     toggleSidebar: (state, action: PayloadAction<boolean>) => {
+      console.log('action', action);
       state.isSidebarOpen = action.payload;
     },
     resetAppConfigs: () => initialState,
