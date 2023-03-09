@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
+import { IAclPath } from 'components/Routes/routes.types';
+
 import { RootState } from '../../store.types';
 
 import { IServerConfigs } from './serverConfigs.types';
@@ -77,6 +79,8 @@ export const { setIsConnected, setIsLoading, logout, resetServerConfigs } =
 export const selectIsConnected = (state: RootState) =>
   state.serverConfigs.isConnected;
 export const selectUserAcl = (state: RootState) => state.serverConfigs.acl;
+export const selectIsAclExist = (state: RootState, aclPath: IAclPath) =>
+  state.serverConfigs.acl.includes(aclPath);
 export const selectIsServerConfigsLoading = (state: RootState) =>
   state.serverConfigs.isLoading;
 export const selectIsAuth = (state: RootState) => !!state.serverConfigs.userId;

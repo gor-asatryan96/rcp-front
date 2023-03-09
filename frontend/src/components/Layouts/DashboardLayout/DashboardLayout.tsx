@@ -5,13 +5,17 @@ import Header from '../../Common/Header/Header';
 import Sidebar from '../../Common/Sidebar/Sidebar';
 import Content from '../../Common/Content/Content';
 
+import classes from './DashboardLayout.module.scss';
+
 const DashboardLayout: FC = () => {
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className={classes.root}>
       <Sidebar />
       <Layout className='site-layout'>
         <Header />
-        <Content />
+        <div className={classes.contentWrapper}>
+          <Content />
+        </div>
       </Layout>
     </Layout>
   );

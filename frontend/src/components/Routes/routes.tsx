@@ -13,7 +13,7 @@ import AuthLayout from '../Layouts/AuthLayout/AuthLayout';
 import ChangePassword from './ChangePassword/ChangePassword';
 import Login from './Login/Login';
 import Settings from './Settings/Settings';
-import { IMenuAclKey, IMenuPath, IMenuRoute } from './routes.types';
+import { IAclPath, IRoutePath, IMenuRoute } from './routes.types';
 import Home from './Home/Home';
 import { PasswordChangeNeedRestrict } from './routes.restricts';
 import CasinoReports from './Reports/CasinoReports/CasinoReports';
@@ -56,26 +56,26 @@ export const LOGOUT_ROUTES: RouteObject[] = [
 
 export const MENU_ROUTES: IMenuRoute[] = [
   {
-    path: IMenuPath.home,
+    path: IRoutePath.home,
     icon: <HomeOutlined />,
     label: 'Home',
     element: <Home />,
   },
   {
-    aclKey: IMenuAclKey.reports,
+    aclPath: IAclPath.reports,
     icon: <GifOutlined />,
     label: 'Reports',
     children: [
       {
-        path: IMenuPath.reports_sports,
-        aclKey: IMenuAclKey.reports_sports,
+        path: IRoutePath.reports_sports,
+        aclPath: IAclPath.reports_sports,
         icon: <QqOutlined />,
         label: 'Sport',
         element: <SportReports />,
       },
       {
-        path: IMenuPath.reports_casino,
-        aclKey: IMenuAclKey.reports_casino,
+        path: IRoutePath.reports_casino,
+        aclPath: IAclPath.reports_casino,
         icon: <AimOutlined />,
         label: 'Casino',
         element: <CasinoReports />,
@@ -83,13 +83,13 @@ export const MENU_ROUTES: IMenuRoute[] = [
     ],
   },
   {
-    aclKey: IMenuAclKey.settings,
+    aclPath: IAclPath.settings,
     icon: <SettingOutlined />,
     label: 'Settings',
     children: [
       {
-        path: IMenuPath.setting_account,
-        aclKey: IMenuAclKey.setting_account,
+        path: IRoutePath.setting_account,
+        aclPath: IAclPath.setting_account,
         icon: <UserOutlined />,
         label: 'Account',
         element: <Settings />,
