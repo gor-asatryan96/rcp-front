@@ -1,10 +1,15 @@
 .sidebar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
+  height: 100%;
+  z-index: 2;
+
   @media screen and (max-width: 1024px) {
-    position: absolute !important;
-    top: 0;
+    left: unset;
     right: 0;
-    height: 100%;
-    z-index: 101;
   }
 }
 
