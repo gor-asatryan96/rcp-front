@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  overflow: auto;
+  overflow: hidden;
   height: 100%;
   z-index: 2;
 
@@ -11,6 +11,13 @@
     left: unset;
     right: 0;
   }
+}
+
+.sidebarContent {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebarHeader {
@@ -21,6 +28,12 @@
   align-items: center;
   justify-content: center;
   height: 70px;
+}
+
+.sidebarMenu {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .closeIconWrapper {
