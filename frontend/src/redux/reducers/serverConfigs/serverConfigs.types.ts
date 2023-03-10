@@ -10,7 +10,7 @@ export interface IServerConfigs {
   userId: string;
   token: UserToken;
   acl: IAcl;
-  isPasswordChangeNeed: boolean;
+  isPasswordChangeRequired: boolean;
 }
 
 export interface ILoginForm {

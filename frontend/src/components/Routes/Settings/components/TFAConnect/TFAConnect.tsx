@@ -10,7 +10,9 @@ const TFAConnect: FC = () => {
   const { t } = useTranslation();
 
   return (
-    <Card title={t('Connect Google Two Factor Authentication')}>
+    <Card
+      className={classes.root}
+      title={t('Connect Google Two Factor Authentication')}>
       <div className={classes.qrWrapper}>
         <img src={qrImage} alt='qr' className={classes.qrImage} />
       </div>

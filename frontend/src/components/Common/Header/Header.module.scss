@@ -13,7 +13,7 @@
   position: relative;
   justify-content: space-between;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 992px) {
     justify-content: flex-end;
   }
 }
@@ -24,7 +24,7 @@
   cursor: pointer;
   transition: color 0.3s;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 992px) {
     justify-content: space-between;
   }
 }
