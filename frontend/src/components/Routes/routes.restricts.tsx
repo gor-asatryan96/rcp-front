@@ -17,7 +17,7 @@ export const PasswordChangeNeedRestrict: FC<PropTypes> = ({
   if (isPasswordPage && !isPasswordChangeRequired)
     return <Navigate to='/login' />;
   if (!isPasswordPage && isPasswordChangeRequired)
-    return <Navigate to='/change-password' />;
+    return <Navigate to='/create-password' />;
 
   return <>{children}</>;
 };

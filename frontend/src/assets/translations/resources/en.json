@@ -10,10 +10,17 @@
     "Users": "Users",
     "Settings": "Settings",
     "Account": "Account",
+    "Create New Password": "Create New Password",
     "Change Password": "Change Password",
     "User Information": "User Information",
     "Connect Google Two Factor Authentication": "Connect Google TFA",
     "Google Two Factor Authentication": "Google Two Factor Authentication",
-    "You are already connected": "You are already connected"
+    "You are already connected": "You are already connected",
+    "You should change your password!": "You should change your password!",
+    "Please create your password!": "Please create your password!",
+    "Passwords do not match": "Passwords do not match",
+    "You have incorrect field!": "You have incorrect field!",
+    "Something went wrong": "Something went wrong",
+    "Your profile has successfully updated": "Your profile has successfully updated"
   }
 }

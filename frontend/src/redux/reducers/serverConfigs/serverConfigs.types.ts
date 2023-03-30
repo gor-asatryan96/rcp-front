@@ -10,7 +10,6 @@ export interface IUser {
   username: string;
   token: UserToken;
   acl: IAcl;
-  isPasswordChangeRequired: boolean;
   email: string;
   is_active: 0 | 1;
   is_sp_reset: 0 | 1;
@@ -26,12 +25,21 @@ export interface IUser {
 export interface IServerConfigs {
   isConnected: boolean;
   isLoading: boolean;
+  isProfileChangeLoading: boolean;
+  isNewProfile: boolean;
   user: IUser;
 }
 
 export interface ILoginForm {
   username: string;
   password: string;
-  secretToken?: string;
-  isRemember: boolean;
+  tft?: string;
+  isRemember?: boolean;
+}
+
+export interface ICreatePassword {
+  oldPassword?: string;
+  password: string;
+  passwordConfirm: string;
+  tft?: string;
 }

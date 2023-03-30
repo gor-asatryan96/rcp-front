@@ -13,22 +13,10 @@ import classes from './Login.module.scss';
 const Login: FC = () => {
   const dispatch = useAppDispatch();
   const isServerConfigsLoading = useSelector(selectIsServerConfigsLoading);
-  // const [isSecretTokenExist, setIsSecretTokenExist] = useState(false);
-
-  // console.log('isSecretTokenExist', isSecretTokenExist);
-
-  // const onCheckboxChange = () => {
-  //   setIsSecretTokenExist(prev => !prev);
-  // };
 
   const onFinish = (values: ILoginForm) => {
     dispatch(loginThunk(values));
   };
-  // useEffect(() => {
-  //   if (!isSecretTokenExist) {
-  //     form.setFieldValue('secretToken', '');
-  //   }
-  // }, [isSecretTokenExist]);
 
   return (
     <Card>
@@ -57,7 +45,7 @@ const Login: FC = () => {
         </Form.Item>
         <Form.Item
           className={classes.secretToken}
-          name='secretToken'
+          name='tft'
           // rules={[
           //   {
           //     required: isSecretTokenExist,

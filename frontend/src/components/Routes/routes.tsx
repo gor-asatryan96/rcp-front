@@ -43,7 +43,7 @@ export const LOGOUT_ROUTES: RouteObject[] = [
         ),
       },
       {
-        path: '/change-password',
+        path: '/create-password',
         element: (
           <PasswordChangeNeedRestrict isPasswordPage>
             <ChangePassword />

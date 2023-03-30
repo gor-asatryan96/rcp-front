@@ -1,16 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
+import i18n from 'assets/translations';
 import { IAclPath } from 'components/Routes/routes.types';
 
 import { RootState } from '../../store.types';
 
 import { IServerConfigs } from './serverConfigs.types';
-import { loginByTokenThunk, loginThunk } from './serverConfigs.thunks';
+import {
+  applyInvitationThunk,
+  changeProfileThunk,
+  loginByTokenThunk,
+  loginThunk,
+} from './serverConfigs.thunks';
 
 const initialState: IServerConfigs = {
   isConnected: false,
   isLoading: false,
+  isProfileChangeLoading: false,
+  isNewProfile: false,
   user: {
     id: null,
     acl: [],
@@ -19,7 +27,6 @@ const initialState: IServerConfigs = {
     is_active: 0,
     is_sp_reset: 0,
     is_twofa_enabled: 0,
-    isPasswordChangeRequired: false,
     locale: 'EN',
     role: 'USER',
     sp_updated_at: '',
@@ -63,9 +70,9 @@ export const serverConfigsSlice = createSlice({
           localStorage.setItem('token', payload.token);
         }
       })
-      .addCase(loginThunk.rejected, state => {
+      .addCase(loginThunk.rejected, (state, { payload }) => {
         state.isLoading = false;
-        toast.error('username or password incorrect!');
+        toast.error(payload?.message || i18n.t('You have incorrect field!'));
       })
       .addCase(loginByTokenThunk.fulfilled, (state, action) => {
         state.isConnected = true;
@@ -74,6 +81,26 @@ export const serverConfigsSlice = createSlice({
       .addCase(loginByTokenThunk.rejected, state => {
         state.isConnected = true;
         localStorage.removeItem('token');
+      })
+      .addCase(applyInvitationThunk.fulfilled, (state, action) => {
+        state.isConnected = true;
+        state.user = action.payload;
+        state.isNewProfile = true;
+      })
+      .addCase(applyInvitationThunk.rejected, state => {
+        state.isConnected = true;
+      })
+      .addCase(changeProfileThunk.pending, state => {
+        state.isProfileChangeLoading = true;
+      })
+      .addCase(changeProfileThunk.fulfilled, state => {
+        state.isProfileChangeLoading = false;
+        state.user.is_sp_reset = 0;
+        toast.success(i18n.t('Your profile has successfully updated'));
+      })
+      .addCase(changeProfileThunk.rejected, state => {
+        state.isProfileChangeLoading = false;
+        toast.error(i18n.t('Something went wrong'));
       });
   },
 });
@@ -97,8 +124,13 @@ export const selectIsAclExist = (state: RootState, aclPath: IAclPath) =>
   state.serverConfigs.user.acl.includes(aclPath);
 export const selectIsServerConfigsLoading = (state: RootState) =>
   state.serverConfigs.isLoading;
-export const selectIsAuth = (state: RootState) => !!state.serverConfigs.user.id;
+export const selectIsProfileChangeLoading = (state: RootState) =>
+  state.serverConfigs.isProfileChangeLoading;
+export const selectIsNewProfile = (state: RootState) =>
+  state.serverConfigs.isNewProfile;
+export const selectIsAuth = (state: RootState) =>
+  !!state.serverConfigs.user.id && !state.serverConfigs.user.is_sp_reset;
 export const selectIsPasswordChangeRequired = (state: RootState) =>
-  state.serverConfigs.user.isPasswordChangeRequired;
+  !!state.serverConfigs.user.is_sp_reset;
 
 export default serverConfigsSlice.reducer;
