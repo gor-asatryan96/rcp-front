@@ -11,10 +11,23 @@ import { loginByTokenThunk, loginThunk } from './serverConfigs.thunks';
 const initialState: IServerConfigs = {
   isConnected: false,
   isLoading: false,
-  userId: '',
-  token: '',
-  acl: [],
-  isPasswordChangeRequired: false,
+  user: {
+    id: null,
+    acl: [],
+    created_at: '',
+    email: '',
+    is_active: 0,
+    is_sp_reset: 0,
+    is_twofa_enabled: 0,
+    isPasswordChangeRequired: false,
+    locale: 'EN',
+    role: 'USER',
+    sp_updated_at: '',
+    timezone: '',
+    token: '',
+    updated_at: '',
+    username: '',
+  },
 };
 
 export const serverConfigsSlice = createSlice({
@@ -42,11 +55,7 @@ export const serverConfigsSlice = createSlice({
         const { payload, meta } = action;
 
         state.isLoading = false;
-        state.userId = payload.userId;
-        state.token = payload.token;
-        if (payload.acl) {
-          state.acl = payload.acl;
-        }
+        state.user = payload;
         if (meta.arg.isRemember) {
           localStorage.setItem('token', payload.token);
         }
@@ -56,13 +65,8 @@ export const serverConfigsSlice = createSlice({
         toast.error('username or password incorrect!');
       })
       .addCase(loginByTokenThunk.fulfilled, (state, action) => {
-        const data = action.payload[0];
         state.isConnected = true;
-        state.token = data.token;
-        state.userId = data.userId;
-        if (data.acl) {
-          state.acl = data.acl;
-        }
+        state.user = action.payload;
       })
       .addCase(loginByTokenThunk.rejected, state => {
         state.isConnected = true;
@@ -78,13 +82,15 @@ export const { setIsConnected, setIsLoading, logout, resetServerConfigs } =
 // SELECTORS
 export const selectIsConnected = (state: RootState) =>
   state.serverConfigs.isConnected;
-export const selectUserAcl = (state: RootState) => state.serverConfigs.acl;
+export const selectUserAcl = (state: RootState) => state.serverConfigs.user.acl;
+export const selectIsTFAConnected = (state: RootState) =>
+  !!state.serverConfigs.user.is_twofa_enabled;
 export const selectIsAclExist = (state: RootState, aclPath: IAclPath) =>
-  state.serverConfigs.acl.includes(aclPath);
+  state.serverConfigs.user.acl.includes(aclPath);
 export const selectIsServerConfigsLoading = (state: RootState) =>
   state.serverConfigs.isLoading;
-export const selectIsAuth = (state: RootState) => !!state.serverConfigs.userId;
+export const selectIsAuth = (state: RootState) => !!state.serverConfigs.user.id;
 export const selectIsPasswordChangeRequired = (state: RootState) =>
-  state.serverConfigs.isPasswordChangeRequired;
+  state.serverConfigs.user.isPasswordChangeRequired;
 
 export default serverConfigsSlice.reducer;

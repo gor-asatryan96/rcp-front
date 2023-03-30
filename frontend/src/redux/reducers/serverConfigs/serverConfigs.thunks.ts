@@ -1,32 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { wait } from '../../../helpers/utils';
+import { UserToken, ILoginForm, IUser } from './serverConfigs.types';
 
-import { UserToken, ILoginForm, IAcl } from './serverConfigs.types';
-
-interface IConfigsResponse {
-  userId: string;
-  token: UserToken;
-  acl: IAcl;
-}
-
-export const loginThunk = createAsyncThunk<IConfigsResponse, ILoginForm>(
+export const loginThunk = createAsyncThunk<IUser, ILoginForm>(
   'configs/get',
-  async () => {
-    const response = await axios.get<IConfigsResponse>('/login');
-    await wait();
+  async ({ username, password }) => {
+    const response = await axios.post<IUser>('/auth/login', {
+      username,
+      password,
+    });
     return response.data;
   },
 );
 
-export const loginByTokenThunk = createAsyncThunk<
-  IConfigsResponse[],
-  UserToken
->('configs/getByToken', async token => {
-  const response = await axios.get<IConfigsResponse[]>('/users', {
-    params: { token },
-  });
-  await wait();
-  return response.data;
-});
+export const loginByTokenThunk = createAsyncThunk<IUser, UserToken>(
+  'configs/getByToken',
+  async token => {
+    const response = await axios.post<IUser>('/auth/profile', null, {
+      headers: { 'x-auth-token': token },
+    });
+    return response.data;
+  },
+);

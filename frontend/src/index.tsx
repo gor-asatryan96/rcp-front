@@ -2,6 +2,8 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
+import ReactQueryProvider from 'providers/ReactQueryProvider';
+
 import { setupAxios } from './api/axios';
 import App from './components/App/App';
 import { store } from './redux/store';
@@ -20,11 +22,13 @@ setupAxios();
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <AlertProvider>
-        <ConnectProvider>
-          <App />
-        </ConnectProvider>
-      </AlertProvider>
+      <ReactQueryProvider>
+        <AlertProvider>
+          <ConnectProvider>
+            <App />
+          </ConnectProvider>
+        </AlertProvider>
+      </ReactQueryProvider>
     </Provider>
   </BrowserRouter>,
 );

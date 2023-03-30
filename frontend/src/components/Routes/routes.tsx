@@ -87,7 +87,7 @@ export const MENU_ROUTES: IMenuRoute[] = [
     ],
   },
   {
-    aclPath: IAclPath.admin,
+    // aclPath: IAclPath.admin,
     icon: <DeploymentUnitOutlined />,
     label: i18n.t('Admin Panel'),
     children: [
@@ -100,13 +100,11 @@ export const MENU_ROUTES: IMenuRoute[] = [
     ],
   },
   {
-    aclPath: IAclPath.settings,
     icon: <SettingOutlined />,
     label: i18n.t('Settings'),
     children: [
       {
         path: IRoutePath.setting_account,
-        aclPath: IAclPath.setting_account,
         icon: <UserOutlined />,
         label: i18n.t('Account'),
         element: <Settings />,
