@@ -36,7 +36,7 @@ const Login: FC = () => {
         disabled={isServerConfigsLoading}
         name='normal_login'
         className={classes.form}
-        initialValues={{ remember: true }}
+        initialValues={{ remember: true, isRemember: true }}
         onFinish={onFinish}
         autoComplete='off'>
         <Form.Item

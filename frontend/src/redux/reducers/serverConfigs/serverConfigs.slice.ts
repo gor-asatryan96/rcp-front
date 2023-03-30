@@ -44,6 +44,9 @@ export const serverConfigsSlice = createSlice({
       localStorage.removeItem('token');
       return { ...initialState, isConnected: true };
     },
+    toggleTFA: state => {
+      state.user.is_twofa_enabled = 1;
+    },
     resetServerConfigs: () => initialState,
   },
   extraReducers: builder => {
@@ -76,8 +79,13 @@ export const serverConfigsSlice = createSlice({
 });
 
 // ACTIONS
-export const { setIsConnected, setIsLoading, logout, resetServerConfigs } =
-  serverConfigsSlice.actions;
+export const {
+  setIsConnected,
+  setIsLoading,
+  toggleTFA,
+  logout,
+  resetServerConfigs,
+} = serverConfigsSlice.actions;
 
 // SELECTORS
 export const selectIsConnected = (state: RootState) =>

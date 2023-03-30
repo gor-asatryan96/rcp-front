@@ -1,28 +1,23 @@
+import { FC } from 'react';
 import { Button, Form } from 'antd';
 import { QrcodeOutlined } from '@ant-design/icons';
 import Input from 'antd/es/input/Input';
-import { useMutation } from 'react-query';
-import { FC } from 'react';
-
-import { AuthService } from 'services/auth.service';
 
 import classes from './TFAForm.module.scss';
 
 type PropTypes = {
-  qrImage: string;
+  onSubmit: (values: { code: string }) => void;
+  isDisabled: boolean;
 };
 
-const TFAForm: FC<PropTypes> = ({ qrImage }) => {
-  const mutation = useMutation(AuthService.verifyTFACode);
-
-  const onFinish = (values: { code: string }) => {
-    mutation.mutate(values.code);
-  };
-
+const TFAForm: FC<PropTypes> = ({ onSubmit, isDisabled }) => {
   return (
-    <div>
-      <img src={qrImage} alt='qr' className={classes.qrImage} />
-      <Form className={classes.form} onFinish={onFinish} autoComplete='off'>
+    <>
+      <Form
+        disabled={isDisabled}
+        className={classes.form}
+        onFinish={onSubmit}
+        autoComplete='off'>
         <Form.Item
           rules={[
             {
@@ -43,7 +38,7 @@ const TFAForm: FC<PropTypes> = ({ qrImage }) => {
         </Form.Item>
         <Form.Item noStyle>
           <Button
-            loading={mutation.isLoading}
+            loading={isDisabled}
             type='primary'
             htmlType='submit'
             className={classes.submitButton}>
@@ -51,7 +46,8 @@ const TFAForm: FC<PropTypes> = ({ qrImage }) => {
           </Button>
         </Form.Item>
       </Form>
-    </div>
+      <div />
+    </>
   );
 };
 

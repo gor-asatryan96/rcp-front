@@ -13,6 +13,7 @@
     "Change Password": "Change Password",
     "User Information": "User Information",
     "Connect Google Two Factor Authentication": "Connect Google TFA",
-    "Google Two Factor Authentication": "Google Two Factor Authentication"
+    "Google Two Factor Authentication": "Google Two Factor Authentication",
+    "You are already connected": "You are already connected"
   }
 }
