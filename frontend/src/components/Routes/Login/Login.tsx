@@ -3,10 +3,10 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
 
-import { selectIsServerConfigsLoading } from '../../../redux/reducers/serverConfigs/serverConfigs.slice';
-import { ILoginForm } from '../../../redux/reducers/serverConfigs/serverConfigs.types';
-import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
-import { loginThunk } from '../../../redux/reducers/serverConfigs/serverConfigs.thunks';
+import { selectIsServerConfigsLoading } from 'redux/reducers/serverConfigs/serverConfigs.slice';
+import { ILoginForm } from 'redux/reducers/serverConfigs/serverConfigs.types';
+import { useAppDispatch } from 'redux/hooks/redux.hooks';
+import { loginThunk } from 'redux/reducers/serverConfigs/serverConfigs.thunks';
 
 import classes from './Login.module.scss';
 
@@ -43,32 +43,12 @@ const Login: FC = () => {
             placeholder='Password'
           />
         </Form.Item>
-        <Form.Item
-          className={classes.secretToken}
-          name='tft'
-          // rules={[
-          //   {
-          //     required: isSecretTokenExist,
-          //     message: 'Please input your secret token!',
-          //   },
-          // ]}
-        >
+        <Form.Item className={classes.secretToken} name='tft'>
           <Input.Password
             prefix={<LockOutlined className='site-form-item-icon' />}
             placeholder='Secret Token (optional)'
           />
         </Form.Item>
-        {/* <Form.Item
-        name='secret_key_checkbox'
-        valuePropName='secret_key_checkbox'
-        noStyle>
-        <Switch
-          className={classes.secretTokenSwitcher}
-          checked={isSecretTokenExist}
-          onChange={onCheckboxChange}
-        />
-        Do you have Secret Token?
-      </Form.Item> */}
         <Form.Item>
           <Button
             loading={isServerConfigsLoading}

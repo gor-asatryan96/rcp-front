@@ -10,10 +10,10 @@ import {
   selectIsNewProfile,
   selectIsPasswordChangeRequired,
   selectIsProfileChangeLoading,
-} from '../../../redux/reducers/serverConfigs/serverConfigs.slice';
-import { ICreatePassword } from '../../../redux/reducers/serverConfigs/serverConfigs.types';
-import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
-import { changeProfileThunk } from '../../../redux/reducers/serverConfigs/serverConfigs.thunks';
+} from 'redux/reducers/serverConfigs/serverConfigs.slice';
+import { ICreatePassword } from 'redux/reducers/serverConfigs/serverConfigs.types';
+import { useAppDispatch } from 'redux/hooks/redux.hooks';
+import { changeProfileThunk } from 'redux/reducers/serverConfigs/serverConfigs.thunks';
 
 import classes from './ChangePassword.module.scss';
 

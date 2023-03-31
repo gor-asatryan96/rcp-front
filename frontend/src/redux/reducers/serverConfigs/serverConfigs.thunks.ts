@@ -2,11 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { AuthService, ILoginBody } from 'services/auth.service';
 
-import { UserToken, ILoginForm, IUser } from './serverConfigs.types';
-
-export interface IErrorMessage {
-  message: string;
-}
+import type { UserToken, ILoginForm, IUser } from './serverConfigs.types';
+import type { IErrorMessage } from 'redux/store.types';
 
 export const loginThunk = createAsyncThunk<
   IUser,

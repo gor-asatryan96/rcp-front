@@ -2,16 +2,16 @@ import { FC, ReactNode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
-import GlobalLoader from '../components/Common/GlobalLoader/GlobalLoader';
-import { useAppDispatch } from '../redux/hooks/redux.hooks';
+import GlobalLoader from 'components/Common/GlobalLoader/GlobalLoader';
+import { useAppDispatch } from 'redux/hooks/redux.hooks';
 import {
   selectIsConnected,
   setIsConnected,
-} from '../redux/reducers/serverConfigs/serverConfigs.slice';
+} from 'redux/reducers/serverConfigs/serverConfigs.slice';
 import {
   applyInvitationThunk,
   loginByTokenThunk,
-} from '../redux/reducers/serverConfigs/serverConfigs.thunks';
+} from 'redux/reducers/serverConfigs/serverConfigs.thunks';
 
 type PropTypes = {
   children: ReactNode;
@@ -23,12 +23,12 @@ const ConnectProvider: FC<PropTypes> = ({ children }) => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const storageToken = localStorage.getItem('token');
     const invitationToken = searchParams.get('invitation-token');
     if (invitationToken) {
       dispatch(applyInvitationThunk(invitationToken));
-    } else if (token) {
-      dispatch(loginByTokenThunk(token));
+    } else if (storageToken) {
+      dispatch(loginByTokenThunk(storageToken));
     } else {
       dispatch(setIsConnected());
     }
