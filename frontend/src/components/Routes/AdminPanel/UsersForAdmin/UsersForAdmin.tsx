@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Badge, Button, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+
+import { IUser } from 'redux/reducers/serverConfigs/serverConfigs.types';
 
 type UserStatus = 'blocked' | 'online' | 'offline';
 
@@ -12,37 +14,40 @@ enum Statuses {
   blocked = 'error',
 }
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-  ussers: [];
-  status: UserStatus;
+async function FetchUsers() {
+  const { data } = await axios.post('/admin/users/list');
+  return data.users;
 }
-
-async function FetchUsers(page = 0, total = 10) {
-  const { data } = await axios.post(`/user/list?_page=${page}&_limit=${total}`);
-  return data;
-}
-const allTotal = 117;
-
 const App: React.FC = () => {
   const [page, setPage] = useState(1);
 
-  const queryData = useQuery(['users', page], () => FetchUsers(page), {
+  const queryData = useQuery(['users/list', page], () => FetchUsers(), {
     keepPreviousData: true,
+  });
+
+  const allTotal = queryData.data?.length;
+
+  const mutation = useMutation({
+    mutationFn: (data: IUser) => {
+      return axios.post('/admin/users/edit', {
+        data: { is_active: !data.is_active },
+        userId: data.id,
+      });
+    },
+    onSuccess: () => {
+      queryData.refetch();
+    },
   });
 
   const pageChanger = (currentPage: number) => {
     setPage(currentPage);
   };
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<IUser> = [
     {
       title: 'Username',
       dataIndex: 'username',
-      key: 'username',
+      key: 'id',
       fixed: true,
       width: 120,
     },
@@ -65,16 +70,26 @@ const App: React.FC = () => {
       title: 'Last visit',
       dataIndex: 'lastVisit',
       key: 'lastVisit',
-      render: time => <div>{time}</div>,
+      render: (_, data) => <div>{data.meta?.last_action_at}</div>,
       width: 100,
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
       key: 'actions',
-      render: () => (
+      render: (_, data) => (
         <Space>
-          <Button>Block</Button>
+          <Button
+            // disabled={mutation.isLoading}
+            loading={mutation.isLoading}
+            style={{ width: '5.7rem' }}
+            type='primary'
+            danger={data.is_active === 1}
+            onClick={() => {
+              mutation.mutate(data);
+            }}>
+            {data.is_active ? 'Block' : 'Unblock'}
+          </Button>
           <Button>Logout</Button>
         </Space>
       ),

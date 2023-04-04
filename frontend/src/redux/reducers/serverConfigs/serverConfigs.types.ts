@@ -20,8 +20,12 @@ export interface IUser {
   created_at: string;
   updated_at: string;
   sp_updated_at: string;
+  meta: IMeta;
 }
 
+export interface IMeta {
+  last_action_at: string;
+}
 export interface IServerConfigs {
   isConnected: boolean;
   isLoading: boolean;

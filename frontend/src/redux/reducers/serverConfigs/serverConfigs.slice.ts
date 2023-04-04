@@ -24,7 +24,7 @@ const initialState: IServerConfigs = {
     acl: [],
     created_at: '',
     email: '',
-    is_active: 0,
+    is_active: 1,
     is_sp_reset: 0,
     is_twofa_enabled: 0,
     locale: 'EN',
@@ -34,6 +34,9 @@ const initialState: IServerConfigs = {
     token: '',
     updated_at: '',
     username: '',
+    meta: {
+      last_action_at: '',
+    },
   },
 };
 

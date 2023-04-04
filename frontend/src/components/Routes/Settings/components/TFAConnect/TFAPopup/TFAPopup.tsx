@@ -6,7 +6,7 @@ type PropTypes = {
   isModalOpen: boolean;
   setIsModalOpen: (isModalOpen: boolean) => void;
 };
-const App = ({ isModalOpen, setIsModalOpen }: PropTypes) => {
+const TFAPopup = ({ isModalOpen, setIsModalOpen }: PropTypes) => {
   const { t } = useTranslation();
 
   const handleCancel = () => {
@@ -36,4 +36,4 @@ const App = ({ isModalOpen, setIsModalOpen }: PropTypes) => {
   );
 };
 
-export default App;
+export default TFAPopup;
