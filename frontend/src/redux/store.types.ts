@@ -40,3 +40,7 @@ type PayloadAction<P> = {
 export type UniversalDispatchAction = Action | AsyncThunk<any, any, any>;
 
 export type LoadingStatus = 'idle' | 'pending' | 'succeded' | 'failed';
+
+export interface IErrorMessage {
+  message: string;
+}

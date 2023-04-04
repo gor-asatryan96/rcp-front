@@ -31,18 +31,22 @@ const Sidebar: FC = () => {
       collapsedWidth={isMobile ? 0 : 80}
       width={isMobile ? '100%' : 200}
       collapsed={!isSidebarOpen}>
-      <div className={classes.sidebarHeader}>
-        <NrgLogo />
-        {isMobile && (
-          <div className={classes.closeIconWrapper}>
-            <MenuUnfoldOutlined
-              onClick={closeBurger}
-              className={classes.closeIcon}
-            />
-          </div>
-        )}
+      <div className={classes.sidebarContent}>
+        <div className={classes.sidebarHeader}>
+          <NrgLogo />
+          {isMobile && (
+            <div className={classes.closeIconWrapper}>
+              <MenuUnfoldOutlined
+                onClick={closeBurger}
+                className={classes.closeIcon}
+              />
+            </div>
+          )}
+        </div>
+        <div className={classes.sidebarMenu}>
+          <Menu />
+        </div>
       </div>
-      <Menu />
     </Layout.Sider>
   );
 };

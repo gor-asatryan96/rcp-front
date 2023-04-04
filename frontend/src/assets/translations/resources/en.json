@@ -2,7 +2,25 @@
   "translation": {
     "test": "test text in english",
     "name": "test name in english",
+    "Admin Panel": "Admin Panel",
+    "Home": "Home",
+    "Reports": "Reports",
+    "Sport": "Sport",
+    "Casino": "Casino",
+    "Users": "Users",
+    "Settings": "Settings",
+    "Account": "Account",
+    "Create New Password": "Create New Password",
     "Change Password": "Change Password",
-    "Connect Google Two Factor Authentication": "Connect Google Two Factor Authentication"
+    "User Information": "User Information",
+    "Connect Google Two Factor Authentication": "Connect Google TFA",
+    "Google Two Factor Authentication": "Google Two Factor Authentication",
+    "You are already connected": "You are already connected",
+    "You should change your password!": "You should change your password!",
+    "Please create your password!": "Please create your password!",
+    "Passwords do not match": "Passwords do not match",
+    "You have incorrect field!": "You have incorrect field!",
+    "Something went wrong": "Something went wrong",
+    "Your profile has successfully updated": "Your profile has successfully updated"
   }
 }

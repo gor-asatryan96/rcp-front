@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Menu as AntMenu } from 'antd';
-import { LogoutOutlined } from '@ant-design/icons';
+import { PoweroffOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ const Menu: FC = () => {
     ...getValidMenuItems(acl),
     {
       key: 'logout',
-      icon: <LogoutOutlined />,
+      icon: <PoweroffOutlined />,
       label: 'Sign out',
       onClick: () => dispatch(logout()),
     },

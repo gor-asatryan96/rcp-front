@@ -1,14 +1,17 @@
 import { Navigate } from 'react-router-dom';
 import {
   AimOutlined,
+  DeploymentUnitOutlined,
   GifOutlined,
   HomeOutlined,
   QqOutlined,
   SettingOutlined,
+  TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 
 import AuthLayout from '../Layouts/AuthLayout/AuthLayout';
+import i18n from '../../assets/translations';
 
 import ChangePassword from './ChangePassword/ChangePassword';
 import Login from './Login/Login';
@@ -18,6 +21,7 @@ import Home from './Home/Home';
 import { PasswordChangeNeedRestrict } from './routes.restricts';
 import CasinoReports from './Reports/CasinoReports/CasinoReports';
 import SportReports from './Reports/SportReports/SportReports';
+import UsersForAdmin from './AdminPanel/UsersForAdmin/UsersForAdmin';
 
 import type { RouteObject } from 'react-router-dom';
 
@@ -39,7 +43,7 @@ export const LOGOUT_ROUTES: RouteObject[] = [
         ),
       },
       {
-        path: '/change-password',
+        path: '/create-password',
         element: (
           <PasswordChangeNeedRestrict isPasswordPage>
             <ChangePassword />
@@ -58,40 +62,51 @@ export const MENU_ROUTES: IMenuRoute[] = [
   {
     path: IRoutePath.home,
     icon: <HomeOutlined />,
-    label: 'Home',
+    label: i18n.t('Home'),
     element: <Home />,
   },
   {
     aclPath: IAclPath.reports,
     icon: <GifOutlined />,
-    label: 'Reports',
+    label: i18n.t('Reports'),
     children: [
       {
         path: IRoutePath.reports_sports,
         aclPath: IAclPath.reports_sports,
         icon: <QqOutlined />,
-        label: 'Sport',
+        label: i18n.t('Sport'),
         element: <SportReports />,
       },
       {
         path: IRoutePath.reports_casino,
         aclPath: IAclPath.reports_casino,
         icon: <AimOutlined />,
-        label: 'Casino',
+        label: i18n.t('Casino'),
         element: <CasinoReports />,
       },
     ],
   },
   {
-    aclPath: IAclPath.settings,
+    // aclPath: IAclPath.admin,
+    icon: <DeploymentUnitOutlined />,
+    label: i18n.t('Admin Panel'),
+    children: [
+      {
+        path: IRoutePath.admin_for_users,
+        icon: <TeamOutlined />,
+        label: i18n.t('Users'),
+        element: <UsersForAdmin />,
+      },
+    ],
+  },
+  {
     icon: <SettingOutlined />,
-    label: 'Settings',
+    label: i18n.t('Settings'),
     children: [
       {
         path: IRoutePath.setting_account,
-        aclPath: IAclPath.setting_account,
         icon: <UserOutlined />,
-        label: 'Account',
+        label: i18n.t('Account'),
         element: <Settings />,
       },
     ],
