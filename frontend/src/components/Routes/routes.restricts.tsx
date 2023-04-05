@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { selectIsPasswordChangeNeed } from 'redux/reducers/serverConfigs/serverConfigs.slice';
+import { selectIsPasswordChangeRequired } from 'redux/reducers/serverConfigs/serverConfigs.slice';
 
 type PropTypes = {
   isPasswordPage: boolean;
@@ -13,10 +13,11 @@ export const PasswordChangeNeedRestrict: FC<PropTypes> = ({
   isPasswordPage,
   children,
 }) => {
-  const isPasswordChangeNeed = useSelector(selectIsPasswordChangeNeed);
-  if (isPasswordPage && !isPasswordChangeNeed) return <Navigate to='/login' />;
-  if (!isPasswordPage && isPasswordChangeNeed)
-    return <Navigate to='/change-password' />;
+  const isPasswordChangeRequired = useSelector(selectIsPasswordChangeRequired);
+  if (isPasswordPage && !isPasswordChangeRequired)
+    return <Navigate to='/login' />;
+  if (!isPasswordPage && isPasswordChangeRequired)
+    return <Navigate to='/create-password' />;
 
   return <>{children}</>;
 };

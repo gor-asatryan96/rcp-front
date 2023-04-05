@@ -11,6 +11,7 @@ export enum IAclPath {
   reports = 'reports',
   reports_sports = 'reports.sports',
   reports_casino = 'reports.casino',
+  admin = 'admin',
 }
 
 export enum IRoutePath {
@@ -19,6 +20,7 @@ export enum IRoutePath {
   reports_sports = '/reports/sports',
   reports_casino = '/reports/casino',
   setting_account = '/setting/account',
+  admin_for_users = '/admin/users',
 }
 
 export interface IMenuRoute {

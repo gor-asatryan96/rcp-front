@@ -9,14 +9,14 @@ export function setupAxios() {
     req => {
       const { url, method } = req;
 
-      const { token } = store.getState().serverConfigs;
+      const { token } = store.getState().serverConfigs.user;
 
       if (!req.baseURL) {
         req.baseURL = process.env.REACT_APP_API_URL;
       }
 
       if (token) {
-        req.headers.Authorization = token;
+        req.headers['x-auth-token'] = token;
       }
 
       if (method?.toLowerCase() === 'get') {

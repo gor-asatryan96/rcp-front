@@ -1,9 +1,46 @@
-.qrWrapper {
+.root {
+  min-height: 22.5rem;
+  height: 100%;
+}
+
+.body {
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .qrImage {
   width: 15rem;
+}
+
+.footer {
+  height: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageWrapper {
+  width: 10rem;
+  height: 10rem;
+  transition: 0.4s;
+}
+
+.qrImage {
+  width: 100%;
+  height: 100%;
+}
+
+.loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

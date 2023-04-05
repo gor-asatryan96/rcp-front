@@ -1,0 +1,30 @@
+.successIcon {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    height: 10rem;
+    width: 10rem;
+  }
+}
+
+.successIconWrapper {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 56px);
+  background-color: rgba(128, 128, 128, 0.521);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scale: 0;
+  transition: 0.3s;
+
+  &.success {
+    scale: 1;
+  }
+}

@@ -8,7 +8,8 @@
       "reports.sports",
       "reports.casino",
       "settings",
-      "settings.account"
+      "settings.account",
+      "admin"
     ]
   },
   "users": [
@@ -20,7 +21,8 @@
         "reports.sports",
         "reports.casino",
         "settings",
-        "settings.account"
+        "settings.account",
+        "admin"
       ]
     },
     {
