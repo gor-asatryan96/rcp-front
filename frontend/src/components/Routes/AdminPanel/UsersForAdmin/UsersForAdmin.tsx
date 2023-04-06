@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Badge, Button, Space, Table } from 'antd';
+import { Badge, Button, Modal, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
 import { useMutation, useQuery } from 'react-query';
@@ -20,11 +20,11 @@ async function FetchUsers() {
 }
 const App: React.FC = () => {
   const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const queryData = useQuery(['users/list', page], () => FetchUsers(), {
-    keepPreviousData: true,
+    // keepPreviousData: true,ss
   });
-
   const allTotal = queryData.data?.length;
 
   const mutation = useMutation({
@@ -43,6 +43,17 @@ const App: React.FC = () => {
     setPage(currentPage);
   };
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    // mutation.mutate();
+    setIsModalOpen(false);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
   const columns: ColumnsType<IUser> = [
     {
       title: 'Username',
@@ -80,12 +91,13 @@ const App: React.FC = () => {
       render: (_, data) => (
         <Space>
           <Button
-            // disabled={mutation.isLoading}
+            disabled={mutation.isLoading}
             loading={mutation.isLoading}
             style={{ width: '5.7rem' }}
             type='primary'
             danger={data.is_active === 1}
             onClick={() => {
+              showModal();
               mutation.mutate(data);
             }}>
             {data.is_active ? 'Block' : 'Unblock'}
@@ -96,7 +108,6 @@ const App: React.FC = () => {
       width: 170,
     },
   ];
-
   return (
     <>
       <Table
@@ -112,6 +123,14 @@ const App: React.FC = () => {
           total: allTotal,
         }}
       />
+      <Modal
+        open={isModalOpen}
+        onCancel={handleCancel}
+        onOk={handleOk}
+        title='Are you sure????'
+        // confirmLoading={confirmLoading}
+      />
+      <Button onClick={showModal} />
     </>
   );
 };
