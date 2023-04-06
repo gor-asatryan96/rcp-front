@@ -6,11 +6,6 @@
   overflow: hidden;
   height: 100%;
   z-index: 101;
-
-  @media screen and (max-width: 992px) {
-    left: unset;
-    right: 0;
-  }
 }
 
 .sidebarContent {

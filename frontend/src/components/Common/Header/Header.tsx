@@ -12,14 +12,14 @@ import {
 import NrgLogo from '../NrgLogo/NrgLogo';
 
 import classes from './Header.module.scss';
+import NotificationTrigger from './components/NotificationTrigger/NotificationTrigger';
 
 const Header: FC = () => {
   const dispatch = useAppDispatch();
   const { token } = theme.useToken();
   const isMobile = useIsMobile();
   const isSidebarOpen = useSelector(selectIsSidebarOpen);
-  const CurrentIcon =
-    isSidebarOpen || isMobile ? MenuFoldOutlined : MenuUnfoldOutlined;
+  const TriggerIcon = isSidebarOpen ? MenuFoldOutlined : MenuUnfoldOutlined;
 
   const onTriggerClick = () => {
     dispatch(toggleSidebar(!isSidebarOpen));
@@ -30,8 +30,13 @@ const Header: FC = () => {
       style={{ background: token.colorBgContainer }}
       className={classes.root}>
       <div className={classes.headerActions}>
+        <div className={classes.headerLeftActions}>
+          <TriggerIcon className={classes.trigger} onClick={onTriggerClick} />
+        </div>
         {isMobile && <NrgLogo />}
-        <CurrentIcon className={classes.trigger} onClick={onTriggerClick} />
+        <div className={classes.headerRightActions}>
+          <NotificationTrigger />
+        </div>
       </div>
     </Layout.Header>
   );

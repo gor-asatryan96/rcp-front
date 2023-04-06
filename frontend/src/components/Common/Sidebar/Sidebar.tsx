@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { FC } from 'react';
-import { MenuUnfoldOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
@@ -36,7 +36,7 @@ const Sidebar: FC = () => {
           <NrgLogo />
           {isMobile && (
             <div className={classes.closeIconWrapper}>
-              <MenuUnfoldOutlined
+              <MenuFoldOutlined
                 onClick={closeBurger}
                 className={classes.closeIcon}
               />
