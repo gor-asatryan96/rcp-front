@@ -3,20 +3,20 @@ import { Layout } from 'antd';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { selectIsSidebarOpen } from 'redux/reducers/appConfigs/appConfigs.slice';
-
-import Header from '../../Common/Header/Header';
-import Sidebar from '../../Common/Sidebar/Sidebar';
-import Content from '../../Common/Content/Content';
+import { selectIsMenuSidebarOpen } from 'redux/reducers/appConfigs/appConfigs.slice';
+import Header from 'components/Common/Header/Header';
+import MenuSidebar from 'components/Common/MenuSidebar/MenuSidebar';
+import Content from 'components/Common/Content/Content';
+import NotificationSidebar from 'components/Common/NotificationSidebar/NotificationSidebar';
 
 import classes from './DashboardLayout.module.scss';
 
 const DashboardLayout: FC = () => {
-  const isSidebarOpen = useSelector(selectIsSidebarOpen);
+  const isSidebarOpen = useSelector(selectIsMenuSidebarOpen);
 
   return (
     <Layout className={classes.root}>
-      <Sidebar />
+      <MenuSidebar />
       <Layout
         className={classNames(classes.rightSide, 'transition', {
           [classes.open]: isSidebarOpen,
@@ -24,6 +24,7 @@ const DashboardLayout: FC = () => {
         <Header />
         <Content />
       </Layout>
+      <NotificationSidebar />
     </Layout>
   );
 };

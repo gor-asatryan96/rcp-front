@@ -1,0 +1,15 @@
+.root {
+  .trigger {
+    font-size: 18px;
+    transition: color 0.3s;
+    color: #fff;
+    cursor: default;
+  }
+
+  &.headerTrigger {
+    & .trigger {
+      cursor: pointer;
+      color: #000;
+    }
+  }
+}

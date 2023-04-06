@@ -1,3 +1,4 @@
 export interface IAppConfigs {
-  isSidebarOpen: boolean;
+  isMenuSidebarOpen: boolean;
+  isNotificationSidebarOpen: boolean;
 }

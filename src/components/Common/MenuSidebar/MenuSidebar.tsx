@@ -5,22 +5,22 @@ import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
 import {
-  selectIsSidebarOpen,
-  toggleSidebar,
+  selectIsMenuSidebarOpen,
+  toggleMenuSidebar,
 } from '../../../redux/reducers/appConfigs/appConfigs.slice';
 import { useIsMobile } from '../../../helpers/hooks.helpers';
 import NrgLogo from '../NrgLogo/NrgLogo';
 import Menu from '../Menu/Menu';
 
-import classes from './Sidebar.module.scss';
+import classes from './MenuSidebar.module.scss';
 
-const Sidebar: FC = () => {
+const MenuSidebar: FC = () => {
   const dispatch = useAppDispatch();
-  const isSidebarOpen = useSelector(selectIsSidebarOpen);
+  const isSidebarOpen = useSelector(selectIsMenuSidebarOpen);
   const isMobile = useIsMobile();
 
   const closeBurger = () => {
-    dispatch(toggleSidebar(false));
+    dispatch(toggleMenuSidebar(false));
   };
 
   return (
@@ -51,4 +51,4 @@ const Sidebar: FC = () => {
   );
 };
 
-export default Sidebar;
+export default MenuSidebar;
