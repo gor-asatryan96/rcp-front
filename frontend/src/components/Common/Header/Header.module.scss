@@ -12,21 +12,13 @@
   padding: 0 10px;
   position: relative;
   justify-content: space-between;
-
-  @media screen and (max-width: 992px) {
-    justify-content: flex-end;
-  }
 }
 
 .trigger {
   font-size: 18px;
-  line-height: 64px;
+  // line-height: 64px;
   cursor: pointer;
   transition: color 0.3s;
-
-  @media screen and (max-width: 992px) {
-    justify-content: space-between;
-  }
 }
 
 .trigger:hover {
