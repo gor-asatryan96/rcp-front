@@ -5,25 +5,32 @@ import { RootState } from '../../store.types';
 import { IAppConfigs } from './appConfigs.types';
 
 const initialState: IAppConfigs = {
-  isSidebarOpen: false,
+  isMenuSidebarOpen: false,
+  isNotificationSidebarOpen: false,
 };
 
 export const appConfigsSlice = createSlice({
   name: 'appConfigs',
   initialState,
   reducers: {
-    toggleSidebar: (state, action: PayloadAction<boolean>) => {
-      state.isSidebarOpen = action.payload;
+    toggleMenuSidebar: (state, action: PayloadAction<boolean>) => {
+      state.isMenuSidebarOpen = action.payload;
+    },
+    toggleNotificationSidebar: (state, action: PayloadAction<boolean>) => {
+      state.isNotificationSidebarOpen = action.payload;
     },
     resetAppConfigs: () => initialState,
   },
 });
 
 // ACTIONS
-export const { toggleSidebar, resetAppConfigs } = appConfigsSlice.actions;
+export const { toggleMenuSidebar, toggleNotificationSidebar, resetAppConfigs } =
+  appConfigsSlice.actions;
 
 // SELECTORS
-export const selectIsSidebarOpen = (state: RootState) =>
-  state.appConfigs.isSidebarOpen;
+export const selectIsMenuSidebarOpen = (state: RootState) =>
+  state.appConfigs.isMenuSidebarOpen;
+export const selectIsNotificationSidebarOpen = (state: RootState) =>
+  state.appConfigs.isNotificationSidebarOpen;
 
 export default appConfigsSlice.reducer;

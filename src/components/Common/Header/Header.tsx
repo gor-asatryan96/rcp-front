@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { useIsMobile } from '../../../helpers/hooks.helpers';
 import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
 import {
-  selectIsSidebarOpen,
-  toggleSidebar,
+  selectIsMenuSidebarOpen,
+  toggleMenuSidebar,
 } from '../../../redux/reducers/appConfigs/appConfigs.slice';
 import NrgLogo from '../NrgLogo/NrgLogo';
 
@@ -18,11 +18,11 @@ const Header: FC = () => {
   const dispatch = useAppDispatch();
   const { token } = theme.useToken();
   const isMobile = useIsMobile();
-  const isSidebarOpen = useSelector(selectIsSidebarOpen);
+  const isSidebarOpen = useSelector(selectIsMenuSidebarOpen);
   const TriggerIcon = isSidebarOpen ? MenuFoldOutlined : MenuUnfoldOutlined;
 
   const onTriggerClick = () => {
-    dispatch(toggleSidebar(!isSidebarOpen));
+    dispatch(toggleMenuSidebar(!isSidebarOpen));
   };
 
   return (
@@ -35,7 +35,7 @@ const Header: FC = () => {
         </div>
         {isMobile && <NrgLogo />}
         <div className={classes.headerRightActions}>
-          <NotificationTrigger />
+          <NotificationTrigger isInSidebar={false} />
         </div>
       </div>
     </Layout.Header>

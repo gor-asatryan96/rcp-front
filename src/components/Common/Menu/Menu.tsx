@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { getValidMenuItems } from 'components/Routes';
 import { MenuItem } from 'components/Routes/routes.types';
-import { toggleSidebar } from 'redux/reducers/appConfigs/appConfigs.slice';
+import { toggleMenuSidebar } from 'redux/reducers/appConfigs/appConfigs.slice';
 import { useIsMobile } from 'helpers/hooks.helpers';
 
 import {
@@ -36,7 +36,7 @@ const Menu: FC = () => {
     if (e.key !== 'logout') {
       navigate(e.key);
       if (isMobile) {
-        dispatch(toggleSidebar(false));
+        dispatch(toggleMenuSidebar(false));
       }
     }
   };

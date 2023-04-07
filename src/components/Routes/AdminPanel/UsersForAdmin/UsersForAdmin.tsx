@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Badge, Button, Modal, Space, Table } from 'antd';
+import { Badge, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 import { IUser } from 'redux/reducers/serverConfigs/serverConfigs.types';
+
+import BlockUser from './components/BlockUser/BlockUser';
 
 type UserStatus = 'blocked' | 'online' | 'offline';
 
@@ -20,45 +22,19 @@ async function FetchUsers() {
 }
 const App: React.FC = () => {
   const [page, setPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const queryData = useQuery(['users/list', page], () => FetchUsers(), {
-    // keepPreviousData: true,ss
-  });
+  const queryData = useQuery(['users/list', page], () => FetchUsers());
   const allTotal = queryData.data?.length;
-
-  const mutation = useMutation({
-    mutationFn: (data: IUser) => {
-      return axios.post('/admin/users/edit', {
-        data: { is_active: !data.is_active },
-        userId: data.id,
-      });
-    },
-    onSuccess: () => {
-      queryData.refetch();
-    },
-  });
 
   const pageChanger = (currentPage: number) => {
     setPage(currentPage);
   };
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    // mutation.mutate();
-    setIsModalOpen(false);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
   const columns: ColumnsType<IUser> = [
     {
       title: 'Username',
       dataIndex: 'username',
-      key: 'id',
+      key: 'username',
       fixed: true,
       width: 120,
     },
@@ -90,48 +66,27 @@ const App: React.FC = () => {
       key: 'actions',
       render: (_, data) => (
         <Space>
-          <Button
-            disabled={mutation.isLoading}
-            loading={mutation.isLoading}
-            style={{ width: '5.7rem' }}
-            type='primary'
-            danger={data.is_active === 1}
-            onClick={() => {
-              showModal();
-              mutation.mutate(data);
-            }}>
-            {data.is_active ? 'Block' : 'Unblock'}
-          </Button>
-          <Button>Logout</Button>
+          <BlockUser user={data} refetch={queryData.refetch} />
         </Space>
       ),
       width: 170,
     },
   ];
   return (
-    <>
-      <Table
-        columns={columns}
-        dataSource={queryData.data}
-        scroll={{ x: true }}
-        loading={queryData.isLoading}
-        pagination={{
-          position: ['bottomCenter'],
-          onChange(currentPage) {
-            pageChanger(currentPage);
-          },
-          total: allTotal,
-        }}
-      />
-      <Modal
-        open={isModalOpen}
-        onCancel={handleCancel}
-        onOk={handleOk}
-        title='Are you sure????'
-        // confirmLoading={confirmLoading}
-      />
-      <Button onClick={showModal} />
-    </>
+    <Table
+      rowKey='id'
+      columns={columns}
+      dataSource={queryData.data}
+      scroll={{ x: true }}
+      loading={queryData.isLoading}
+      pagination={{
+        position: ['bottomCenter'],
+        onChange(currentPage) {
+          pageChanger(currentPage);
+        },
+        total: allTotal,
+      }}
+    />
   );
 };
 

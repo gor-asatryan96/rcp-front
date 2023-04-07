@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { useIsMobile } from '../../../helpers/hooks.helpers';
-import { selectIsSidebarOpen } from '../../../redux/reducers/appConfigs/appConfigs.slice';
+import { selectIsMenuSidebarOpen } from '../../../redux/reducers/appConfigs/appConfigs.slice';
 
 import classes from './NrgLogo.module.scss';
 
 const NrgLogo: FC = () => {
-  const isSidebarOpen = useSelector(selectIsSidebarOpen);
+  const isSidebarOpen = useSelector(selectIsMenuSidebarOpen);
   const isMobile = useIsMobile();
 
   return (
