@@ -9,10 +9,10 @@ import { toggleNotificationSidebar } from 'redux/reducers/appConfigs/appConfigs.
 import classes from './NotificationTrigger.module.scss';
 
 type PropTypes = {
-  isHeader: boolean;
+  isInSidebar: boolean;
 };
 
-const NotificationTrigger: FC<PropTypes> = ({ isHeader = false }) => {
+const NotificationTrigger: FC<PropTypes> = ({ isInSidebar = false }) => {
   const dispatch = useAppDispatch();
 
   const openNotificationSidebar = () => {
@@ -21,15 +21,15 @@ const NotificationTrigger: FC<PropTypes> = ({ isHeader = false }) => {
 
   return (
     <div
+      onClick={openNotificationSidebar}
+      onKeyDown={openNotificationSidebar}
+      role='button'
+      tabIndex={0}
       className={classNames(classes.root, {
-        [classes.headerTrigger]: isHeader,
+        [classes.sidebar]: isInSidebar,
       })}>
       <Badge size='small' count={5}>
-        <BellFilled
-          type='primary'
-          className={classes.trigger}
-          onClick={openNotificationSidebar}
-        />
+        <BellFilled type='primary' className={classes.trigger} />
       </Badge>
     </div>
   );

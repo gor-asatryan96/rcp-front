@@ -1,15 +1,17 @@
 .root {
+  line-height: 1.5;
+  margin-right: 5px;
+  cursor: pointer;
   .trigger {
     font-size: 18px;
     transition: color 0.3s;
-    color: #fff;
-    cursor: default;
+    cursor: pointer;
   }
 
-  &.headerTrigger {
+  &.sidebar {
+    cursor: default;
     & .trigger {
-      cursor: pointer;
-      color: #000;
+      cursor: default;
     }
   }
 }

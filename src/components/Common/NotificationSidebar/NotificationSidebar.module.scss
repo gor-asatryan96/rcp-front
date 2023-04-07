@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
+  height: 64px;
   padding: 0 10px;
 }
 
@@ -30,22 +30,23 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   text-transform: uppercase;
-  color: white;
+  color: black;
 }
 
 .notificationsRoot {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  background-color: var(--color-background);
 }
 
 .closeIcon {
   font-size: 1rem;
   cursor: pointer;
-  color: white;
+  color: black;
 }
 
 .background {

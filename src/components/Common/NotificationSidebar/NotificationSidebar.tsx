@@ -35,6 +35,7 @@ const NotificationSidebar: FC = () => {
       <Layout.Sider
         className={classes.sidebar}
         trigger={null}
+        theme='light'
         collapsible
         collapsedWidth={0}
         width={isMobile ? '100%' : 400}
@@ -46,7 +47,7 @@ const NotificationSidebar: FC = () => {
               className={classes.closeIcon}
             />
             <div className={classes.headerTitle}>Notifications</div>
-            <NotificationTrigger isHeader={false} />
+            <NotificationTrigger isInSidebar />
           </div>
           <div className={classes.notificationsRoot} />
         </div>

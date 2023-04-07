@@ -35,7 +35,7 @@ const Header: FC = () => {
         </div>
         {isMobile && <NrgLogo />}
         <div className={classes.headerRightActions}>
-          <NotificationTrigger isHeader />
+          <NotificationTrigger isInSidebar={false} />
         </div>
       </div>
     </Layout.Header>
