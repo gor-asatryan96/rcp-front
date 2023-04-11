@@ -44,7 +44,9 @@ const BlockUser: FC<PropTypes> = ({ user, refetch }) => {
           {user.is_active ? 'Block' : 'Unblock'}
         </Button>
       </Popconfirm>
-      <Button style={{ width: '5.2rem' }}>Logout</Button>
+      <Button style={{ width: '5.2rem' }} danger>
+        Logout
+      </Button>
     </>
   );
 };
