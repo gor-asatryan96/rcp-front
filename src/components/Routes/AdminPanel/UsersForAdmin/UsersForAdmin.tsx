@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 
 import { IUser } from 'redux/reducers/serverConfigs/serverConfigs.types';
 
+import UsersTableActions from '../UsersTableActions/UsersTableActions';
+
 import BlockUser from './components/BlockUser/BlockUser';
 
 type UserStatus = 'blocked' | 'online' | 'offline';
@@ -96,20 +98,23 @@ const App: React.FC = () => {
     },
   ];
   return (
-    <Table
-      rowKey='id'
-      columns={columns}
-      dataSource={queryData.data}
-      scroll={{ x: true }}
-      loading={queryData.isLoading}
-      pagination={{
-        position: ['bottomCenter'],
-        onChange(currentPage) {
-          pageChanger(currentPage);
-        },
-        total: allTotal,
-      }}
-    />
+    <>
+      <UsersTableActions />
+      <Table
+        rowKey='id'
+        columns={columns}
+        dataSource={queryData.data}
+        scroll={{ x: true }}
+        loading={queryData.isLoading}
+        pagination={{
+          position: ['bottomCenter'],
+          onChange(currentPage) {
+            pageChanger(currentPage);
+          },
+          total: allTotal,
+        }}
+      />
+    </>
   );
 };
 
