@@ -1,10 +1,14 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import { Badge, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import dayjs from 'dayjs';
 
 import { IUser } from 'redux/reducers/serverConfigs/serverConfigs.types';
+
+import UsersTableActions from '../UsersTableActions/UsersTableActions';
 
 import BlockUser from './components/BlockUser/BlockUser';
 
@@ -52,12 +56,33 @@ const App: React.FC = () => {
         return <Badge status={Statuses[a]} text={a} />;
       },
       width: 80,
+      filters: [
+        {
+          text: 'Online',
+          value: 'Online',
+        },
+        {
+          text: 'Ofline',
+          value: 'Ofline',
+        },
+        {
+          text: 'Blocked',
+          value: 'Blocked',
+        },
+      ],
+      // onFilter: (value: string, record) => record.is_active,
     },
     {
       title: 'Last visit',
       dataIndex: 'lastVisit',
       key: 'lastVisit',
-      render: (_, data) => <div>{data.meta?.last_action_at}</div>,
+      render: (_, data) => (
+        <div>
+          {data.meta.last_action_at
+            ? dayjs(data.meta.last_action_at).format('DD/MM/YYYY HH:MM')
+            : ''}
+        </div>
+      ),
       width: 100,
     },
     {
@@ -73,20 +98,23 @@ const App: React.FC = () => {
     },
   ];
   return (
-    <Table
-      rowKey='id'
-      columns={columns}
-      dataSource={queryData.data}
-      scroll={{ x: true }}
-      loading={queryData.isLoading}
-      pagination={{
-        position: ['bottomCenter'],
-        onChange(currentPage) {
-          pageChanger(currentPage);
-        },
-        total: allTotal,
-      }}
-    />
+    <>
+      <UsersTableActions />
+      <Table
+        rowKey='id'
+        columns={columns}
+        dataSource={queryData.data}
+        scroll={{ x: true }}
+        loading={queryData.isLoading}
+        pagination={{
+          position: ['bottomCenter'],
+          onChange(currentPage) {
+            pageChanger(currentPage);
+          },
+          total: allTotal,
+        }}
+      />
+    </>
   );
 };
 

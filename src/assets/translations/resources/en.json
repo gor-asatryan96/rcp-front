@@ -8,6 +8,7 @@
     "Sport": "Sport",
     "Casino": "Casino",
     "Users": "Users",
+    "Invite user": "Invite user",
     "Settings": "Settings",
     "Account": "Account",
     "Create New Password": "Create New Password",
@@ -21,6 +22,7 @@
     "Passwords do not match": "Passwords do not match",
     "You have incorrect field!": "You have incorrect field!",
     "Something went wrong": "Something went wrong",
-    "Your profile has successfully updated": "Your profile has successfully updated"
+    "Your profile has successfully updated": "Your profile has successfully updated",
+    "User hase successfully invited": "User hase successfully invited"
   }
 }
