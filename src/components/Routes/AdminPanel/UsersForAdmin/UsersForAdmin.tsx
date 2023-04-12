@@ -1,5 +1,4 @@
-/* eslint-disable no-nested-ternary */
-import React, { useState } from 'react';
+import React from 'react';
 import { Badge, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
@@ -25,21 +24,14 @@ async function FetchUsers() {
   return data.users;
 }
 const App: React.FC = () => {
-  const [page, setPage] = useState(1);
-
-  const queryData = useQuery(['users/list', page], () => FetchUsers());
+  const queryData = useQuery(['users/list'], () => FetchUsers());
   const allTotal = queryData.data?.length;
-
-  const pageChanger = (currentPage: number) => {
-    setPage(currentPage);
-  };
 
   const columns: ColumnsType<IUser> = [
     {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
-      fixed: true,
       width: 120,
     },
     {
@@ -108,9 +100,6 @@ const App: React.FC = () => {
         loading={queryData.isLoading}
         pagination={{
           position: ['bottomCenter'],
-          onChange(currentPage) {
-            pageChanger(currentPage);
-          },
           total: allTotal,
         }}
       />
