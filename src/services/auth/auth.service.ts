@@ -2,15 +2,7 @@ import axios from 'axios';
 
 import { IUser } from 'redux/reducers/serverConfigs/serverConfigs.types';
 
-interface ITFAResponse {
-  qr: string;
-}
-
-export interface ILoginBody {
-  username?: string;
-  password: string;
-  tft?: string;
-}
+import { ILoginBody, ITFAResponse } from './auth.service.types';
 
 export const AuthService = {
   async login(loginBody: ILoginBody) {

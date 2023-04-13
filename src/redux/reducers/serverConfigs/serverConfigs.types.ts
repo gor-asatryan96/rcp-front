@@ -21,6 +21,7 @@ export interface IUser {
   updated_at: string;
   sp_updated_at: string;
   meta: IMeta;
+  ws_token: string;
 }
 
 export interface IMeta {
