@@ -1,17 +1,20 @@
 import { Button, Popconfirm } from 'antd';
 import axios from 'axios';
 import { FC, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 import { IUser } from 'redux/reducers/serverConfigs/serverConfigs.types';
+import { AdminService } from 'services/admin';
 
 type PropTypes = {
   user: IUser;
-  refetch: () => void;
 };
 
-const BlockUser: FC<PropTypes> = ({ user, refetch }) => {
+const BlockUser: FC<PropTypes> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { refetch } = useQuery(['users/list'], AdminService.getUsers, {
+    enabled: false,
+  });
 
   const mutation = useMutation({
     mutationFn: () => {

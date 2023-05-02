@@ -1,10 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import {
-  AimOutlined,
   DeploymentUnitOutlined,
-  GifOutlined,
   HomeOutlined,
-  QqOutlined,
   SettingOutlined,
   TeamOutlined,
   UserOutlined,
@@ -19,8 +16,6 @@ import Settings from './Settings/Settings';
 import { IAclPath, IRoutePath, IMenuRoute } from './routes.types';
 import Home from './Home/Home';
 import { PasswordChangeNeedRestrict } from './routes.restricts';
-import CasinoReports from './Reports/CasinoReports/CasinoReports';
-import SportReports from './Reports/SportReports/SportReports';
 import UsersForAdmin from './AdminPanel/UsersForAdmin/UsersForAdmin';
 
 import type { RouteObject } from 'react-router-dom';
@@ -66,32 +61,12 @@ export const MENU_ROUTES: IMenuRoute[] = [
     element: <Home />,
   },
   {
-    aclPath: IAclPath.reports,
-    icon: <GifOutlined />,
-    label: i18n.t('Reports'),
-    children: [
-      {
-        path: IRoutePath.reports_sports,
-        aclPath: IAclPath.reports_sports,
-        icon: <QqOutlined />,
-        label: i18n.t('Sport'),
-        element: <SportReports />,
-      },
-      {
-        path: IRoutePath.reports_casino,
-        aclPath: IAclPath.reports_casino,
-        icon: <AimOutlined />,
-        label: i18n.t('Casino'),
-        element: <CasinoReports />,
-      },
-    ],
-  },
-  {
     // aclPath: IAclPath.admin,
     icon: <DeploymentUnitOutlined />,
     label: i18n.t('Admin Panel'),
     children: [
       {
+        aclPath: IAclPath.admin_users_list,
         path: IRoutePath.admin_for_users,
         icon: <TeamOutlined />,
         label: i18n.t('Users'),

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card } from 'antd';
+import { Button } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
 
 import InviteUserModal from '../InviteUserModal/InviteUserModal';
@@ -14,7 +14,7 @@ const UsersTableActions = () => {
   };
 
   return (
-    <Card className={classes.card}>
+    <>
       <InviteUserModal
         isAddUserModalOpen={isAddUserModalOpen}
         setIsAddUserModalOpen={setIsAddUserModalOpen}
@@ -24,7 +24,7 @@ const UsersTableActions = () => {
           Invite user <UserAddOutlined />
         </Button>
       </div>
-    </Card>
+    </>
   );
 };
 

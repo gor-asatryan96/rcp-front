@@ -1,0 +1,15 @@
+.cardsBody {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+:global(.infinite-scroll-component__outerdiv) {
+  height: 100%;
+}
+
+.emptyNotification {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+}

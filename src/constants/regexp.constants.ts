@@ -1,6 +1,6 @@
-export const EMAIL_REGEXP =
+const EMAIL =
   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
 export const REGEXPS = {
-  EMAIL_REGEXP,
+  EMAIL,
 };

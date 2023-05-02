@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   INotificationListRequestBody,
   INotificationListResponse,
+  INotificationSeenRequestBody,
 } from './notification.service.types';
 
 export const NotificationService = {
@@ -11,6 +12,10 @@ export const NotificationService = {
       '/notification/list',
       data,
     );
+    return response.data;
+  },
+  async seen(data: INotificationSeenRequestBody) {
+    const response = await axios.post<null>('/notification/seen', data);
     return response.data;
   },
 };

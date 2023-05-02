@@ -1,20 +1,17 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
-import { useAppDispatch } from 'redux/hooks/redux.hooks';
-import { getNotificationsListThunk } from 'redux/reducers/notifications/notifications.thunks';
+import NotificationTabs from '../NotificationTabs/NotificationTabs';
+import NotificationCards from '../NotificationCards/NotificationCards';
 
-import { useNotificationsSideEffects } from './notifications.hooks';
+import classes from './Notifications.module.scss';
 
 const Notifications: FC = () => {
-  const dispatch = useAppDispatch();
-  useNotificationsSideEffects();
-
-  useEffect(() => {
-    // TODO: add pagination
-    dispatch(getNotificationsListThunk({ page: 1, limit: 10 }));
-  }, []);
-
-  return <div>Notifications</div>;
+  return (
+    <div className={classes.notificationsBody}>
+      <NotificationTabs />
+      <NotificationCards />
+    </div>
+  );
 };
 
 export default Notifications;

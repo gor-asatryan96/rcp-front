@@ -12,6 +12,7 @@ export enum IAclPath {
   reports_sports = 'reports.sports',
   reports_casino = 'reports.casino',
   admin = 'admin',
+  admin_users_list = 'admin.users.list',
 }
 
 export enum IRoutePath {

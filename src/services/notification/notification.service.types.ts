@@ -1,7 +1,8 @@
 export type TNotificationKind = 'USER' | 'SYSTEM' | 'ROLE';
+export type INotificationId = number;
 
 export interface INotification {
-  id: number;
+  id: INotificationId;
   kind: TNotificationKind;
   body: string;
   sender: string;
@@ -15,6 +16,10 @@ export interface INotificationListRequestBody {
   limit: number;
   page: number;
   seen?: boolean;
+}
+
+export interface INotificationSeenRequestBody {
+  notificationId: INotificationId;
 }
 
 export interface INotificationListResponse {

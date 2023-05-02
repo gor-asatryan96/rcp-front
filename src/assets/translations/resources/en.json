@@ -23,6 +23,10 @@
     "You have incorrect field!": "You have incorrect field!",
     "Something went wrong": "Something went wrong",
     "Your profile has successfully updated": "Your profile has successfully updated",
-    "User hase successfully invited": "User hase successfully invited"
+    "User hase successfully invited": "User hase successfully invited",
+    "You don't have notifications yet": "You don't have notifications yet",
+    "All": "All",
+    "Unseen": "Unseen",
+    "Seen": "Seen"
   }
 }
