@@ -18,6 +18,8 @@ export enum IAclPath {
 export enum IRoutePath {
   // ADD YOUR PROJECT PATHS HERE
   home = '/',
+  limits_daily = '/limits/daily',
+  limits_individual = '/limits/individual',
   reports_sports = '/reports/sports',
   reports_casino = '/reports/casino',
   setting_account = '/setting/account',
