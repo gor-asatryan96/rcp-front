@@ -4,8 +4,10 @@ import {
   CalendarOutlined,
   DeploymentUnitOutlined,
   HomeOutlined,
+  PushpinOutlined,
   SettingOutlined,
   TeamOutlined,
+  TransactionOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 
@@ -19,8 +21,9 @@ import { IAclPath, IRoutePath, IMenuRoute } from './routes.types';
 import Home from './Home/Home';
 import { PasswordChangeNeedRestrict } from './routes.restricts';
 import UsersForAdmin from './AdminPanel/UsersForAdmin/UsersForAdmin';
-import Daily from './Limits/Daily/Daily';
 import Individual from './Limits/Individual/Individual';
+import Transactions from './Transactions/Transactions';
+import AutoPush from './Autopush/AutoPush';
 
 import type { RouteObject } from 'react-router-dom';
 
@@ -65,15 +68,15 @@ export const MENU_ROUTES: IMenuRoute[] = [
     element: <Home />,
   },
   {
+    path: IRoutePath.transactions,
+    icon: <TransactionOutlined />,
+    label: i18n.t('Transactions'),
+    element: <Transactions />,
+  },
+  {
     icon: <CalendarOutlined />,
     label: i18n.t('Limits'),
     children: [
-      {
-        path: IRoutePath.limits_daily,
-        icon: <CalendarOutlined />,
-        label: i18n.t('Daily'),
-        element: <Daily />,
-      },
       {
         path: IRoutePath.limits_individual,
         icon: <ApartmentOutlined />,
@@ -95,6 +98,12 @@ export const MENU_ROUTES: IMenuRoute[] = [
         element: <UsersForAdmin />,
       },
     ],
+  },
+  {
+    path: IRoutePath.autopush,
+    icon: <PushpinOutlined />,
+    label: i18n.t('Auto-Push/Approve'),
+    element: <AutoPush />,
   },
   {
     icon: <SettingOutlined />,
