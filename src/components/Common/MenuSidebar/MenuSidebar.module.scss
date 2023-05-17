@@ -15,30 +15,8 @@
   flex-direction: column;
 }
 
-.sidebarHeader {
-  position: relative;
-  width: 100%;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 70px;
-}
-
 .sidebarMenu {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.closeIconWrapper {
-  position: absolute;
-  right: 10px;
-}
-
-.closeIcon {
-  font-size: 18px;
-  line-height: 64px;
-  cursor: pointer;
-  color: white;
 }

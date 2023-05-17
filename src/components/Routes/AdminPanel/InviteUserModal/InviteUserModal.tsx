@@ -69,7 +69,7 @@ const InviteUser: FC<PropTypes> = ({
           rules={[
             { required: true, message: 'Please input your email!' },
             {
-              pattern: REGEXPS.EMAIL_REGEXP,
+              pattern: REGEXPS.EMAIL,
               message: 'please input valid email!',
             },
           ]}

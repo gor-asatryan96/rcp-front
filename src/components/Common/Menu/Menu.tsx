@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { Menu as AntMenu } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -22,15 +22,18 @@ const Menu: FC = () => {
   const dispatch = useAppDispatch();
   const acl = useSelector(selectUserAcl);
 
-  const menuItems: MenuItem[] = [
-    ...getValidMenuItems(acl),
-    {
-      key: 'logout',
-      icon: <PoweroffOutlined />,
-      label: 'Sign out',
-      onClick: () => dispatch(logout()),
-    },
-  ];
+  const menuItems: MenuItem[] = useMemo(
+    () => [
+      ...getValidMenuItems(acl),
+      {
+        key: 'logout',
+        icon: <PoweroffOutlined />,
+        label: 'Sign out',
+        onClick: () => dispatch(logout()),
+      },
+    ],
+    [acl],
+  );
 
   const onNavSelect = (e: { key: string }) => {
     if (e.key !== 'logout') {

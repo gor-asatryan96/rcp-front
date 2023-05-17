@@ -9,26 +9,29 @@ import ChangePassword from '../ChangePassword/ChangePassword';
 import TFAConnect from './components/TFAConnect/TFAConnect';
 import UserInfo from './components/UserInfo/UserInfo';
 
+const layout = {
+  xs: { span: 24 },
+  lg: { span: 12 },
+  xl: { span: 8 },
+};
+
 const Settings: FC = () => {
   const isTFAConnected = useSelector(selectIsTFAConnected);
 
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col xs={{ span: 24 }} lg={{ span: 12 }} xl={{ span: 8 }}>
+        <Col {...layout}>
           <UserInfo />
         </Col>
-        <Col xs={{ span: 24 }} lg={{ span: 12 }} xl={{ span: 8 }}>
+        <Col {...layout}>
           <ChangePassword />
         </Col>
         {!isTFAConnected && (
-          <Col xs={{ span: 24 }} lg={{ span: 12 }} xl={{ span: 8 }}>
+          <Col {...layout}>
             <TFAConnect />
           </Col>
         )}
-        <Col xs={{ span: 24 }} lg={{ span: 12 }} xl={{ span: 8 }}>
-          <UserInfo />
-        </Col>
       </Row>
     </div>
   );

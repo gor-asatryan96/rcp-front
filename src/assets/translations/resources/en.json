@@ -4,12 +4,16 @@
     "name": "test name in english",
     "Admin Panel": "Admin Panel",
     "Home": "Home",
+    "Transactions": "Transactions",
+    "Limits": "Limits",
+    "Individual": "Individual",
     "Reports": "Reports",
     "Sport": "Sport",
     "Casino": "Casino",
     "Users": "Users",
     "Invite user": "Invite user",
     "Settings": "Settings",
+    "Auto-Push/Approve": "Auto-Push/Approve",
     "Account": "Account",
     "Create New Password": "Create New Password",
     "Change Password": "Change Password",
@@ -23,6 +27,10 @@
     "You have incorrect field!": "You have incorrect field!",
     "Something went wrong": "Something went wrong",
     "Your profile has successfully updated": "Your profile has successfully updated",
-    "User hase successfully invited": "User hase successfully invited"
+    "User hase successfully invited": "User hase successfully invited",
+    "You don't have notifications yet": "You don't have notifications yet",
+    "All": "All",
+    "Unseen": "Unseen",
+    "Seen": "Seen"
   }
 }

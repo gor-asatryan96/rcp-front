@@ -13,6 +13,7 @@ import { useIsMobile } from '../../../helpers/hooks.helpers';
 import NotificationTrigger from '../Header/components/NotificationTrigger/NotificationTrigger';
 
 import classes from './NotificationSidebar.module.scss';
+import Notifications from './Notifications/Notifications';
 
 const NotificationSidebar: FC = () => {
   const dispatch = useAppDispatch();
@@ -49,7 +50,9 @@ const NotificationSidebar: FC = () => {
             <div className={classes.headerTitle}>Notifications</div>
             <NotificationTrigger isInSidebar />
           </div>
-          <div className={classes.notificationsRoot} />
+          <div className={classes.notificationsRoot}>
+            <Notifications />
+          </div>
         </div>
       </Layout.Sider>
     </>

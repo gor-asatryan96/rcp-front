@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { Card, Spin } from 'antd';
 import { InfoCircleTwoTone } from '@ant-design/icons';
 
-import { AuthService } from 'services/auth.service';
+import { AuthService } from 'services/auth';
 import {
   selectIsTFAConnected,
   toggleTFA,

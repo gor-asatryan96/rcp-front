@@ -37,6 +37,7 @@ const initialState: IServerConfigs = {
     meta: {
       last_action_at: '',
     },
+    ws_token: '',
   },
 };
 

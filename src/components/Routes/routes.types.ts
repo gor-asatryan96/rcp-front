@@ -12,14 +12,19 @@ export enum IAclPath {
   reports_sports = 'reports.sports',
   reports_casino = 'reports.casino',
   admin = 'admin',
+  admin_users_list = 'admin.users.list',
 }
 
 export enum IRoutePath {
   // ADD YOUR PROJECT PATHS HERE
   home = '/',
+  transactions = '/transactions',
+  limits_daily = '/limits/daily',
+  limits_individual = '/limits/individual',
   reports_sports = '/reports/sports',
   reports_casino = '/reports/casino',
   setting_account = '/setting/account',
+  autopush = '/autopush',
   admin_for_users = '/admin/users',
 }
 

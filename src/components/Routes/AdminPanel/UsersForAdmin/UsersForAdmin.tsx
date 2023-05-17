@@ -1,110 +1,36 @@
 import React from 'react';
-import { Badge, Space, Table } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import axios from 'axios';
+import { Table } from 'antd';
 import { useQuery } from 'react-query';
-import dayjs from 'dayjs';
 
-import { IUser } from 'redux/reducers/serverConfigs/serverConfigs.types';
+import { AdminService } from 'services/admin';
 
 import UsersTableActions from '../UsersTableActions/UsersTableActions';
 
-import BlockUser from './components/BlockUser/BlockUser';
+import { usersForAdminColumns } from './usersForAdmin.configs';
 
-type UserStatus = 'blocked' | 'online' | 'offline';
+const UsersForAdmin: React.FC = () => {
+  const queryData = useQuery(['users/list'], AdminService.getUsers);
 
-enum Statuses {
-  online = 'success',
-  offline = 'default',
-  blocked = 'error',
-}
-
-async function FetchUsers() {
-  const { data } = await axios.post('/admin/users/list');
-  return data.users;
-}
-const App: React.FC = () => {
-  const queryData = useQuery(['users/list'], () => FetchUsers());
   const allTotal = queryData.data?.length;
 
-  const columns: ColumnsType<IUser> = [
-    {
-      title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
-      width: 120,
-    },
-    {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
-      width: 100,
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (a: UserStatus) => {
-        return <Badge status={Statuses[a]} text={a} />;
-      },
-      width: 80,
-      filters: [
-        {
-          text: 'Online',
-          value: 'Online',
-        },
-        {
-          text: 'Ofline',
-          value: 'Ofline',
-        },
-        {
-          text: 'Blocked',
-          value: 'Blocked',
-        },
-      ],
-      // onFilter: (value: string, record) => record.is_active,
-    },
-    {
-      title: 'Last visit',
-      dataIndex: 'lastVisit',
-      key: 'lastVisit',
-      render: (_, data) => (
-        <div>
-          {data.meta.last_action_at
-            ? dayjs(data.meta.last_action_at).format('DD/MM/YYYY HH:MM')
-            : ''}
-        </div>
-      ),
-      width: 100,
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'actions',
-      key: 'actions',
-      render: (_, data) => (
-        <Space>
-          <BlockUser user={data} refetch={queryData.refetch} />
-        </Space>
-      ),
-      width: 170,
-    },
-  ];
   return (
     <>
       <UsersTableActions />
       <Table
         rowKey='id'
-        columns={columns}
+        columns={usersForAdminColumns}
         dataSource={queryData.data}
         scroll={{ x: true }}
         loading={queryData.isLoading}
         pagination={{
           position: ['bottomCenter'],
           total: allTotal,
+          showSizeChanger: true,
+          responsive: true,
         }}
       />
     </>
   );
 };
 
-export default App;
+export default UsersForAdmin;

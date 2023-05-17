@@ -4,12 +4,9 @@ import { Outlet } from 'react-router-dom';
 
 import classes from './Content.module.scss';
 
-// import Navigation from '../Navigation/Navigation';
-
 const Content: FC = () => {
   return (
     <Layout.Content className={classes.root}>
-      {/* <Navigation /> */}
       <Outlet />
     </Layout.Content>
   );

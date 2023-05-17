@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { AuthService, ILoginBody } from 'services/auth.service';
+import { AuthService, ILoginBody } from 'services/auth';
 
 import type { UserToken, ILoginForm, IUser } from './serverConfigs.types';
 import type { IErrorMessage } from 'redux/store.types';

@@ -1,12 +1,13 @@
 import { Navigate } from 'react-router-dom';
 import {
-  AimOutlined,
+  ApartmentOutlined,
+  CalendarOutlined,
   DeploymentUnitOutlined,
-  GifOutlined,
   HomeOutlined,
-  QqOutlined,
+  PushpinOutlined,
   SettingOutlined,
   TeamOutlined,
+  TransactionOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 
@@ -19,9 +20,10 @@ import Settings from './Settings/Settings';
 import { IAclPath, IRoutePath, IMenuRoute } from './routes.types';
 import Home from './Home/Home';
 import { PasswordChangeNeedRestrict } from './routes.restricts';
-import CasinoReports from './Reports/CasinoReports/CasinoReports';
-import SportReports from './Reports/SportReports/SportReports';
 import UsersForAdmin from './AdminPanel/UsersForAdmin/UsersForAdmin';
+import Individual from './Limits/Individual/Individual';
+import Transactions from './Transactions/Transactions';
+import AutoPush from './Autopush/AutoPush';
 
 import type { RouteObject } from 'react-router-dom';
 
@@ -66,23 +68,20 @@ export const MENU_ROUTES: IMenuRoute[] = [
     element: <Home />,
   },
   {
-    aclPath: IAclPath.reports,
-    icon: <GifOutlined />,
-    label: i18n.t('Reports'),
+    path: IRoutePath.transactions,
+    icon: <TransactionOutlined />,
+    label: i18n.t('Transactions'),
+    element: <Transactions />,
+  },
+  {
+    icon: <CalendarOutlined />,
+    label: i18n.t('Limits'),
     children: [
       {
-        path: IRoutePath.reports_sports,
-        aclPath: IAclPath.reports_sports,
-        icon: <QqOutlined />,
-        label: i18n.t('Sport'),
-        element: <SportReports />,
-      },
-      {
-        path: IRoutePath.reports_casino,
-        aclPath: IAclPath.reports_casino,
-        icon: <AimOutlined />,
-        label: i18n.t('Casino'),
-        element: <CasinoReports />,
+        path: IRoutePath.limits_individual,
+        icon: <ApartmentOutlined />,
+        label: i18n.t('Individual'),
+        element: <Individual />,
       },
     ],
   },
@@ -92,12 +91,19 @@ export const MENU_ROUTES: IMenuRoute[] = [
     label: i18n.t('Admin Panel'),
     children: [
       {
+        aclPath: IAclPath.admin_users_list,
         path: IRoutePath.admin_for_users,
         icon: <TeamOutlined />,
         label: i18n.t('Users'),
         element: <UsersForAdmin />,
       },
     ],
+  },
+  {
+    path: IRoutePath.autopush,
+    icon: <PushpinOutlined />,
+    label: i18n.t('Auto-Push/Approve'),
+    element: <AutoPush />,
   },
   {
     icon: <SettingOutlined />,
