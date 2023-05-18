@@ -23,3 +23,14 @@
 .trigger:hover {
   color: #1890ff;
 }
+
+.headerRightActions {
+  display: flex;
+  justify-content: space-between;
+  width: 10rem;
+  align-items: center;
+}
+.headerSelector {
+  width: 8rem;
+  margin-left: 0.5rem;
+}

@@ -1,6 +1,5 @@
 import { Navigate } from 'react-router-dom';
 import {
-  ApartmentOutlined,
   CalendarOutlined,
   DeploymentUnitOutlined,
   HomeOutlined,
@@ -19,8 +18,7 @@ import { IAclPath, IRoutePath, IMenuRoute } from './routes.types';
 import Home from './Home/Home';
 import { PasswordChangeNeedRestrict } from './routes.restricts';
 import UsersForAdmin from './AdminPanel/UsersForAdmin/UsersForAdmin';
-import Daily from './Limits/Daily/Daily';
-import Individual from './Limits/Individual/Individual';
+import General from './Limits/General/General';
 
 import type { RouteObject } from 'react-router-dom';
 
@@ -71,14 +69,8 @@ export const MENU_ROUTES: IMenuRoute[] = [
       {
         path: IRoutePath.limits_daily,
         icon: <CalendarOutlined />,
-        label: i18n.t('Daily'),
-        element: <Daily />,
-      },
-      {
-        path: IRoutePath.limits_individual,
-        icon: <ApartmentOutlined />,
-        label: i18n.t('Individual'),
-        element: <Individual />,
+        label: i18n.t('General'),
+        element: <General />,
       },
     ],
   },

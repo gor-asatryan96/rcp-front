@@ -41,5 +41,15 @@
         "photos": 1
       }
     }
-  ]
+  ],
+  "limit": {
+    "daily_withdraw_limit": 100,
+    "used_unused_percentage": 50,
+    "sport_winning_limit": 200,
+    "casino_winning_limit": 220,
+    "games_winning_limit": 230,
+    "sport_ggr_limit": 500,
+    "casino_ggr_limit": 560,
+    "games_ggr_limit": 600
+  }
 }
