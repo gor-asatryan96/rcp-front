@@ -2,46 +2,41 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'redux/store.types';
 
-interface Button {
-  countryName: string;
-  isActive: boolean;
-  key: number;
+interface CountryState {
+  countriesName: string[];
+  selectedCountry: string;
 }
 
-type ButtonsState = Array<Button>;
-
-const initialState: ButtonsState = [
-  { countryName: 'PMBETTZ', isActive: false, key: 1 },
-  { countryName: 'VAMOS', isActive: false, key: 2 },
-  { countryName: 'HABESHA', isActive: false, key: 3 },
-  { countryName: 'PMBETKE', isActive: false, key: 4 },
-  { countryName: 'PMBETZM', isActive: false, key: 5 },
-  { countryName: 'MLOTT', isActive: false, key: 6 },
-  { countryName: 'YULDUZBET', isActive: false, key: 7 },
-  { countryName: 'BWANABET', isActive: false, key: 8 },
-  { countryName: 'MAVERIX', isActive: false, key: 9 },
-];
+const initialState: CountryState = {
+  countriesName: [
+    'PMBETTZ',
+    'VAMOS',
+    'HABESHA',
+    'PMBETKE',
+    'PMBETZM',
+    'MLOTT',
+    'YULDUZBET',
+    'BWANABET',
+    'MAVERIX',
+  ],
+  selectedCountry: 'Select project',
+};
 
 export const countriesSlice = createSlice({
   name: 'countries',
   initialState,
   reducers: {
-    setActiveCountry: (state, action: PayloadAction<string>) => {
-      const names = action.payload;
-      return state.map(country => {
-        if (country.countryName === names) {
-          return { ...country, isActive: true };
-        }
-        return { ...country, isActive: false };
-      });
+    selectCountry: (state, action: PayloadAction<string>) => {
+      state.selectedCountry = action.payload;
     },
   },
 });
 
 // ACTIONS
-export const { setActiveCountry } = countriesSlice.actions;
+export const { selectCountry } = countriesSlice.actions;
 
 // SELECTORS
-export const selectCountry = (state: RootState) => state.countries;
+export const selectCountries = (state: RootState) =>
+  state.countries.countriesName;
 
 export default countriesSlice.reducer;
