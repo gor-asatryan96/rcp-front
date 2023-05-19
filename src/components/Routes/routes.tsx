@@ -21,6 +21,7 @@ import { IAclPath, IRoutePath, IMenuRoute } from './routes.types';
 import Home from './Home/Home';
 import { PasswordChangeNeedRestrict } from './routes.restricts';
 import UsersForAdmin from './AdminPanel/UsersForAdmin/UsersForAdmin';
+import General from './Limits/General/General';
 import Individual from './Limits/Individual/Individual';
 import Transactions from './Transactions/Transactions';
 import AutoPush from './Autopush/AutoPush';
@@ -82,6 +83,12 @@ export const MENU_ROUTES: IMenuRoute[] = [
         icon: <ApartmentOutlined />,
         label: i18n.t('Individual'),
         element: <Individual />,
+      },
+      {
+        path: IRoutePath.limits_daily,
+        icon: <CalendarOutlined />,
+        label: i18n.t('General'),
+        element: <General />,
       },
     ],
   },

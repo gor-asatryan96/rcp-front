@@ -70,7 +70,7 @@ const NotificationCards: FC = () => {
         {!isLoading &&
           (notificationsList.length ? (
             notificationsList.map((not: INotification) => (
-              <Notification not={not} onCollaps={onCollaps} />
+              <Notification not={not} key={not.id} onCollaps={onCollaps} />
             ))
           ) : (
             <Card className={classes.collapse}>

@@ -1,7 +1,13 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Layout, theme } from 'antd';
+import { Layout, Select, theme } from 'antd';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
+
+import {
+  selectCountries,
+  selectCountry,
+} from 'redux/reducers/countries/countries.slice';
+import { RootState } from 'redux/store.types';
 
 import { useIsMobile } from '../../../helpers/hooks.helpers';
 import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
@@ -21,8 +27,16 @@ const Header: FC = () => {
   const isSidebarOpen = useSelector(selectIsMenuSidebarOpen);
   const TriggerIcon = isSidebarOpen ? MenuFoldOutlined : MenuUnfoldOutlined;
 
+  const countries = useSelector(selectCountries);
+  const selectedCountry = useSelector(
+    (state: RootState) => state.countries.selectedCountry,
+  );
   const onTriggerClick = () => {
     dispatch(toggleMenuSidebar(!isSidebarOpen));
+  };
+
+  const handleButtonSelect = (name: string) => {
+    dispatch(selectCountry(name));
   };
 
   return (
@@ -35,6 +49,17 @@ const Header: FC = () => {
         </div>
         {isMobile && <NrgLogo />}
         <div className={classes.headerRightActions}>
+          <Select
+            value={selectedCountry}
+            onChange={handleButtonSelect}
+            showSearch
+            className={classes.headerSelector}
+            placeholder='Select project'
+            options={countries.map(i => ({
+              label: i,
+              value: i,
+            }))}
+          />
           <NotificationTrigger isInSidebar={false} />
         </div>
       </div>

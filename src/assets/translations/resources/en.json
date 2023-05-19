@@ -6,6 +6,7 @@
     "Home": "Home",
     "Transactions": "Transactions",
     "Limits": "Limits",
+    "General": "General",
     "Individual": "Individual",
     "Reports": "Reports",
     "Sport": "Sport",
@@ -31,6 +32,9 @@
     "You don't have notifications yet": "You don't have notifications yet",
     "All": "All",
     "Unseen": "Unseen",
-    "Seen": "Seen"
+    "Seen": "Seen",
+    "Winning Limit": "Winning Limit",
+    "GGR Limit": "GGR Limit",
+    "Select the project": "Select the project"
   }
 }
