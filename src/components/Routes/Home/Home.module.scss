@@ -1,0 +1,43 @@
+.homeHeader {
+  background-color: #ffff;
+  margin-bottom: 5px;
+}
+
+.homeCardBody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.cardGridStyle {
+  width: 2rem;
+  text-align: center;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.homeCountriesBody {
+  justify-content: space-around;
+}
+
+.activeCountry {
+  width: 130px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #1677ff;
+  color: white;
+  border: 2px solid #d9d9d9;
+  font-size: 16px;
+  text-align: center;
+}
+
+.countries {
+  width: 130px;
+  margin: 10px;
+  cursor: pointer;
+  border: 2px solid #d9d9d9;
+  font-size: 16px;
+  text-align: center;
+}
