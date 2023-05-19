@@ -2,6 +2,12 @@
   background-color: #ffff;
   margin-bottom: 5px;
 }
+.homeBody {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
 
 .homeCardBody {
   display: flex;
@@ -19,13 +25,15 @@
 }
 
 .homeCountriesBody {
-  justify-content: space-around;
+  width: 37rem;
+  display: flex;
+  justify-content: center;
 }
 
 .activeCountry {
   width: 130px;
   margin: 10px;
-  cursor: pointer;
+  cursor: default;
   background-color: #1677ff;
   color: white;
   border: 2px solid #d9d9d9;

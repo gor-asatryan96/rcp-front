@@ -3,38 +3,55 @@ import { Card, Divider, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  selectCountry,
-  setActiveCountry,
-} from 'redux/reducers/countries/countries.slice';
+import { RootState } from 'redux/store.types';
+import { selectCountry } from 'redux/reducers/countries/countries.slice';
 
 import classes from './Home.module.scss';
 
 const Home: FC = () => {
   const dispatch = useDispatch();
-  const countries = useSelector(selectCountry);
   const { t } = useTranslation();
+  const countries = useSelector(
+    (state: RootState) => state.countries.countriesName,
+  );
+  const selectedCountry = useSelector(
+    (state: RootState) => state.countries.selectedCountry,
+  );
+  // const [homeData, setHomeData] = useState();
+
+  const handleButtonSelect = (name: string) => {
+    dispatch(selectCountry(name));
+  };
 
   const handleButtonClick = (name: string) => {
-    dispatch(setActiveCountry(name));
+    handleButtonSelect(name);
   };
+
+  // useEffect(() => {
+  //   axios.post('/home/project/list').then(data => {
+  //     setHomeData(data.data);
+  //   });
+  // }, []);
   return (
     <>
-      <Divider orientation='left'>{t('Select the project')}</Divider>
-      <Card>
+      <Divider orientation='center'>{t('Select the project')}</Divider>
+      <div className={classes.homeBody}>
         <Row className={classes.homeCountriesBody}>
           {countries.map(country => (
             <Card
-              key={country.key}
+              hoverable={country !== selectedCountry}
+              key={country}
               className={
-                country.isActive ? classes.activeCountry : classes.countries
+                country === selectedCountry
+                  ? classes.activeCountry
+                  : classes.countries
               }
-              onClick={() => handleButtonClick(country.countryName)}>
-              {country.countryName}
+              onClick={() => handleButtonClick(country)}>
+              {country}
             </Card>
           ))}
         </Row>
-      </Card>
+      </div>
     </>
   );
 };
