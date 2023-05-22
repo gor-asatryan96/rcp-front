@@ -35,6 +35,8 @@
     "Seen": "Seen",
     "Winning Limit": "Winning Limit",
     "GGR Limit": "GGR Limit",
-    "Select the project": "Select the project"
+    "Select the project": "Select the project",
+    "Тhese IDs don't exist": "Тhese IDs don't exist",
+    "Тhese IDs successfully inserted": "Тhese IDs successfully inserted"
   }
 }

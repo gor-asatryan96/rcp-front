@@ -2,34 +2,38 @@ import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Divider, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FC, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import Classes from './Individual.module.scss';
 import IndividualModal from './IndividualLimitModal/IndividualModal';
-import { DataType, FakeIndividualdata } from './Individual.types';
+import { IIndividualLimits } from './Individual.types';
 import IndividualEditeModal from './IndividualEditModal/IndividualEditModal';
+import { individualLimitsData } from './individualLimits.service';
 
 const Individual: FC = () => {
   const [isIndividualModalOpen, setIsIndividualModalOpen] = useState(false);
   const [isPlayerEditModalOpen, setIsPlayerEditModalOpen] =
-    useState<DataType | null>(null);
+    useState<IIndividualLimits | null>(null);
 
-  const data = FakeIndividualdata;
+  const queryData = useQuery(['individual-limit'], () =>
+    individualLimitsData.getIndividualLimits(),
+  );
 
   const onModalClick = () => {
     setIsIndividualModalOpen(!isIndividualModalOpen);
   };
 
-  const onPlayerEditClick = (playerInfo: DataType) => {
+  const onPlayerEditClick = (playerInfo: IIndividualLimits) => {
     setIsPlayerEditModalOpen(playerInfo);
   };
 
-  const columns: ColumnsType<DataType> = [
-    { title: 'Player Id', dataIndex: 'playerId', key: 'playerId' },
-    { title: 'Phone Number', dataIndex: 'phoneNumber', key: 'phoneNumber' },
+  const columns: ColumnsType<IIndividualLimits> = [
+    { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
+    { title: 'Phone Number', dataIndex: 'phone', key: 'phone' },
     {
       title: 'Individual Limit',
-      dataIndex: 'individualLimit',
-      key: 'individualLimit',
+      dataIndex: 'limit',
+      key: 'limit',
     },
     {
       title: 'Edit',
@@ -52,15 +56,15 @@ const Individual: FC = () => {
       </div>
       <Divider orientation='left'>Individual Limits</Divider>
       <IndividualModal
-        data={data}
         isIndividualModalOpen={isIndividualModalOpen}
         setIsIndividualModalOpen={setIsIndividualModalOpen}
       />
       <IndividualEditeModal
+        refetch={() => queryData.refetch()}
         isPlayerEditModalOpen={isPlayerEditModalOpen}
         setIsPlayerEditModalOpen={setIsPlayerEditModalOpen}
       />
-      <Table columns={columns} dataSource={data} />
+      <Table size='middle' dataSource={queryData.data} columns={columns} />
     </div>
   );
 };
