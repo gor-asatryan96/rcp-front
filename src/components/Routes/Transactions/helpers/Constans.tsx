@@ -92,7 +92,7 @@ export const TransactionsColumns: ColumnsType<ITransaction> = [
   { title: 'Status', dataIndex: 'status', key: 'status' },
   { title: 'Code', dataIndex: 'code', key: 'code' },
   { title: 'MSISDN', dataIndex: 'msisdn', key: 'msisdn' },
-  { title: 'Operator', dataIndex: 'operator', key: 'operator' },
+  { title: 'Operator', dataIndex: 'op_name', key: 'op_name' },
   {
     title: 'RTX ID',
     dataIndex: 'gateway_trx_id',

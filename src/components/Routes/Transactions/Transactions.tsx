@@ -109,7 +109,6 @@ const Transactions: FC = () => {
             backgroundColor: 'rgb(120, 177, 235)',
             borderRadius: 5,
           }}
-          title={totalAmount}
           size='small'
           headStyle={{ padding: 10 }}>
           Total Amount: {totalAmount}
