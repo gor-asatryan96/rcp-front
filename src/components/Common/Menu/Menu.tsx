@@ -8,6 +8,7 @@ import { getValidMenuItems } from 'components/Routes';
 import { MenuItem } from 'components/Routes/routes.types';
 import { toggleMenuSidebar } from 'redux/reducers/appConfigs/appConfigs.slice';
 import { useIsMobile } from 'helpers/hooks.helpers';
+import { selectIsCountryChoosen } from 'redux/reducers/projects/projects.slice';
 
 import {
   logout,
@@ -21,10 +22,11 @@ const Menu: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const acl = useSelector(selectUserAcl);
+  const isCountryChoosen = useSelector(selectIsCountryChoosen);
 
   const menuItems: MenuItem[] = useMemo(
     () => [
-      ...getValidMenuItems(acl),
+      ...getValidMenuItems(acl, isCountryChoosen),
       {
         key: 'logout',
         icon: <PoweroffOutlined />,
@@ -32,7 +34,7 @@ const Menu: FC = () => {
         onClick: () => dispatch(logout()),
       },
     ],
-    [acl],
+    [acl, isCountryChoosen],
   );
 
   const onNavSelect = (e: { key: string }) => {

@@ -10,15 +10,19 @@ import type { IAcl } from 'redux/reducers/serverConfigs/serverConfigs.types';
 export const filterRoutesByAcl = (
   acl: IAcl,
   routeList: IMenuRoute[],
+  isProjectChoosen: boolean,
 ): IMenuRoute[] => {
   const routes: IMenuRoute[] = [];
   routeList.forEach(route => {
-    const isHasAccess = !route.aclPath || acl.includes(route.aclPath);
+    const isHasAccess =
+      (!route.isProjectRequired || isProjectChoosen) &&
+      (!route.aclPath || acl.includes(route.aclPath));
+
     if (isHasAccess) {
       routes.push({
         ...route,
         children: route.children
-          ? filterRoutesByAcl(acl, route.children)
+          ? filterRoutesByAcl(acl, route.children, isProjectChoosen)
           : undefined,
       });
     }
@@ -68,9 +72,12 @@ export const createValidMenuRoutes = (routes: IMenuRoute[]): MenuItem[] => {
   return menuItems;
 };
 
-export const createLoginRoutes = (acl: IAcl): RouteObject[] => {
+export const createLoginRoutes = (
+  acl: IAcl,
+  isProjectChoosen: boolean,
+): RouteObject[] => {
   const menuValidRoutes: RouteObject[] = createValidRoutesTree(
-    filterRoutesByAcl(acl, MENU_ROUTES),
+    filterRoutesByAcl(acl, MENU_ROUTES, isProjectChoosen),
   );
 
   return [

@@ -1,11 +1,4 @@
-export interface IDaily {
-  key: number;
-  name: string;
-  age: number;
-  address: string;
-}
-
-export interface IDailyList {
+export interface IGeneraList {
   daily_withdraw_limit: number;
   used_unused_percentage: number;
   sport_winning_limit: number;

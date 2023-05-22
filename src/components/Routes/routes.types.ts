@@ -30,6 +30,7 @@ export enum IRoutePath {
 
 export interface IMenuRoute {
   aclPath?: IAclPath; // protected if exist
+  isProjectRequired?: boolean;
   path?: IRoutePath;
   icon?: ReactNode;
   label?: string;
