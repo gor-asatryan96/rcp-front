@@ -87,6 +87,7 @@ const Transactions: FC = () => {
         }}>
         <Card
           bodyStyle={{
+            fontWeight: 'bold',
             display: 'flex',
             alignItems: 'center',
             minWidth: 150,
@@ -100,6 +101,7 @@ const Transactions: FC = () => {
         </Card>
         <Card
           bodyStyle={{
+            fontWeight: 'bold',
             display: 'flex',
             alignItems: 'center',
             minWidth: 150,
