@@ -1,56 +1,41 @@
 import { ColumnsType } from 'antd/es/table';
-import { DownCircleOutlined, PushpinOutlined } from '@ant-design/icons';
+import { DownCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import dayjs from 'dayjs';
 
 import { ITransaction } from './Transactions.types';
 
-export const transactionFilters = [
+export const transactionFilter = [
   {
     name: 'Status Filters',
-    options: [
-      'ALL',
-      'Pending',
-      'Approved',
-      'Denied',
-      'Canceled',
-      'Success',
-      'WaitGW',
-    ],
+    options: ['PENDING', 'APPROVED', 'DENIED', 'CANCELED', 'SUCCESS', 'WAITGW'],
   },
 
   {
     name: 'OTHER',
-    options: ['Autoapproved', 'Manual'],
+    options: ['AUTOAPPROVED', 'MANUAL'],
   },
-
   {
-    name: 'TRX Type Out',
+    name: 'Type In',
     options: [
-      'ALL',
-      'Out-EW-AIRTEL',
-      'OUT-EW-MPESA',
-      'OUT-EW-HALOPESA',
-      'OUT-TIGO',
-      'OUT-CASH',
-      'OUT-KIOSK',
+      'IN-EW-MPESA',
+      'IN-EW-HALOPESA',
+      'IN-EW-TIGO',
+      'IN-EW-AIRTEL',
+      'IN-EWPUSH-MPESA',
+      'IN-BO',
     ],
   },
 
   {
-    name: 'TRX Type In',
+    name: 'Type Out',
     options: [
-      'ALL',
-      'IN-EW-AIRTEL',
-      'IN-EW-TIGO',
-      'IN-EW-HALOPESA',
       'IN-EW-MPESA',
-      'IN-EWPUSH-HALOPESA',
+      'IN-EW-HALOPESA',
+      'IN-EW-TIGO',
+      'IN-EW-AIRTEL',
       'IN-EWPUSH-MPESA',
-      'IN-EWPUSH-AIRTEL',
-      'IN-EWPUSH-TIGO',
-      'IN-KIOSK',
-      'IN-CASH',
+      'OUT-BO',
     ],
   },
 ];
@@ -71,7 +56,6 @@ export const autoApproveOptions = [
 
 export const TransactionsColumns: ColumnsType<ITransaction> = [
   { title: 'TRX ID', dataIndex: 'id', key: 'id' },
-  { title: 'Username', dataIndex: 'username', key: 'username' },
   { title: 'UID', dataIndex: 'user_id', key: 'user_id' },
   { title: 'Amount', dataIndex: 'amount', key: 'amount' },
   { title: 'Currency', dataIndex: 'currency', key: 'currency' },
@@ -99,7 +83,7 @@ export const TransactionsColumns: ColumnsType<ITransaction> = [
       </div>
     ),
   },
-  { title: 'Kind', dataIndex: 'kind', key: 'kind' },
+  { title: 'Kind', dataIndex: 'op_type', key: 'op_type' },
   {
     title: 'Payment TRX ID',
     dataIndex: 'paymentTransactionId',
@@ -111,9 +95,10 @@ export const TransactionsColumns: ColumnsType<ITransaction> = [
   { title: 'Operator', dataIndex: 'operator', key: 'operator' },
   {
     title: 'RTX ID',
-    dataIndex: 'remoteId',
-    key: 'remoteId',
+    dataIndex: 'gateway_trx_id',
+    key: 'gateway_trx_id',
   },
+  { title: 'Username', dataIndex: 'username', key: 'username' },
   {
     title: 'AUTO',
     dataIndex: 'autochecked',
@@ -130,7 +115,7 @@ export const TransactionsColumns: ColumnsType<ITransaction> = [
     key: 'autochecked',
     render: () => (
       <Button type='primary' danger>
-        <PushpinOutlined />
+        PUSH
       </Button>
     ),
   },

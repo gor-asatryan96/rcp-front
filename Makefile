@@ -1,5 +1,5 @@
 BIN = ./node_modules/.bin
-TAG = registry.betunit.com/backoffice/gpa-frontend
+TAG = registry.betunit.com/risk-managment/gpa-frontend
 VERSION = $(shell node -pe "require('./package.json').version")
 
 define release
