@@ -1,5 +1,5 @@
 import { ColumnsType } from 'antd/es/table';
-import { DownCircleOutlined, PushpinOutlined } from '@ant-design/icons';
+import { DownCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import dayjs from 'dayjs';
 
@@ -115,7 +115,7 @@ export const TransactionsColumns: ColumnsType<ITransaction> = [
     key: 'autochecked',
     render: () => (
       <Button type='primary' danger>
-        <PushpinOutlined />
+        PUSH
       </Button>
     ),
   },
