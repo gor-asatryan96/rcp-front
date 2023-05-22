@@ -4,10 +4,12 @@ import { FC } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
+  selectActiveProjectID,
   selectCountries,
   selectCountry,
-} from 'redux/reducers/countries/countries.slice';
-import { RootState } from 'redux/store.types';
+} from 'redux/reducers/projects/projects.slice';
+import { TProjectId } from 'redux/reducers/projects/projects.types';
+import { getChooseProjectThunck } from 'redux/reducers/projects/projects.thunks';
 
 import { useIsMobile } from '../../../helpers/hooks.helpers';
 import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
@@ -28,17 +30,15 @@ const Header: FC = () => {
   const TriggerIcon = isSidebarOpen ? MenuFoldOutlined : MenuUnfoldOutlined;
 
   const countries = useSelector(selectCountries);
-  const selectedCountry = useSelector(
-    (state: RootState) => state.countries.selectedCountry,
-  );
+  const activeProjectId = useSelector(selectActiveProjectID);
   const onTriggerClick = () => {
     dispatch(toggleMenuSidebar(!isSidebarOpen));
   };
 
-  const handleButtonSelect = (name: string) => {
-    dispatch(selectCountry(name));
+  const handleButtonSelect = (id: TProjectId) => {
+    dispatch(selectCountry(id));
+    dispatch(getChooseProjectThunck(id));
   };
-
   return (
     <Layout.Header
       style={{ background: token.colorBgContainer }}
@@ -50,14 +50,14 @@ const Header: FC = () => {
         {isMobile && <NrgLogo />}
         <div className={classes.headerRightActions}>
           <Select
-            value={selectedCountry}
+            value={activeProjectId}
             onChange={handleButtonSelect}
             showSearch
             className={classes.headerSelector}
             placeholder='Select project'
             options={countries.map(i => ({
-              label: i,
-              value: i,
+              label: i.project,
+              value: i.id,
             }))}
           />
           <NotificationTrigger isInSidebar={false} />

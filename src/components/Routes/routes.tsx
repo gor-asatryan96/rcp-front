@@ -70,12 +70,14 @@ export const MENU_ROUTES: IMenuRoute[] = [
   },
   {
     path: IRoutePath.transactions,
+    isProjectRequired: true,
     icon: <TransactionOutlined />,
     label: i18n.t('Transactions'),
     element: <Transactions />,
   },
   {
     icon: <CalendarOutlined />,
+    isProjectRequired: true,
     label: i18n.t('Limits'),
     children: [
       {
@@ -95,6 +97,7 @@ export const MENU_ROUTES: IMenuRoute[] = [
   {
     // aclPath: IAclPath.admin,
     icon: <DeploymentUnitOutlined />,
+    isProjectRequired: true,
     label: i18n.t('Admin Panel'),
     children: [
       {
@@ -108,6 +111,7 @@ export const MENU_ROUTES: IMenuRoute[] = [
   },
   {
     path: IRoutePath.autopush,
+    isProjectRequired: true,
     icon: <PushpinOutlined />,
     label: i18n.t('Auto-Push/Approve'),
     element: <AutoPush />,

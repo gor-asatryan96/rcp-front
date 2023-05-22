@@ -35,6 +35,9 @@
     "Seen": "Seen",
     "Winning Limit": "Winning Limit",
     "GGR Limit": "GGR Limit",
-    "Select the project": "Select the project"
+    "Select the project": "Select the project",
+    "Games": "games",
+    "Save": "Save",
+    "Cancel": "Cancel"
   }
 }

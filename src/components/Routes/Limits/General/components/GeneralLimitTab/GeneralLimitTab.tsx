@@ -1,48 +1,30 @@
 import { FC } from 'react';
-import { Col, Form, Popover, Row, Table } from 'antd';
+import { Col, Form, Popover, Row } from 'antd';
 import Input from 'antd/es/input/Input';
+import { useTranslation } from 'react-i18next';
 
-import { dailyColumns } from './GeneralLimit.configs';
+import classes from './GeneralLimitTab.module.scss';
+import { IGeneraList } from './GeneralLimitTab.type';
 
-const DailyLimitTab: FC = () => {
-  const layout = {
-    xs: { span: 12 },
-    lg: { span: 12 },
-    xl: { span: 4 },
-    xxl: { span: 6 },
-  };
+type PropTypes = {
+  data: IGeneraList | undefined;
+};
+const layout = {
+  xs: { span: 12 },
+  lg: { span: 12 },
+  xl: { span: 4 },
+  xxl: { span: 6 },
+};
 
-  // const [dailyData, setDailyData] = useState();
+const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
+  const { t } = useTranslation();
 
-  // useEffect(() => {
-  //   axios.post('/home/project/choose', { projectId: 1 }).then(data => {
-  //     setDailyData(data.data);
-  //   });
-  // }, []);
-
-  const columns = [
-    {
-      title: '',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Winning Limit',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'GGR Limit',
-      dataIndex: 'address',
-      key: 'address',
-    },
-  ];
   return (
     <>
       <Row gutter={[16, 16]}>
         <Col {...layout}>
           <Form.Item label='Withdraw Limit'>
-            <Input type='number' readOnly />
+            <Input type='number' value={data?.daily_withdraw_limit} readOnly />
           </Form.Item>
         </Col>
         <Col {...layout}>
@@ -51,14 +33,60 @@ const DailyLimitTab: FC = () => {
             placement='topLeft'
             content='Deposit Draw Condition'>
             <Form.Item label='DDC'>
-              <Input readOnly prefix='%' type='number' />
+              <Input
+                readOnly
+                value={data?.used_unused_percentage}
+                prefix='%'
+                type='number'
+              />
             </Form.Item>
           </Popover>
         </Col>
       </Row>
-      <Table pagination={false} columns={columns} dataSource={dailyColumns} />
+      <Row className={classes.generalTableHeader}>
+        <Col className={classes.generalTableTitle} span={4} />
+        <Col className={classes.generalTableTitle} span={10}>
+          {t('Winning Limit')}
+        </Col>
+        <Col className={classes.generalTableTitle} span={10}>
+          {t('GGR Limit')}
+        </Col>
+      </Row>
+      <Row>
+        <Col className={classes.generalTableTitle} span={4}>
+          {t('Casino')}
+        </Col>
+        <Col className={classes.generalTableBody} span={10}>
+          {data?.casino_winning_limit}
+        </Col>
+        <Col className={classes.generalTableBody} span={10}>
+          {data?.casino_ggr_limit}
+        </Col>
+      </Row>
+      <Row>
+        <Col className={classes.generalTableTitle} span={4}>
+          {t('Games')}
+        </Col>
+        <Col className={classes.generalTableBody} span={10}>
+          {data?.games_winning_limit}
+        </Col>
+        <Col className={classes.generalTableBody} span={10}>
+          {data?.games_ggr_limit}
+        </Col>
+      </Row>
+      <Row>
+        <Col className={classes.generalTableTitle} span={4}>
+          {t('Sport')}
+        </Col>
+        <Col className={classes.generalTableBody} span={10}>
+          {data?.sport_winning_limit}
+        </Col>
+        <Col className={classes.generalTableBody} span={10}>
+          {data?.sport_ggr_limit}
+        </Col>
+      </Row>
     </>
   );
 };
 
-export default DailyLimitTab;
+export default GeneralLimitTab;

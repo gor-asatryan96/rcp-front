@@ -1,37 +1,36 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Card, Divider, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { RootState } from 'redux/store.types';
-import { selectCountry } from 'redux/reducers/countries/countries.slice';
+import {
+  selectActiveProjectID,
+  selectCountries,
+  selectCountry,
+} from 'redux/reducers/projects/projects.slice';
+import { TProjectId } from 'redux/reducers/projects/projects.types';
+import {
+  getChooseProjectThunck,
+  getProjectsThunk,
+} from 'redux/reducers/projects/projects.thunks';
+import { useAppDispatch } from 'redux/hooks/redux.hooks';
 
 import classes from './Home.module.scss';
 
 const Home: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const countries = useSelector(
-    (state: RootState) => state.countries.countriesName,
-  );
-  const selectedCountry = useSelector(
-    (state: RootState) => state.countries.selectedCountry,
-  );
-  // const [homeData, setHomeData] = useState();
+  const countries = useSelector(selectCountries);
+  const activeCountryId = useSelector(selectActiveProjectID);
 
-  const handleButtonSelect = (name: string) => {
-    dispatch(selectCountry(name));
+  const handleButtonClick = (id: TProjectId) => {
+    dispatch(selectCountry(id));
+    dispatch(getChooseProjectThunck(id));
   };
+  useEffect(() => {
+    dispatch(getProjectsThunk());
+  }, []);
 
-  const handleButtonClick = (name: string) => {
-    handleButtonSelect(name);
-  };
-
-  // useEffect(() => {
-  //   axios.post('/home/project/list').then(data => {
-  //     setHomeData(data.data);
-  //   });
-  // }, []);
   return (
     <>
       <Divider orientation='center'>{t('Select the project')}</Divider>
@@ -39,15 +38,15 @@ const Home: FC = () => {
         <Row className={classes.homeCountriesBody}>
           {countries.map(country => (
             <Card
-              hoverable={country !== selectedCountry}
-              key={country}
+              hoverable={country.id !== activeCountryId}
+              key={country.id}
               className={
-                country === selectedCountry
+                country.id === activeCountryId
                   ? classes.activeCountry
                   : classes.countries
               }
-              onClick={() => handleButtonClick(country)}>
-              {country}
+              onClick={() => handleButtonClick(country.id)}>
+              {country.project}
             </Card>
           ))}
         </Row>
