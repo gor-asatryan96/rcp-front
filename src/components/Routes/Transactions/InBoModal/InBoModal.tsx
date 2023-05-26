@@ -54,8 +54,6 @@ const InBoModal: FC<PropTypes> = ({
 
   const filters = TRXfilters?.map(item => ({ value: item.name }));
 
-  console.log('filters', filters);
-
   const onFinish = (data: IInBoForm) => {
     const requestBody: IInBoRequest = {
       amount: data.amount,
@@ -66,7 +64,6 @@ const InBoModal: FC<PropTypes> = ({
       type: 'IN',
     };
     mutation.mutate(requestBody);
-    console.log('value', requestBody);
   };
 
   return (

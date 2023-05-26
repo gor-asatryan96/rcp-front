@@ -6,24 +6,26 @@ import { useQuery } from 'react-query';
 
 import Classes from './Individual.module.scss';
 import IndividualModal from './IndividualLimitModal/IndividualModal';
-import { IIndividualLimits } from './Individual.types';
+import { IIndividualEditLimits, IIndividualLimits } from './Individual.types';
 import IndividualEditeModal from './IndividualEditModal/IndividualEditModal';
 import { individualLimitsData } from './individualLimits.service';
 
 const Individual: FC = () => {
   const [isIndividualModalOpen, setIsIndividualModalOpen] = useState(false);
   const [isPlayerEditModalOpen, setIsPlayerEditModalOpen] =
-    useState<IIndividualLimits | null>(null);
+    useState<IIndividualEditLimits | null>(null);
+  const [page, setPage] = useState(1);
 
-  const queryData = useQuery(['individual-limit'], () =>
-    individualLimitsData.getIndividualLimits(),
+  const queryData = useQuery(['individual-limit', page], () =>
+    individualLimitsData.getIndividualLimits(page),
   );
+  const allTotal = queryData.data?.count;
 
   const onModalClick = () => {
     setIsIndividualModalOpen(!isIndividualModalOpen);
   };
 
-  const onPlayerEditClick = (playerInfo: IIndividualLimits) => {
+  const onPlayerEditClick = (playerInfo: IIndividualEditLimits) => {
     setIsPlayerEditModalOpen(playerInfo);
   };
 
@@ -64,7 +66,21 @@ const Individual: FC = () => {
         isPlayerEditModalOpen={isPlayerEditModalOpen}
         setIsPlayerEditModalOpen={setIsPlayerEditModalOpen}
       />
-      <Table size='middle' dataSource={queryData.data} columns={columns} />
+      <Table
+        loading={queryData.isLoading}
+        size='middle'
+        dataSource={queryData.data?.list}
+        columns={columns}
+        pagination={{
+          onChange(pages) {
+            setPage(pages);
+          },
+          position: ['bottomCenter'],
+          total: allTotal,
+          showSizeChanger: true,
+          responsive: true,
+        }}
+      />
     </div>
   );
 };

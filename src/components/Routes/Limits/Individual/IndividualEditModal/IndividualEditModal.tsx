@@ -5,13 +5,13 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { LockOutlined, SaveOutlined } from '@ant-design/icons';
 
-import { IIndividualLimits, ILimitChange } from '../Individual.types';
+import { IIndividualEditLimits, ILimitChange } from '../Individual.types';
 
 import Classes from './IndividualEditModal.module.scss';
 
 type PropTypes = {
   refetch: any;
-  isPlayerEditModalOpen: IIndividualLimits | null;
+  isPlayerEditModalOpen: IIndividualEditLimits | null;
   setIsPlayerEditModalOpen: (x: null) => void;
 };
 
@@ -32,8 +32,7 @@ const IndividualEditeModal: FC<PropTypes> = ({
       refetch();
       form.resetFields();
       setIsPlayerEditModalOpen(null);
-
-      // toast.success('User hase successfully invited');
+      toast.success('successfully');
     },
     onError: () => {
       setIsPlayerEditModalOpen(null);
@@ -58,11 +57,11 @@ const IndividualEditeModal: FC<PropTypes> = ({
         </Form.Item>
         <Form.Item label='Player ID'>{isPlayerEditModalOpen?.userId}</Form.Item>
         <Form.Item label='Limit' name='value'>
-          <Input type='number' />
+          <Input defaultValue={isPlayerEditModalOpen?.limit} type='number' />
         </Form.Item>
         <Form.Item label='Token'>
           <Input.Password
-            prefix={<LockOutlined className='site-form-item-icon' />}
+            prefix={<LockOutlined />}
             placeholder='Secret Token'
           />
         </Form.Item>
