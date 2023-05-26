@@ -25,6 +25,7 @@ const { RangePicker } = DatePicker;
 
 const TransactionFilters: FC<PropTypes> = ({ TRXfilters }) => {
   const filters = [{ ...TRXfilters }];
+
   console.log('first', filters);
 
   return (
@@ -63,6 +64,7 @@ const TransactionFilters: FC<PropTypes> = ({ TRXfilters }) => {
             </Row>
           );
         })}
+
         <div
           style={{
             display: 'flex',

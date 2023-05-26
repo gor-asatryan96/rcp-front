@@ -2,10 +2,12 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding-top: 1rem;
 }
 
 .searchInput {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  width: 100%;
 }

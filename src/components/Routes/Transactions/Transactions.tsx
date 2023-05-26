@@ -13,20 +13,19 @@ const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [page, setPage] = useState(1);
 
-  const queryData = useQuery(['transactions'], () =>
-    transactionsData.getTransactions(),
+  const queryData = useQuery(['transactions', page], () =>
+    transactionsData.getTransactions(page),
   );
 
   const TRXfilters = useQuery(['filters'], () =>
     transactionsFilters.getTRXFilters(),
   );
 
-  const allTotal = queryData.data?.list?.length;
+  const allTotal = queryData.data?.count;
   const totalCount = queryData.data?.count;
   const totalAmount = queryData.data?.amount;
-
-  console.log('data', queryData.data);
 
   const onInBoModalOpenClick = () => {
     setIsInBoModalOpen(!isInBoModalOpen);
@@ -121,6 +120,9 @@ const Transactions: FC = () => {
         scroll={{ x: true }}
         loading={queryData.isLoading}
         pagination={{
+          onChange(pages) {
+            setPage(pages);
+          },
           position: ['bottomCenter'],
           total: allTotal,
           showSizeChanger: true,

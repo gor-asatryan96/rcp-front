@@ -68,7 +68,6 @@ const OutBoModal: FC<PropTypes> = ({
       type: 'OUT',
     };
     mutation.mutate(requestBody);
-    console.log('value', requestBody);
   };
 
   return (

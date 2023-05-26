@@ -1,4 +1,4 @@
 export const selectOptions = [
-  { value: 'Phone Number' },
-  { value: 'Player ID' },
+  { label: 'Phone Number', value: 'phone' },
+  { label: 'Player ID', value: 'user_id' },
 ];
