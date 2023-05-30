@@ -1,66 +1,94 @@
-import { FC } from 'react';
-import {
-  DatePicker,
-  TimePicker,
-  Input,
-  Form,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-} from 'antd';
+import { FC, useMemo, useState } from 'react';
+import { DatePicker, Input, Form, Row, Col, Button } from 'antd';
+import { useQuery } from 'react-query';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
 
-import { transactionFilter } from '../helpers/Constans';
-import { ITRXFilters } from '../helpers/Transactions.types';
+import { transactionsFilters } from '../transactions.service';
+import { ITRXFilters, TRXfiltersForm } from '../helpers/Transactions.types';
 
-// import CheckboxGroup from './CheckboxGroup';
-
-// import Classes from './TransactionFiltersModal.module.scss';
-
-type PropTypes = {
-  TRXfilters: ITRXFilters | undefined;
-};
+import CheckboxGroup from './CheckboxGroup';
 
 const { RangePicker } = DatePicker;
 
-const TransactionFilters: FC<PropTypes> = ({ TRXfilters }) => {
-  const filters = [{ ...TRXfilters }];
+const TransactionFilters: FC = () => {
+  const [filtersData, setFiltersData] = useState<{
+    [key: string]: CheckboxValueType[];
+  }>({});
 
-  console.log('first', filters);
+  const [form] = Form.useForm();
+
+  console.log('filtersData', filtersData);
+
+  const onFilterChange = (name: string, values: CheckboxValueType[]) => {
+    setFiltersData(prevState => ({ ...prevState, [name]: values }));
+  };
+
+  const onAllCheck = (name: string, values: CheckboxValueType[]) => {
+    setFiltersData(prevState => ({ ...prevState, [name]: values }));
+  };
+
+  const TRXfilters = useQuery<ITRXFilters>(
+    ['filters'],
+    () => transactionsFilters.getTRXFilters(),
+    { initialData: {} },
+  );
+
+  console.log('TRXfilters', TRXfilters.data);
+
+  const onFinish = (data: TRXfiltersForm) => {
+    console.log('dataaaaa', data);
+  };
+
+  const filters = useMemo(() => {
+    if (!TRXfilters.data) return [];
+    return Object.entries(TRXfilters.data);
+  }, [TRXfilters]);
 
   return (
     <>
-      <Form>
+      <Form onFinish={onFinish} form={form}>
         <Row style={{ paddingBottom: 30 }} gutter={24}>
           <Col span={4}>
-            <RangePicker />
+            <Form.Item>
+              <RangePicker showTime />
+            </Form.Item>
           </Col>
           <Col span={4}>
-            <TimePicker.RangePicker />
+            <Form.Item>
+              <RangePicker showTime />
+            </Form.Item>
           </Col>
           <Col span={4}>
-            <Input placeholder='Player ID' />
+            <Form.Item>
+              <Input placeholder='Player ID' />
+            </Form.Item>
           </Col>
           <Col span={4}>
-            <Input placeholder='Payment Transaction ID' />
+            <Form.Item>
+              <Input placeholder='Payment Transaction ID' />
+            </Form.Item>
           </Col>
           <Col span={4}>
-            <Input placeholder='Amount to' />
+            <Form.Item>
+              <Input placeholder='Amount to' />
+            </Form.Item>
           </Col>
           <Col span={4}>
-            <Input placeholder='Amount From' />
+            <Form.Item>
+              <Input placeholder='Amount From' />
+            </Form.Item>
           </Col>
         </Row>
-        {transactionFilter.map(filter => {
+        {filters.map(([key, options]) => {
           return (
-            <Row
-              style={{ paddingBottom: 10, paddingLeft: 15 }}
-              key={filter.name}>
-              <Col span={2}>{filter.name.toUpperCase()}:</Col>
-              <Checkbox>ALL</Checkbox>
-              <Col span={20}>
-                <Checkbox.Group options={filter.options} />
-              </Col>
+            <Row style={{ paddingBottom: 10, paddingLeft: 15 }} key={key}>
+              <CheckboxGroup
+                name={key}
+                options={options.map((item: { name: string }) => item.name)}
+                value={filtersData[key] || []}
+                onFilterChange={onFilterChange}
+                onAllCheck={onAllCheck}
+              />
             </Row>
           );
         })}
@@ -71,7 +99,9 @@ const TransactionFilters: FC<PropTypes> = ({ TRXfilters }) => {
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}>
-          <Button type='primary'>Search</Button>
+          <Button htmlType='submit' type='primary'>
+            Search
+          </Button>
         </div>
       </Form>
     </>

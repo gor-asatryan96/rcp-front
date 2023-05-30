@@ -29,6 +29,11 @@ const Individual: FC = () => {
     setIsPlayerEditModalOpen(playerInfo);
   };
 
+  const onChangeSave = () => {
+    queryData.refetch();
+    setIsIndividualModalOpen(false);
+  };
+
   const columns: ColumnsType<IIndividualLimits> = [
     { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
     { title: 'Phone Number', dataIndex: 'phone', key: 'phone' },
@@ -58,6 +63,7 @@ const Individual: FC = () => {
       </div>
       <Divider orientation='left'>Individual Limits</Divider>
       <IndividualModal
+        onSave={onChangeSave}
         isIndividualModalOpen={isIndividualModalOpen}
         setIsIndividualModalOpen={setIsIndividualModalOpen}
       />

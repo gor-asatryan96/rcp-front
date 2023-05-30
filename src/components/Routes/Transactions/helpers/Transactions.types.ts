@@ -1,3 +1,9 @@
+export enum Approved {
+  PENDING = 'PENDING',
+  REJECTED = 'REJECTED',
+  APPROVED = 'APROVED',
+}
+
 export interface ITransaction {
   id: number | null;
   user_id: number | null;
@@ -12,8 +18,8 @@ export interface ITransaction {
   bonus_checked: number | null;
   auto_approved: number | null;
   internal_status: string;
-  aa_status: string;
-  aa_meta: string;
+  aa_status: Approved;
+  meta_info: string;
 }
 
 export interface ITRXFilter {
@@ -21,7 +27,17 @@ export interface ITRXFilter {
   type: 'IN' | 'OUT';
 }
 
+export interface TRXfiltersForm {
+  limit: number;
+  page: number;
+  orderBy: string;
+  orderDir: 'DESC' | 'ASC';
+  dateFrom: string;
+  dateTo: string;
+  status: string[];
+  opType: string[];
+}
+
 export interface ITRXFilters {
-  IN: ITRXFilter[];
-  OUT: ITRXFilter[];
+  [key: string]: ITRXFilter[];
 }
