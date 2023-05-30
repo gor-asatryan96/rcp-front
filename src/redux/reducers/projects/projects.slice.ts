@@ -29,7 +29,6 @@ const initialState: IProjectsSlice = {
   },
   isLoading: false,
   isGeneralLimitsLoading: false,
-  success: false,
 };
 
 export const projectsSlice = createSlice({
@@ -84,7 +83,6 @@ export const projectsSlice = createSlice({
       })
       .addCase(setGeneralLimitsThunk.fulfilled, state => {
         state.isGeneralLimitsLoading = false;
-        state.success = true;
       })
       .addCase(setGeneralLimitsThunk.rejected, state => {
         state.isGeneralLimitsLoading = false;
@@ -98,8 +96,6 @@ export const { selectCountry, setIsLoading } = projectsSlice.actions;
 
 // SELECTORS
 export const selectCountries = (state: RootState) => state.projects.countries;
-export const selectIsEditModalSuccess = (state: RootState) =>
-  state.projects.success;
 export const selectActiveProjectID = (state: RootState) =>
   state.projects.activeProjectId;
 export const selectIsCountryChoosen = (state: RootState) =>

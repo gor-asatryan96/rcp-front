@@ -16,10 +16,7 @@ import { useSelector } from 'react-redux';
 
 import { setGeneralLimitsThunk } from 'redux/reducers/projects/projects.thunks';
 import { useAppDispatch } from 'redux/hooks/redux.hooks';
-import {
-  selectIsEditModalSuccess,
-  selectIsGeneralLimitsLoading,
-} from 'redux/reducers/projects/projects.slice';
+import { selectIsGeneralLimitsLoading } from 'redux/reducers/projects/projects.slice';
 
 import { IGeneraList } from '../GeneralLimitTab/GeneralLimitTab.type';
 
@@ -40,16 +37,10 @@ const EditeModal: FC<PropTypes> = ({
 
   const { t } = useTranslation();
   const isLoading = useSelector(selectIsGeneralLimitsLoading);
-  const isEditModalSuccess = useSelector(selectIsEditModalSuccess);
   const [form] = Form.useForm();
-  const handleSubmit = () => {
-    form.validateFields().then((values: IGeneraList) => {
-      dispatch(setGeneralLimitsThunk(values));
-
-      if (isEditModalSuccess === true) {
-        setIsEditeModalOpen(false);
-      }
-    });
+  const handleSubmit = (values: IGeneraList) => {
+    dispatch(setGeneralLimitsThunk(values));
+    setIsEditeModalOpen(false);
   };
 
   return (
@@ -58,7 +49,7 @@ const EditeModal: FC<PropTypes> = ({
       onCancel={() => setIsEditeModalOpen(false)}
       width={700}
       open={isEditeModalOpen}>
-      <Form initialValues={data} form={form}>
+      <Form onFinish={handleSubmit} initialValues={data} form={form}>
         <Card className={classes.dailyEditModalCard}>
           <Form.Item
             labelCol={{ span: 5 }}
@@ -185,11 +176,7 @@ const EditeModal: FC<PropTypes> = ({
               onClick={() => setIsEditeModalOpen(false)}>
               {t('Cancel')}
             </Button>
-            <Button
-              loading={isLoading}
-              type='primary'
-              htmlType='submit'
-              onClick={handleSubmit}>
+            <Button loading={isLoading} type='primary' htmlType='submit'>
               {t('Save')}
             </Button>
           </Form.Item>
