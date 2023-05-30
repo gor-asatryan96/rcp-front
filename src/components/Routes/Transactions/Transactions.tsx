@@ -1,13 +1,27 @@
-import { FilterTwoTone, MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DownCircleOutlined,
+  FilterTwoTone,
+  InfoOutlined,
+  MinusOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import { Button, Card, Divider, Table, Tooltip } from 'antd';
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
+import dayjs from 'dayjs';
+import { ColumnsType } from 'antd/es/table';
 
 import InBoModal from './InBoModal/InBoModal';
 import OutBoModal from './OutBoModal/OutBoModal';
-import { TransactionsColumns } from './helpers/Constans';
 import { transactionsData, transactionsFilters } from './transactions.service';
 import TransactionFilters from './TransactionFilters/TransactionFilters';
+import { Approved, ITransaction } from './helpers/Transactions.types';
+
+const colors = {
+  [Approved.APPROVED]: 'rgb(51, 194, 32)',
+  [Approved.REJECTED]: 'rgb(254,77,79)',
+  [Approved.PENDING]: 'rgb(255, 238, 22)',
+};
 
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
@@ -18,6 +32,99 @@ const Transactions: FC = () => {
   const queryData = useQuery(['transactions', page], () =>
     transactionsData.getTransactions(page),
   );
+  // const metaInfo = queryData.data?.list[0]?.meta_info;
+  // const meta = metaInfo !== undefined ? JSON.parse(metaInfo) : undefined;
+  // console.log('meta', meta);
+
+  const TransactionsColumns: ColumnsType<ITransaction> = [
+    { title: 'TRX ID', dataIndex: 'id', key: 'id' },
+    { title: 'UID', dataIndex: 'user_id', key: 'user_id' },
+    { title: 'Amount', dataIndex: 'amount', key: 'amount' },
+    { title: 'Currency', dataIndex: 'currency', key: 'currency' },
+    {
+      title: 'Created',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (_, data) => (
+        <div>
+          {data.created_at
+            ? dayjs(data.created_at).format('DD/MM/YYYY HH:MM')
+            : ''}
+        </div>
+      ),
+    },
+    {
+      title: 'Updated',
+      dataIndex: 'updated_at',
+      key: 'updated_at',
+      render: (_, data) => (
+        <div>
+          {data.updated_at
+            ? dayjs(data.updated_at).format('DD/MM/YYYY HH:MM')
+            : ''}
+        </div>
+      ),
+    },
+    { title: 'Kind', dataIndex: 'op_type', key: 'op_type' },
+    {
+      title: 'Payment TRX ID',
+      dataIndex: 'paymentTransactionId',
+      key: 'paymentTransactionId',
+    },
+    { title: 'Status', dataIndex: 'status', key: 'status' },
+    { title: 'Code', dataIndex: 'code', key: 'code' },
+    { title: 'MSISDN', dataIndex: 'msisdn', key: 'msisdn' },
+    { title: 'Operator', dataIndex: 'op_name', key: 'op_name' },
+    {
+      title: 'RTX ID',
+      dataIndex: 'gateway_trx_id',
+      key: 'gateway_trx_id',
+    },
+    { title: 'Username', dataIndex: 'username', key: 'username' },
+    {
+      title: 'CHECK',
+      dataIndex: 'autochecked',
+      key: 'autochecked',
+      render: (_, data) => (
+        <Card
+          style={{
+            backgroundColor: colors[data.aa_status],
+            width: '2.2rem',
+            height: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <div>
+            {data.aa_status === Approved.PENDING ? (
+              <InfoOutlined />
+            ) : (
+              <DownCircleOutlined />
+            )}
+          </div>
+        </Card>
+      ),
+    },
+    {
+      title: 'PUSH',
+      key: 'autoPush',
+      render: (_, data) => (
+        <Button
+          style={{
+            width: '3.5rem',
+            height: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          disabled={data.status === 'PENDING'}
+          type='primary'
+          danger>
+          PUSH
+        </Button>
+      ),
+    },
+  ];
 
   const TRXfilters = useQuery(['filters'], () =>
     transactionsFilters.getTRXFilters(),
@@ -76,7 +183,7 @@ const Transactions: FC = () => {
         isOutBoModalOpen={isOutBoModalOpen}
         setIsOutBoModalOPen={setIsOutBoModalOpen}
       />
-      {isFiltersOpen && <TransactionFilters TRXfilters={TRXfilters?.data} />}
+      {isFiltersOpen && <TransactionFilters />}
       <div
         style={{
           display: 'flex',
@@ -116,6 +223,14 @@ const Transactions: FC = () => {
       <Table
         size='middle'
         columns={TransactionsColumns}
+        // expandable={{
+        //   expandedRowRender: data =>
+        //     data.meta_info ? (
+        //       <p style={{ margin: 0 }}>{JSON.parse(data.meta_info)}</p>
+        //     ) : (
+        //       <p>No Data</p>
+        //     ),
+        // }}
         dataSource={queryData.data?.list}
         scroll={{ x: true }}
         loading={queryData.isLoading}

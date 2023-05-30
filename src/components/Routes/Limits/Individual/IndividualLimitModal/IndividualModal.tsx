@@ -9,11 +9,15 @@ import { t } from 'i18next';
 import { ColumnsType } from 'antd/es/table';
 
 import { selectOptions } from '../constans';
-import { IIndividualLimits } from '../Individual.types';
+import {
+  IIndividualLimits,
+  IIndividualLimitsRequest,
+} from '../Individual.types';
 
 import Classes from './IndividualModal.module.scss';
 
 type PropTypes = {
+  onSave: () => void;
   isIndividualModalOpen: boolean;
   setIsIndividualModalOpen: (x: boolean) => void;
 };
@@ -21,8 +25,12 @@ type PropTypes = {
 const IndividualModal: FC<PropTypes> = ({
   isIndividualModalOpen,
   setIsIndividualModalOpen,
+  onSave,
 }) => {
   const [inputValue, setInputValue] = useState('');
+  const [page, setPage] = useState(1);
+  // const [pageSize, setPageSize] = useState(5);
+  // const pageSizeOptios = [5, 10, 20, 50];
 
   const individualTablecolumns: ColumnsType<IIndividualLimits> = [
     { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
@@ -45,18 +53,12 @@ const IndividualModal: FC<PropTypes> = ({
   const queryData = useQuery(['individual-limit/list']);
 
   const mutation = useMutation({
-    mutationFn: (data: IIndividualLimits) => {
-      return axios.post('/setting/individual-limit/list', {
-        ...data,
-        orderBy: data.orderBy.value,
-        limit: 10,
-        page: 1,
-        orderDir: 'DESC',
-      });
+    mutationFn: (data: IIndividualLimitsRequest) => {
+      return axios.post('/setting/individual-limit/list', data);
     },
     onSuccess: () => {
       queryData.refetch();
-      form.resetFields();
+      // form.resetFields();
     },
     onError: () => {
       setIsIndividualModalOpen(false);
@@ -64,6 +66,7 @@ const IndividualModal: FC<PropTypes> = ({
     },
   });
   const list = mutation.data?.data.list;
+  const allTotal = mutation.data?.data.count;
 
   const searchList = useMutation({
     mutationFn: () => {
@@ -75,6 +78,9 @@ const IndividualModal: FC<PropTypes> = ({
     onSuccess: () => {
       setIsIndividualModalOpen(false);
       toast.success('successfully');
+      mutation.reset();
+      onSave();
+      form.resetFields();
     },
     onError: () => {
       setIsIndividualModalOpen(false);
@@ -87,13 +93,16 @@ const IndividualModal: FC<PropTypes> = ({
   };
 
   const onFinish = (data: IIndividualLimits) => {
-    const body = {
-      orderBy: data.orderBy.value,
-      [data.orderBy.value === 'phone' ? 'phone' : 'id']: data.id,
+    console.log('data.orderBy', data.orderBy);
+    const body: IIndividualLimitsRequest = {
+      orderBy: data.orderBy,
+      limit: 10,
+      page,
+      orderDir: 'DESC',
+      [data.orderBy === 'phone' ? 'phone' : 'id']: data.id,
     };
-    body.phone = data.id;
 
-    mutation.mutate(data);
+    mutation.mutate(body);
   };
   return (
     <Modal
@@ -104,7 +113,7 @@ const IndividualModal: FC<PropTypes> = ({
       <Form
         form={form}
         onFinish={onFinish}
-        initialValues={{ orderBy: selectOptions[1] }}>
+        initialValues={{ orderBy: selectOptions[1].value }}>
         <Row>
           <Col span={7}>
             <Form.Item name='orderBy'>
@@ -135,7 +144,16 @@ const IndividualModal: FC<PropTypes> = ({
         dataSource={list}
         scroll={{ x: true }}
         loading={list?.isLoading}
-        pagination={false}
+        pagination={{
+          onChange(pages) {
+            setPage(pages);
+          },
+          defaultPageSize: 5,
+          position: ['bottomCenter'],
+          total: allTotal,
+          showSizeChanger: true,
+          responsive: true,
+        }}
       />
       <Form.Item>
         <Input.Password prefix={<LockOutlined />} placeholder='Secret Token ' />
