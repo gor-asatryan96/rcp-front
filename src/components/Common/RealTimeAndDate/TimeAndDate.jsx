@@ -3,9 +3,7 @@ import dayjs from 'dayjs';
 
 const TimeAndDate = () => {
   const [currentTime, setCurrentTime] = useState(dayjs().format('h:mm:ss A'));
-  const [currentDate, setCurrentDate] = useState(
-    dayjs().format('MMMM D, YYYY'),
-  );
+  const [currentDate, setCurrentDate] = useState(dayjs().format('DD.MM.YYYY'));
 
   useEffect(() => {
     const interval = setInterval(() => {

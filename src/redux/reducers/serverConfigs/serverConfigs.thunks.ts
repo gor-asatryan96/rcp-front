@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 
 import { AuthService, ILoginBody } from 'services/auth';
+
+import { selectCountry } from '../projects/projects.slice';
 
 import type { UserToken, ILoginForm, IUser } from './serverConfigs.types';
 import type { IErrorMessage } from 'redux/store.types';
@@ -9,19 +12,38 @@ export const loginThunk = createAsyncThunk<
   IUser,
   ILoginForm,
   { rejectValue: IErrorMessage }
->('configs/get', async ({ username, password, tft }, { rejectWithValue }) => {
-  const response = await AuthService.login({ username, password, tft }).catch(
-    err => {
-      return rejectWithValue(err.response.data);
-    },
-  );
-  return response;
-});
+>(
+  'configs/get',
+  async ({ username, password, tft }, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await AuthService.login({
+        username,
+        password,
+        tft,
+      });
+      if (response.meta && response.meta.currentProject.id) {
+        dispatch(selectCountry(response.meta.currentProject.id));
+      }
+      return response;
+    } catch (err) {
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const loginByTokenThunk = createAsyncThunk<IUser, UserToken>(
   'configs/getByToken',
-  async token => {
+  async (token, { dispatch }) => {
     const response = await AuthService.getProfileByToken(token);
+
+    if (response.meta.currentProject.id) {
+      dispatch(selectCountry(response.meta.currentProject.id));
+    }
+
     return response;
   },
 );

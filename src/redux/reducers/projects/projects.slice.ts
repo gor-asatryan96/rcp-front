@@ -9,6 +9,7 @@ import {
   getChooseProjectThunck,
   getGeneralLimitsThunk,
   getProjectsThunk,
+  setGeneralLimitsThunk,
 } from './projects.thunks';
 
 const initialState: IProjectsSlice = {
@@ -28,6 +29,7 @@ const initialState: IProjectsSlice = {
   },
   isLoading: false,
   isGeneralLimitsLoading: false,
+  success: false,
 };
 
 export const projectsSlice = createSlice({
@@ -50,9 +52,9 @@ export const projectsSlice = createSlice({
         state.isLoading = false;
         state.countries = action.payload;
       })
-      .addCase(getProjectsThunk.rejected, (state, action) => {
+      .addCase(getProjectsThunk.rejected, state => {
         state.isLoading = false;
-        toast.error(action.error?.message || i18n.t('Something went wrong'));
+        toast.error(i18n.t('Something went wrong'));
       })
       .addCase(getChooseProjectThunck.pending, state => {
         state.isLoading = true;
@@ -62,9 +64,9 @@ export const projectsSlice = createSlice({
         state.project = action.payload.project;
         state.activeProjectId = action.payload.id;
       })
-      .addCase(getChooseProjectThunck.rejected, (state, action) => {
+      .addCase(getChooseProjectThunck.rejected, state => {
         state.isLoading = false;
-        toast.error(action.error?.message || i18n.t('Something went wrong'));
+        toast.error(i18n.t('Something went wrong'));
       })
       .addCase(getGeneralLimitsThunk.pending, state => {
         state.isGeneralLimitsLoading = true;
@@ -73,18 +75,31 @@ export const projectsSlice = createSlice({
         state.isGeneralLimitsLoading = false;
         state.generalLimits = action.payload;
       })
-      .addCase(getGeneralLimitsThunk.rejected, (state, action) => {
+      .addCase(getGeneralLimitsThunk.rejected, state => {
         state.isGeneralLimitsLoading = false;
-        toast.error(action.error?.message || i18n.t('Something went wrong'));
+        toast.error(i18n.t('Something went wrong'));
+      })
+      .addCase(setGeneralLimitsThunk.pending, state => {
+        state.isGeneralLimitsLoading = true;
+      })
+      .addCase(setGeneralLimitsThunk.fulfilled, state => {
+        state.isGeneralLimitsLoading = false;
+        state.success = true;
+      })
+      .addCase(setGeneralLimitsThunk.rejected, state => {
+        state.isGeneralLimitsLoading = false;
+        toast.error(i18n.t('Something went wrong'));
       });
   },
 });
 
 // ACTIONS
-export const { selectCountry } = projectsSlice.actions;
+export const { selectCountry, setIsLoading } = projectsSlice.actions;
 
 // SELECTORS
 export const selectCountries = (state: RootState) => state.projects.countries;
+export const selectIsEditModalSuccess = (state: RootState) =>
+  state.projects.success;
 export const selectActiveProjectID = (state: RootState) =>
   state.projects.activeProjectId;
 export const selectIsCountryChoosen = (state: RootState) =>
@@ -93,5 +108,4 @@ export const selectIsGeneralLimitsLoading = (state: RootState) =>
   state.projects.isGeneralLimitsLoading;
 export const selectGeneralLimits = (state: RootState) =>
   state.projects.generalLimits;
-
 export default projectsSlice.reducer;

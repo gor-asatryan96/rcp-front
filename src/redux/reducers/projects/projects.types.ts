@@ -11,6 +11,10 @@ export interface IProjectGeneralLimits {
 
 export type TProjectId = number;
 
+export interface IGeneralListSetResponse {
+  success: boolean;
+}
+
 export interface ICountry {
   id: TProjectId;
   project: string;
@@ -25,4 +29,5 @@ export interface IProjectsSlice {
   generalLimits: IProjectGeneralLimits;
   isLoading: boolean;
   isGeneralLimitsLoading: boolean;
+  success: boolean;
 }

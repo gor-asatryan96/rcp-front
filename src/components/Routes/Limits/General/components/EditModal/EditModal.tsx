@@ -12,7 +12,14 @@ import {
 } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { Rule } from 'antd/es/form';
+import { useSelector } from 'react-redux';
+
+import { setGeneralLimitsThunk } from 'redux/reducers/projects/projects.thunks';
+import { useAppDispatch } from 'redux/hooks/redux.hooks';
+import {
+  selectIsEditModalSuccess,
+  selectIsGeneralLimitsLoading,
+} from 'redux/reducers/projects/projects.slice';
 
 import { IGeneraList } from '../GeneralLimitTab/GeneralLimitTab.type';
 
@@ -29,31 +36,35 @@ const EditeModal: FC<PropTypes> = ({
   setIsEditeModalOpen,
   data,
 }) => {
-  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
-  const validateForm: Rule[] = [
-    { required: true, message: '' },
-    {
-      type: 'number',
-      min: 0,
-      message: 'Please enter positive number',
-    },
-  ];
+  const { t } = useTranslation();
+  const isLoading = useSelector(selectIsGeneralLimitsLoading);
+  const isEditModalSuccess = useSelector(selectIsEditModalSuccess);
+  const [form] = Form.useForm();
+  const handleSubmit = () => {
+    form.validateFields().then((values: IGeneraList) => {
+      dispatch(setGeneralLimitsThunk(values));
+
+      if (isEditModalSuccess === true) {
+        setIsEditeModalOpen(false);
+      }
+    });
+  };
 
   return (
-    <Form initialValues={data}>
-      <Modal
-        footer={null}
-        onCancel={() => setIsEditeModalOpen(false)}
-        width={700}
-        open={isEditeModalOpen}>
+    <Modal
+      footer={null}
+      onCancel={() => setIsEditeModalOpen(false)}
+      width={700}
+      open={isEditeModalOpen}>
+      <Form initialValues={data} form={form}>
         <Card className={classes.dailyEditModalCard}>
           <Form.Item
             labelCol={{ span: 5 }}
             name='daily_withdraw_limit'
-            label='Withdraw Limit'
-            rules={validateForm}>
-            <InputNumber style={{ width: 250 }} />
+            label='Withdraw Limit'>
+            <InputNumber min={0} style={{ width: 250 }} />
           </Form.Item>
           <Popover
             trigger='hover'
@@ -61,22 +72,14 @@ const EditeModal: FC<PropTypes> = ({
             content='Deposit Draw Condition'>
             <Form.Item
               name='used_unused_percentage'
-              rules={[
-                { required: true, message: '' },
-                {
-                  type: 'number',
-                  min: 0,
-                  message: 'Please enter positive numbers',
-                },
-                {
-                  type: 'number',
-                  message: 'Max 100%',
-                  max: 100,
-                },
-              ]}
               labelCol={{ span: 5 }}
               label='DDC'>
-              <InputNumber prefix='%' style={{ width: 250 }} />
+              <InputNumber
+                prefix='%'
+                min={0}
+                max={100}
+                style={{ width: 250 }}
+              />
             </Form.Item>
           </Popover>
           <Row justify='center'>
@@ -99,7 +102,7 @@ const EditeModal: FC<PropTypes> = ({
             </Form.Item>
             <Form.Item
               name='casino_ggr_limit'
-              rules={[{ required: true, message: '', min: 0 }]}
+              rules={[{ required: true, message: '' }]}
               className={classes.dailyEditModalInputBody}>
               <InputNumber
                 className={classes.gamesInput}
@@ -174,7 +177,7 @@ const EditeModal: FC<PropTypes> = ({
         <Row
           justify='center'
           className={classes.dailyEditModalconfirmButtonsBody}>
-          <Col>
+          <Form.Item>
             <Button
               className={classes.dailyEditModalConfirmButton}
               type='primary'
@@ -183,15 +186,16 @@ const EditeModal: FC<PropTypes> = ({
               {t('Cancel')}
             </Button>
             <Button
+              loading={isLoading}
               type='primary'
               htmlType='submit'
-              onClick={() => setIsEditeModalOpen(false)}>
+              onClick={handleSubmit}>
               {t('Save')}
             </Button>
-          </Col>
+          </Form.Item>
         </Row>
-      </Modal>
-    </Form>
+      </Form>
+    </Modal>
   );
 };
 

@@ -1,5 +1,7 @@
 import { IAclPath } from 'components/Routes/routes.types';
 
+import { ICountry } from '../projects/projects.types';
+
 export type UserToken = string;
 export type IAcl = IAclPath[];
 export type TLocal = 'EN';
@@ -26,6 +28,7 @@ export interface IUser {
 
 export interface IMeta {
   last_action_at: string;
+  currentProject: ICountry;
 }
 export interface IServerConfigs {
   isConnected: boolean;

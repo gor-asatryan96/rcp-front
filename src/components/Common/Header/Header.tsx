@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import {
   selectActiveProjectID,
   selectCountries,
-  selectCountry,
 } from 'redux/reducers/projects/projects.slice';
 import { TProjectId } from 'redux/reducers/projects/projects.types';
 import { getChooseProjectThunck } from 'redux/reducers/projects/projects.thunks';
@@ -36,7 +35,6 @@ const Header: FC = () => {
   };
 
   const handleButtonSelect = (id: TProjectId) => {
-    dispatch(selectCountry(id));
     dispatch(getChooseProjectThunck(id));
   };
   return (
@@ -56,8 +54,8 @@ const Header: FC = () => {
             className={classes.headerSelector}
             placeholder='Select project'
             options={countries.map(i => ({
-              label: i.project,
-              value: i.id,
+              label: i.is_active === 1 ? i.project : null,
+              value: i.is_active === 1 ? i.id : null,
             }))}
           />
           <NotificationTrigger isInSidebar={false} />

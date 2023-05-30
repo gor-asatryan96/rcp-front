@@ -4,6 +4,7 @@ import { IProjectResponse } from './projects.service.types';
 
 import type {
   ICountry,
+  IGeneralListSetResponse,
   IProjectGeneralLimits,
   TProjectId,
 } from 'redux/reducers/projects/projects.types';
@@ -25,6 +26,13 @@ export const ProjectService = {
   async getGeneralLimits() {
     const { data } = await axios.post<IProjectGeneralLimits>(
       '/setting/daily-limit/list',
+    );
+    return data;
+  },
+  async setGeneralLimits(body: IProjectGeneralLimits) {
+    const { data } = await axios.post<IGeneralListSetResponse>(
+      '/setting/daily-limit/set',
+      body,
     );
     return data;
   },

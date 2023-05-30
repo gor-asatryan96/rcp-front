@@ -36,6 +36,7 @@ const initialState: IServerConfigs = {
     username: '',
     meta: {
       last_action_at: '',
+      currentProject: { id: 0, is_active: 0, project: '' },
     },
     ws_token: '',
   },

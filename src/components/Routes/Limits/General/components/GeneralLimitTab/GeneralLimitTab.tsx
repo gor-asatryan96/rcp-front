@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Col, Form, Popover, Row } from 'antd';
-import Input from 'antd/es/input/Input';
+import { Col, Form, InputNumber, Popover, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import classes from './GeneralLimitTab.module.scss';
@@ -24,7 +23,13 @@ const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
       <Row gutter={[16, 16]}>
         <Col {...layout}>
           <Form.Item label='Withdraw Limit'>
-            <Input type='number' value={data?.daily_withdraw_limit} readOnly />
+            <InputNumber
+              style={{
+                width: '100%',
+              }}
+              value={data?.daily_withdraw_limit}
+              readOnly
+            />
           </Form.Item>
         </Col>
         <Col {...layout}>
@@ -33,11 +38,13 @@ const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
             placement='topLeft'
             content='Deposit Draw Condition'>
             <Form.Item label='DDC'>
-              <Input
+              <InputNumber
+                style={{
+                  width: '100%',
+                }}
                 readOnly
                 value={data?.used_unused_percentage}
                 prefix='%'
-                type='number'
               />
             </Form.Item>
           </Popover>
