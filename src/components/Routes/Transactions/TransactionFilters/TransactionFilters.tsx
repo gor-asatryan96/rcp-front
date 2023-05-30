@@ -8,8 +8,6 @@ import { ITRXFilters, TRXfiltersForm } from '../helpers/Transactions.types';
 
 import CheckboxGroup from './CheckboxGroup';
 
-const { RangePicker } = DatePicker;
-
 const TransactionFilters: FC = () => {
   const [filtersData, setFiltersData] = useState<{
     [key: string]: CheckboxValueType[];
@@ -50,12 +48,12 @@ const TransactionFilters: FC = () => {
         <Row style={{ paddingBottom: 30 }} gutter={24}>
           <Col span={4}>
             <Form.Item>
-              <RangePicker showTime />
+              <DatePicker showTime placeholder='date from' />
             </Form.Item>
           </Col>
           <Col span={4}>
             <Form.Item>
-              <RangePicker showTime />
+              <DatePicker showTime placeholder='date to' />
             </Form.Item>
           </Col>
           <Col span={4}>
