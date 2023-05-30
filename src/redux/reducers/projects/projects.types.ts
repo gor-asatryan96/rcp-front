@@ -29,5 +29,4 @@ export interface IProjectsSlice {
   generalLimits: IProjectGeneralLimits;
   isLoading: boolean;
   isGeneralLimitsLoading: boolean;
-  success: boolean;
 }

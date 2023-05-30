@@ -56,9 +56,10 @@ export const setGeneralLimitsThunk = createAsyncThunk<
   {
     rejectValue: IErrorMessage;
   }
->('projects/setGeneralLimits', async (data, { rejectWithValue }) => {
+>('projects/setGeneralLimits', async (data, { rejectWithValue, dispatch }) => {
   const response = await ProjectService.setGeneralLimits(data).catch(err => {
     return rejectWithValue(err.response.data);
   });
+  dispatch(getGeneralLimitsThunk());
   return response;
 });
