@@ -2,7 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { IProjectResponse, ProjectService } from 'services/projects';
 
-import { ICountry, IProjectGeneralLimits, TProjectId } from './projects.types';
+import {
+  ICountry,
+  IGeneralListSetResponse,
+  IProjectGeneralLimits,
+  TProjectId,
+} from './projects.types';
 
 import type { IErrorMessage } from 'redux/store.types';
 
@@ -40,6 +45,19 @@ export const getGeneralLimitsThunk = createAsyncThunk<
   }
 >('projects/getGeneralLimits', async (_, { rejectWithValue }) => {
   const response = await ProjectService.getGeneralLimits().catch(err => {
+    return rejectWithValue(err.response.data);
+  });
+  return response;
+});
+
+export const setGeneralLimitsThunk = createAsyncThunk<
+  IGeneralListSetResponse,
+  IProjectGeneralLimits,
+  {
+    rejectValue: IErrorMessage;
+  }
+>('projects/setGeneralLimits', async (data, { rejectWithValue }) => {
+  const response = await ProjectService.setGeneralLimits(data).catch(err => {
     return rejectWithValue(err.response.data);
   });
   return response;

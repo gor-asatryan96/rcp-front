@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import {
   selectActiveProjectID,
   selectCountries,
-  selectCountry,
 } from 'redux/reducers/projects/projects.slice';
 import { TProjectId } from 'redux/reducers/projects/projects.types';
 import {
@@ -24,13 +23,11 @@ const Home: FC = () => {
   const activeCountryId = useSelector(selectActiveProjectID);
 
   const handleButtonClick = (id: TProjectId) => {
-    dispatch(selectCountry(id));
     dispatch(getChooseProjectThunck(id));
   };
   useEffect(() => {
     dispatch(getProjectsThunk());
   }, []);
-
   return (
     <>
       <Divider orientation='center'>{t('Select the project')}</Divider>
@@ -38,14 +35,18 @@ const Home: FC = () => {
         <Row className={classes.homeCountriesBody}>
           {countries.map(country => (
             <Card
-              hoverable={country.id !== activeCountryId}
+              hoverable={
+                country.id !== activeCountryId && country.is_active === 1
+              }
               key={country.id}
               className={
-                country.id === activeCountryId
+                country.id === activeCountryId && country.is_active === 1
                   ? classes.activeCountry
                   : classes.countries
               }
-              onClick={() => handleButtonClick(country.id)}>
+              onClick={() =>
+                country.is_active === 1 && handleButtonClick(country.id)
+              }>
               {country.project}
             </Card>
           ))}
