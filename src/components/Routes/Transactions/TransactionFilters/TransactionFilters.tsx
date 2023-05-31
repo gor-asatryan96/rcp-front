@@ -1,21 +1,27 @@
-import { FC, useMemo, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useMemo, useState } from 'react';
 import { DatePicker, Input, Form, Row, Col, Button } from 'antd';
 import { useQuery } from 'react-query';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import dayjs from 'dayjs';
 
 import { transactionsFilters } from '../transactions.service';
 import { ITRXFilters, TRXfiltersForm } from '../helpers/Transactions.types';
 
 import CheckboxGroup from './CheckboxGroup';
 
-const TransactionFilters: FC = () => {
+type PropTypes = {
+  setFilters: Dispatch<SetStateAction<TRXfiltersForm>>;
+  initialFilters: TRXfiltersForm;
+};
+
+const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
   const [filtersData, setFiltersData] = useState<{
     [key: string]: CheckboxValueType[];
   }>({});
 
   const [form] = Form.useForm();
 
-  console.log('filtersData', filtersData);
+  console.log('initialFilters', initialFilters);
 
   const onFilterChange = (name: string, values: CheckboxValueType[]) => {
     setFiltersData(prevState => ({ ...prevState, [name]: values }));
@@ -31,10 +37,18 @@ const TransactionFilters: FC = () => {
     { initialData: {} },
   );
 
-  console.log('TRXfilters', TRXfilters.data);
-
   const onFinish = (data: TRXfiltersForm) => {
-    console.log('dataaaaa', data);
+    console.log('filtersData', filtersData);
+    setFilters(prev => {
+      const newFilters = {
+        ...prev,
+        ...data,
+        opType: [...(filtersData.IN || []), ...(filtersData.OUT || [])],
+        status: [...(filtersData.STATUS || [])],
+      };
+
+      return newFilters;
+    });
   };
 
   const filters = useMemo(() => {
@@ -44,36 +58,42 @@ const TransactionFilters: FC = () => {
 
   return (
     <>
-      <Form onFinish={onFinish} form={form}>
+      <Form
+        onFinish={onFinish}
+        form={form}
+        initialValues={{
+          dateFrom: dayjs(initialFilters.dateFrom),
+          dateTo: dayjs(initialFilters.dateTo),
+        }}>
         <Row style={{ paddingBottom: 30 }} gutter={24}>
           <Col span={4}>
-            <Form.Item>
+            <Form.Item name='dateFrom'>
               <DatePicker showTime placeholder='date from' />
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item>
+            <Form.Item name='dateTo'>
               <DatePicker showTime placeholder='date to' />
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item>
+            <Form.Item name='playerId'>
               <Input placeholder='Player ID' />
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item>
+            <Form.Item name='paymentTransactionId'>
               <Input placeholder='Payment Transaction ID' />
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item>
-              <Input placeholder='Amount to' />
+            <Form.Item name='amountFrom'>
+              <Input placeholder='Amount from' />
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item>
-              <Input placeholder='Amount From' />
+            <Form.Item name='amountTo'>
+              <Input placeholder='Amount To' />
             </Form.Item>
           </Col>
         </Row>
