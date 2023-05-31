@@ -24,6 +24,7 @@ const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
         <Col {...layout}>
           <Form.Item label='Withdraw Limit'>
             <InputNumber
+              disabled
               style={{
                 width: '100%',
               }}
@@ -39,6 +40,7 @@ const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
             content='Deposit Draw Condition'>
             <Form.Item label='DDC'>
               <InputNumber
+                disabled
                 style={{
                   width: '100%',
                 }}
