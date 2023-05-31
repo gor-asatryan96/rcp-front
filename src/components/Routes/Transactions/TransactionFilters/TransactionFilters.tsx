@@ -21,8 +21,6 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
 
   const [form] = Form.useForm();
 
-  console.log('initialFilters', initialFilters);
-
   const onFilterChange = (name: string, values: CheckboxValueType[]) => {
     setFiltersData(prevState => ({ ...prevState, [name]: values }));
   };
@@ -38,7 +36,6 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
   );
 
   const onFinish = (data: TRXfiltersForm) => {
-    console.log('filtersData', filtersData);
     setFilters(prev => {
       const newFilters = {
         ...prev,
