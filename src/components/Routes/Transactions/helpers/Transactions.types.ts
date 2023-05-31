@@ -1,11 +1,13 @@
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
+
 export enum Approved {
   PENDING = 'PENDING',
   REJECTED = 'REJECTED',
-  APPROVED = 'APROVED',
+  APPROVED = 'APPROVED',
 }
 
 export interface ITransaction {
-  id: number | null;
+  id: number;
   user_id: number | null;
   amount: string;
   status: string;
@@ -32,10 +34,14 @@ export interface TRXfiltersForm {
   page: number;
   orderBy: string;
   orderDir: 'DESC' | 'ASC';
-  dateFrom: string;
-  dateTo: string;
-  status: string[];
-  opType: string[];
+  dateFrom: Date;
+  dateTo: Date;
+  amountFrom: number;
+  amountTo: number;
+  playerId: number;
+  paymentTransactionId: string;
+  status: CheckboxValueType[];
+  opType: CheckboxValueType[];
 }
 
 export interface ITRXFilters {

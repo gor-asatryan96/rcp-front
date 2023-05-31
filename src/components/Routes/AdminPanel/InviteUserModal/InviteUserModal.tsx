@@ -31,7 +31,7 @@ const InviteUser: FC<PropTypes> = ({
     },
     onSuccess: () => {
       setIsAddUserModalOpen(false);
-      toast.success(t('User hase successfully invited'));
+      toast.success(t('User has successfully invited'));
       queryData.refetch();
       form.resetFields();
     },

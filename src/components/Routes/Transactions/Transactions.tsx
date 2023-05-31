@@ -5,36 +5,81 @@ import {
   MinusOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Divider, Table, Tooltip } from 'antd';
+import { Button, Card, Divider, Select, Table, Tooltip } from 'antd';
 import { FC, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
+import axios from 'axios';
+import { t } from 'i18next';
+import { toast } from 'react-toastify';
 
 import InBoModal from './InBoModal/InBoModal';
 import OutBoModal from './OutBoModal/OutBoModal';
 import { transactionsData, transactionsFilters } from './transactions.service';
 import TransactionFilters from './TransactionFilters/TransactionFilters';
-import { Approved, ITransaction } from './helpers/Transactions.types';
-
-const colors = {
-  [Approved.APPROVED]: 'rgb(51, 194, 32)',
-  [Approved.REJECTED]: 'rgb(254,77,79)',
-  [Approved.PENDING]: 'rgb(255, 238, 22)',
-};
+import {
+  Approved,
+  ITransaction,
+  TRXfiltersForm,
+} from './helpers/Transactions.types';
+import { colors, statusList } from './helpers/Constans';
 
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<TRXfiltersForm>({
+    dateFrom: new Date(Date.now() - 864e5),
+    dateTo: new Date(),
+    amountFrom: 0,
+    amountTo: 0,
+    playerId: 0,
+    paymentTransactionId: '',
+    opType: [],
+    status: [],
+    limit: 10,
+    page: 1,
+    orderBy: 'updated_at',
+    orderDir: 'DESC',
+  });
 
-  const queryData = useQuery(['transactions', page], () =>
-    transactionsData.getTransactions(page),
+  const statusOptions = statusList?.map(item => ({ value: item.title }));
+
+  const onFilterChange = (name: string, value: any) => {
+    setFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const queryData = useQuery(['transactions', filters], () =>
+    transactionsData.getTransactions(filters),
   );
-  // const metaInfo = queryData.data?.list[0]?.meta_info;
-  // const meta = metaInfo !== undefined ? JSON.parse(metaInfo) : undefined;
-  // console.log('meta', meta);
+
+  const mutation = useMutation({
+    mutationFn: ({
+      transactionId,
+      status,
+    }: {
+      transactionId: number;
+      status: string;
+    }) => {
+      return axios.post('/transaction/update-status', {
+        status,
+        transactionId,
+      });
+    },
+    onSuccess: () => {
+      toast.success(t('Status has successfully changed'));
+    },
+    onError: () => {
+      queryData.remove();
+      queryData.refetch();
+      toast.error(t('Something went wrong'));
+    },
+  });
+
+  const onStatusChange = (transactionId: number, status: string) => {
+    mutation.mutate({ transactionId, status });
+  };
 
   const TransactionsColumns: ColumnsType<ITransaction> = [
     { title: 'TRX ID', dataIndex: 'id', key: 'id' },
@@ -71,7 +116,19 @@ const Transactions: FC = () => {
       dataIndex: 'paymentTransactionId',
       key: 'paymentTransactionId',
     },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      // key: 'status',
+      render: (_, data) => (
+        <Select
+          onChange={value => onStatusChange(data.id, value)}
+          style={{ width: '7rem' }}
+          defaultValue={data.status}
+          options={statusOptions}
+        />
+      ),
+    },
     { title: 'Code', dataIndex: 'code', key: 'code' },
     { title: 'MSISDN', dataIndex: 'msisdn', key: 'msisdn' },
     { title: 'Operator', dataIndex: 'op_name', key: 'op_name' },
@@ -96,7 +153,7 @@ const Transactions: FC = () => {
             justifyContent: 'center',
           }}>
           <div>
-            {data.aa_status === Approved.PENDING ? (
+            {data.aa_status === Approved.REJECTED ? (
               <InfoOutlined />
             ) : (
               <DownCircleOutlined />
@@ -183,7 +240,9 @@ const Transactions: FC = () => {
         isOutBoModalOpen={isOutBoModalOpen}
         setIsOutBoModalOPen={setIsOutBoModalOpen}
       />
-      {isFiltersOpen && <TransactionFilters />}
+      {isFiltersOpen && (
+        <TransactionFilters setFilters={setFilters} initialFilters={filters} />
+      )}
       <div
         style={{
           display: 'flex',
@@ -235,8 +294,8 @@ const Transactions: FC = () => {
         scroll={{ x: true }}
         loading={queryData.isLoading}
         pagination={{
-          onChange(pages) {
-            setPage(pages);
+          onChange(page) {
+            onFilterChange('page', page);
           },
           position: ['bottomCenter'],
           total: allTotal,

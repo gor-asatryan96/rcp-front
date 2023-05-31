@@ -47,7 +47,10 @@ const OutBoModal: FC<PropTypes> = ({
         );
       }
       if (invalidIds?.length) {
-        toast.error(`${t("Тhese IDs don't exist")} - ${invalidIds.toString()}`);
+        toast.error(
+          `${t("Тhese IDs don't exist")} - ${invalidIds.toString()}`,
+          { autoClose: false },
+        );
       }
     },
     onError: () => {

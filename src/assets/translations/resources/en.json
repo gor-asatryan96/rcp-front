@@ -28,7 +28,7 @@
     "You have incorrect field!": "You have incorrect field!",
     "Something went wrong": "Something went wrong",
     "Your profile has successfully updated": "Your profile has successfully updated",
-    "User hase successfully invited": "User hase successfully invited",
+    "User has successfully invited": "User has successfully invited",
     "You don't have notifications yet": "You don't have notifications yet",
     "All": "All",
     "Unseen": "Unseen",
@@ -39,6 +39,7 @@
     "Тhese IDs don't exist": "Тhese IDs don't exist",
     "Тhese IDs successfully inserted": "Тhese IDs successfully inserted",
     "Select the project": "Select the project",
+    "Status has successfully changed": "Status has successfully changed",
     "Games": "Games",
     "Save": "Save",
     "Cancel": "Cancel"
