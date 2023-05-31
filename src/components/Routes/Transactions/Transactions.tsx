@@ -24,6 +24,7 @@ import {
   TRXfiltersForm,
 } from './helpers/Transactions.types';
 import { colors, statusList } from './helpers/Constans';
+import MetaInfo from './MetaInfo';
 
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
@@ -112,14 +113,13 @@ const Transactions: FC = () => {
     },
     { title: 'Kind', dataIndex: 'op_type', key: 'op_type' },
     {
-      title: 'Payment TRX ID',
+      title: 'PTRX ID',
       dataIndex: 'paymentTransactionId',
       key: 'paymentTransactionId',
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      // key: 'status',
       render: (_, data) => (
         <Select
           onChange={value => onStatusChange(data.id, value)}
@@ -280,16 +280,13 @@ const Transactions: FC = () => {
         </Card>
       </div>
       <Table
-        size='middle'
+        size='small'
         columns={TransactionsColumns}
-        // expandable={{
-        //   expandedRowRender: data =>
-        //     data.meta_info ? (
-        //       <p style={{ margin: 0 }}>{JSON.parse(data.meta_info)}</p>
-        //     ) : (
-        //       <p>No Data</p>
-        //     ),
-        // }}
+        expandable={{
+          // eslint-disable-next-line react/no-unstable-nested-components
+          expandedRowRender: data => <MetaInfo data={data.meta_info} />,
+          rowExpandable: data => data.aa_status === 'REJECTED',
+        }}
         dataSource={queryData.data?.list}
         scroll={{ x: true }}
         loading={queryData.isLoading}
