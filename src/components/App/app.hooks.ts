@@ -7,12 +7,22 @@ import {
   selectIsMenuSidebarOpen,
 } from 'redux/reducers/appConfigs/appConfigs.slice';
 import { useIsMobile } from 'helpers/hooks.helpers';
+import { getProjectsThunk } from 'redux/reducers/projects/projects.thunks';
+import { useAppDispatch } from 'redux/hooks/redux.hooks';
 
 export const usePreloadImages = () => {
   useEffect(() => {
     IMAGES.forEach(image => {
       new Image().src = image;
     });
+  }, []);
+};
+
+export const useGetProjects = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getProjectsThunk());
   }, []);
 };
 
@@ -31,4 +41,5 @@ export const useBodyScrollOff = () => {
 export const useAppSideEffects = () => {
   usePreloadImages();
   useBodyScrollOff();
+  useGetProjects();
 };

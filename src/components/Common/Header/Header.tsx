@@ -37,6 +37,9 @@ const Header: FC = () => {
   const handleButtonSelect = (id: TProjectId) => {
     dispatch(getChooseProjectThunck(id));
   };
+
+  const validCountries = countries.filter(country => country.is_active);
+
   return (
     <Layout.Header
       style={{ background: token.colorBgContainer }}
@@ -53,9 +56,9 @@ const Header: FC = () => {
             showSearch
             className={classes.headerSelector}
             placeholder='Select project'
-            options={countries.map(i => ({
-              label: i.is_active === 1 ? i.project : null,
-              value: i.is_active === 1 ? i.id : null,
+            options={validCountries.map(country => ({
+              label: country.project,
+              value: country.id,
             }))}
           />
           <NotificationTrigger isInSidebar={false} />
