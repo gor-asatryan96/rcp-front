@@ -1,4 +1,5 @@
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { Dayjs } from 'dayjs';
 
 export enum Approved {
   PENDING = 'PENDING',
@@ -34,8 +35,8 @@ export interface TRXfiltersForm {
   page: number;
   orderBy: string;
   orderDir: 'DESC' | 'ASC';
-  dateFrom: Date;
-  dateTo: Date;
+  dateFrom: Dayjs | string;
+  dateTo: Dayjs | string;
   amountFrom: number;
   amountTo: number;
   playerId: number;
