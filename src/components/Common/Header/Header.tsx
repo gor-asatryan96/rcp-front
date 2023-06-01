@@ -51,7 +51,7 @@ const Header: FC = () => {
         {isMobile && <NrgLogo />}
         <div className={classes.headerRightActions}>
           <Select
-            value={activeProjectId}
+            value={validCountries.length !== 0 ? activeProjectId : null}
             onChange={handleButtonSelect}
             showSearch
             className={classes.headerSelector}
