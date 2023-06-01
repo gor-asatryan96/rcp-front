@@ -31,19 +31,21 @@ const Transactions: FC = () => {
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<TRXfiltersForm>({
-    dateFrom: new Date(Date.now() - 864e5),
-    dateTo: new Date(),
+    dateFrom: dayjs().startOf('day'),
+    dateTo: dayjs(),
     amountFrom: 0,
     amountTo: 0,
     playerId: 0,
     paymentTransactionId: '',
     opType: [],
-    status: [],
+    status: ['PENDING'],
     limit: 10,
     page: 1,
     orderBy: 'updated_at',
     orderDir: 'DESC',
   });
+
+  console.log('filters', filters);
 
   const statusOptions = statusList?.map(item => ({ value: item.title }));
 
@@ -183,8 +185,22 @@ const Transactions: FC = () => {
     },
   ];
 
-  const TRXfilters = useQuery(['filters'], () =>
-    transactionsFilters.getTRXFilters(),
+  const TRXfilters = useQuery(
+    ['filters'],
+    () => transactionsFilters.getTRXFilters(),
+    // {
+    //   onSuccess: data => {
+    //     console.log('data', data);
+    //     const inAndOut: string[] = [];
+    //     Object.keys(data).forEach(item => {
+    //       if (item === 'IN' || item === 'OUT') {
+    //         inAndOut.push(...data[item].map(el => el.name));
+    //       }
+    //     });
+    //     console.log('inAndOut', inAndOut);
+    //     setFilters(prev => ({ ...prev, opType: inAndOut }));
+    //   },
+    // },
   );
 
   const allTotal = queryData.data?.count;
@@ -220,7 +236,7 @@ const Transactions: FC = () => {
             style={{ fontSize: 24, cursor: 'pointer' }}
           />
         </Tooltip>
-        <div style={{ paddingTop: 30, paddingBottom: 30 }}>
+        <div style={{ paddingBottom: 10 }}>
           <Button onClick={onOutBoModalOpenClick} type='primary' danger>
             <MinusOutlined />
           </Button>

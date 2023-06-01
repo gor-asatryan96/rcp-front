@@ -56,12 +56,12 @@ const Individual: FC = () => {
 
   return (
     <div>
+      <Divider orientation='left'>Individual Limits</Divider>
       <div className={Classes.OpenPlusModal}>
         <Button onClick={onModalClick} type='primary'>
           <PlusOutlined />
         </Button>
       </div>
-      <Divider orientation='left'>Individual Limits</Divider>
       <IndividualModal
         onSave={onChangeSave}
         isIndividualModalOpen={isIndividualModalOpen}

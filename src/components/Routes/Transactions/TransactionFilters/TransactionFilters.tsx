@@ -17,7 +17,9 @@ type PropTypes = {
 const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
   const [filtersData, setFiltersData] = useState<{
     [key: string]: CheckboxValueType[];
-  }>({});
+  }>({
+    status: ['PENDING'],
+  });
 
   const [form] = Form.useForm();
 
@@ -32,7 +34,19 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
   const TRXfilters = useQuery<ITRXFilters>(
     ['filters'],
     () => transactionsFilters.getTRXFilters(),
-    { initialData: {} },
+    {
+      initialData: {},
+      onSuccess: data => {
+        Object.keys(data).forEach(item => {
+          if (item === 'IN' || item === 'OUT') {
+            setFiltersData(prev => ({
+              ...prev,
+              [item]: data[item].map(el => el.name),
+            }));
+          }
+        });
+      },
+    },
   );
 
   const onFinish = (data: TRXfiltersForm) => {
@@ -41,7 +55,7 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
         ...prev,
         ...data,
         opType: [...(filtersData.IN || []), ...(filtersData.OUT || [])],
-        status: [...(filtersData.STATUS || [])],
+        status: [...(filtersData.status || [])],
       };
 
       return newFilters;
@@ -62,15 +76,15 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
           dateFrom: dayjs(initialFilters.dateFrom),
           dateTo: dayjs(initialFilters.dateTo),
         }}>
-        <Row style={{ paddingBottom: 30 }} gutter={24}>
+        <Row gutter={24}>
           <Col span={4}>
             <Form.Item name='dateFrom'>
-              <DatePicker showTime placeholder='date from' />
+              <DatePicker showTime placeholder='date from' allowClear={false} />
             </Form.Item>
           </Col>
           <Col span={4}>
             <Form.Item name='dateTo'>
-              <DatePicker showTime placeholder='date to' />
+              <DatePicker showTime placeholder='date to' allowClear={false} />
             </Form.Item>
           </Col>
           <Col span={4}>
@@ -95,6 +109,7 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
           </Col>
         </Row>
         {filters.map(([key, options]) => {
+          console.log(key, filtersData[key], filtersData);
           return (
             <Row style={{ paddingBottom: 10, paddingLeft: 15 }} key={key}>
               <CheckboxGroup

@@ -57,7 +57,6 @@ const metaInfoColumns: ColumnsType<DataType> = [
 
 const MetaInfo: FC<Proptypes> = ({ data }) => {
   const parsedData = JSON.parse(data);
-  console.log('parsedData', parsedData);
   return (
     <Table
       size='small'
