@@ -10,9 +10,11 @@ import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { t } from 'i18next';
 import { toast } from 'react-toastify';
+
+import { IErrorMessage } from 'redux/store.types';
 
 import InBoModal from './InBoModal/InBoModal';
 import OutBoModal from './OutBoModal/OutBoModal';
@@ -29,7 +31,7 @@ import MetaInfo from './MetaInfo';
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(true);
   const [filters, setFilters] = useState<TRXfiltersForm>({
     dateFrom: dayjs().startOf('day'),
     dateTo: dayjs(),
@@ -44,8 +46,6 @@ const Transactions: FC = () => {
     orderBy: 'updated_at',
     orderDir: 'DESC',
   });
-
-  console.log('filters', filters);
 
   const statusOptions = statusList?.map(item => ({ value: item.title }));
 
@@ -73,10 +73,11 @@ const Transactions: FC = () => {
     onSuccess: () => {
       toast.success(t('Status has successfully changed'));
     },
-    onError: () => {
+    onError: err => {
+      const error = err as unknown as AxiosError<IErrorMessage>;
       queryData.remove();
       queryData.refetch();
-      toast.error(t('Something went wrong'));
+      toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
 
@@ -86,7 +87,19 @@ const Transactions: FC = () => {
 
   const TransactionsColumns: ColumnsType<ITransaction> = [
     { title: 'TRX ID', dataIndex: 'id', key: 'id' },
-    { title: 'UID', dataIndex: 'user_id', key: 'user_id' },
+    {
+      title: 'UID',
+      dataIndex: 'user_id',
+      key: 'user_id',
+      render: (_, data) => (
+        <a
+          target='_blank'
+          href={`http://fbo.betunit.com/internet/ccuser/${data.user_id}/`}
+          rel='noreferrer'>
+          {data.user_id}
+        </a>
+      ),
+    },
     { title: 'Amount', dataIndex: 'amount', key: 'amount' },
     { title: 'Currency', dataIndex: 'currency', key: 'currency' },
     {
@@ -185,22 +198,8 @@ const Transactions: FC = () => {
     },
   ];
 
-  const TRXfilters = useQuery(
-    ['filters'],
-    () => transactionsFilters.getTRXFilters(),
-    // {
-    //   onSuccess: data => {
-    //     console.log('data', data);
-    //     const inAndOut: string[] = [];
-    //     Object.keys(data).forEach(item => {
-    //       if (item === 'IN' || item === 'OUT') {
-    //         inAndOut.push(...data[item].map(el => el.name));
-    //       }
-    //     });
-    //     console.log('inAndOut', inAndOut);
-    //     setFilters(prev => ({ ...prev, opType: inAndOut }));
-    //   },
-    // },
+  const TRXfilters = useQuery(['filters'], () =>
+    transactionsFilters.getTRXFilters(),
   );
 
   const allTotal = queryData.data?.count;
