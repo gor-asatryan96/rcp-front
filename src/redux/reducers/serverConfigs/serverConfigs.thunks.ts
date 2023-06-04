@@ -21,7 +21,7 @@ export const loginThunk = createAsyncThunk<
         password,
         tft,
       });
-      if (response.meta && response.meta.currentProject.id) {
+      if (response.meta?.currentProject?.id) {
         dispatch(selectCountry(response.meta.currentProject.id));
       }
       return response;
