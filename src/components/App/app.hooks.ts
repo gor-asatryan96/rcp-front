@@ -41,5 +41,4 @@ export const useBodyScrollOff = () => {
 export const useAppSideEffects = () => {
   usePreloadImages();
   useBodyScrollOff();
-  useGetProjects();
 };
