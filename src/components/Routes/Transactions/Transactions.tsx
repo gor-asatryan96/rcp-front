@@ -10,10 +10,12 @@ import { FC, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { t } from 'i18next';
 import { toast } from 'react-toastify';
 import InfiniteScroll from 'react-infinite-scroll-component';
+
+import { IErrorMessage } from 'redux/store.types';
 
 import NotificationSpinner from '../../Common/NotificationSidebar/NotificationCards/components/NotificationSpinner/NotificationSpinner';
 
@@ -32,7 +34,7 @@ import MetaInfo from './MetaInfo';
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(true);
   const [filters, setFilters] = useState<TRXfiltersForm>({
     dateFrom: dayjs().startOf('day'),
     dateTo: dayjs(),
@@ -86,10 +88,11 @@ const Transactions: FC = () => {
     onSuccess: () => {
       toast.success(t('Status has successfully changed'));
     },
-    onError: () => {
+    onError: err => {
+      const error = err as unknown as AxiosError<IErrorMessage>;
       queryData.remove();
       queryData.refetch();
-      toast.error(t('Something went wrong'));
+      toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
 
@@ -99,7 +102,19 @@ const Transactions: FC = () => {
 
   const TransactionsColumns: ColumnsType<ITransaction> = [
     { title: 'TRX ID', dataIndex: 'id', key: 'id' },
-    { title: 'UID', dataIndex: 'user_id', key: 'user_id' },
+    {
+      title: 'UID',
+      dataIndex: 'user_id',
+      key: 'user_id',
+      render: (_, data) => (
+        <a
+          target='_blank'
+          href={`http://fbo.betunit.com/internet/ccuser/${data.user_id}/`}
+          rel='noreferrer'>
+          {data.user_id}
+        </a>
+      ),
+    },
     { title: 'Amount', dataIndex: 'amount', key: 'amount' },
     { title: 'Currency', dataIndex: 'currency', key: 'currency' },
     {

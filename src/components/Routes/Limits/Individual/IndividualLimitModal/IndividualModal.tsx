@@ -29,8 +29,6 @@ const IndividualModal: FC<PropTypes> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [page, setPage] = useState(1);
-  // const [pageSize, setPageSize] = useState(5);
-  // const pageSizeOptios = [5, 10, 20, 50];
 
   const individualTablecolumns: ColumnsType<IIndividualLimits> = [
     { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
@@ -58,7 +56,6 @@ const IndividualModal: FC<PropTypes> = ({
     },
     onSuccess: () => {
       queryData.refetch();
-      // form.resetFields();
     },
     onError: () => {
       setIsIndividualModalOpen(false);
@@ -72,7 +69,7 @@ const IndividualModal: FC<PropTypes> = ({
     mutationFn: () => {
       return axios.post('/setting/individual-limit/set', {
         value: inputValue || null,
-        userId: 1,
+        userId: list[0].userId,
       });
     },
     onSuccess: () => {
