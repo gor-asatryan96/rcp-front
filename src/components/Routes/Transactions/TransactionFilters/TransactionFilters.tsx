@@ -109,7 +109,6 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
           </Col>
         </Row>
         {filters.map(([key, options]) => {
-          console.log(key, filtersData[key], filtersData);
           return (
             <Row style={{ paddingBottom: 10, paddingLeft: 15 }} key={key}>
               <CheckboxGroup
