@@ -7,12 +7,15 @@ import {
 } from '@ant-design/icons';
 import { Button, Card, Divider, Select, Table, Tooltip } from 'antd';
 import { FC, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
 import { t } from 'i18next';
 import { toast } from 'react-toastify';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import NotificationSpinner from '../../Common/NotificationSidebar/NotificationCards/components/NotificationSpinner/NotificationSpinner';
 
 import InBoModal from './InBoModal/InBoModal';
 import OutBoModal from './OutBoModal/OutBoModal';
@@ -45,17 +48,27 @@ const Transactions: FC = () => {
     orderDir: 'DESC',
   });
 
-  console.log('filters', filters);
-
   const statusOptions = statusList?.map(item => ({ value: item.title }));
 
-  const onFilterChange = (name: string, value: any) => {
-    setFilters(prev => ({ ...prev, [name]: value }));
-  };
-
-  const queryData = useQuery(['transactions', filters], () =>
-    transactionsData.getTransactions(filters),
+  const queryData = useInfiniteQuery(
+    ['transactions', filters],
+    ({ pageParam = 1 }) => transactionsData.getTransactions(filters, pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.count > filters.limit * allPages.length
+          ? allPages.length + 1
+          : undefined;
+      },
+    },
   );
+
+  // const queryData = useQuery(
+  //   ['transactions', filters],
+  //   () => transactionsData.getTransactions(filters),
+  //   {
+  //     keepPreviousData: true,
+  //   },
+  // );
 
   const mutation = useMutation({
     mutationFn: ({
@@ -191,7 +204,7 @@ const Transactions: FC = () => {
     // {
     //   onSuccess: data => {
     //     console.log('data', data);
-    //     const inAndOut: string[] = [];
+    //     const inAndOut: string[] = [];f
     //     Object.keys(data).forEach(item => {
     //       if (item === 'IN' || item === 'OUT') {
     //         inAndOut.push(...data[item].map(el => el.name));
@@ -203,9 +216,12 @@ const Transactions: FC = () => {
     // },
   );
 
-  const allTotal = queryData.data?.count;
-  const totalCount = queryData.data?.count;
-  const totalAmount = queryData.data?.amount;
+  const totalCount = queryData.data?.pages?.length
+    ? queryData.data.pages[queryData.data.pages.length - 1].count
+    : 0;
+  const totalAmount = queryData.data?.pages?.length
+    ? queryData.data.pages[queryData.data.pages.length - 1].amount
+    : 0;
 
   const onInBoModalOpenClick = () => {
     setIsInBoModalOpen(!isInBoModalOpen);
@@ -218,6 +234,11 @@ const Transactions: FC = () => {
   const onFiltersClick = () => {
     setIsFiltersOpen(!isFiltersOpen);
   };
+
+  const transactionList = queryData.data?.pages?.reduce<ITransaction[]>(
+    (acc, b) => [...acc, ...b.list],
+    [],
+  );
 
   return (
     <>
@@ -295,27 +316,27 @@ const Transactions: FC = () => {
           Total Amount: {totalAmount}
         </Card>
       </div>
-      <Table
-        size='small'
-        columns={TransactionsColumns}
-        expandable={{
-          // eslint-disable-next-line react/no-unstable-nested-components
-          expandedRowRender: data => <MetaInfo data={data.meta_info} />,
-          rowExpandable: data => data.aa_status === 'REJECTED',
-        }}
-        dataSource={queryData.data?.list}
-        scroll={{ x: true }}
-        loading={queryData.isLoading}
-        pagination={{
-          onChange(page) {
-            onFilterChange('page', page);
-          },
-          position: ['bottomCenter'],
-          total: allTotal,
-          showSizeChanger: true,
-          responsive: true,
-        }}
-      />
+      <div>
+        <InfiniteScroll
+          next={queryData.fetchNextPage}
+          loader={<NotificationSpinner />}
+          hasMore={!!queryData.hasNextPage}
+          dataLength={transactionList?.length || 0}>
+          <Table
+            size='small'
+            columns={TransactionsColumns}
+            expandable={{
+              // eslint-disable-next-line react/no-unstable-nested-components
+              expandedRowRender: data => <MetaInfo data={data.meta_info} />,
+              rowExpandable: data => data.aa_status === 'REJECTED',
+            }}
+            dataSource={transactionList}
+            loading={queryData.isLoading}
+            footer={() => null}
+            pagination={false}
+          />
+        </InfiniteScroll>
+      </div>
     </>
   );
 };

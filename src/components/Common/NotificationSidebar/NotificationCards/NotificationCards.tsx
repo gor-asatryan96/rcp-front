@@ -19,6 +19,7 @@ import {
   seenNotificationThunk,
 } from 'redux/reducers/notifications/notifications.thunks';
 import { useAppDispatch } from 'redux/hooks/redux.hooks';
+import { useGetProjects } from 'components/App/app.hooks';
 
 import { useNotificationsSideEffects } from '../Notifications/notifications.hooks';
 
@@ -38,6 +39,7 @@ const NotificationCards: FC = () => {
   const hasMore = notificationsCount > notificationsList.length;
 
   useNotificationsSideEffects();
+  useGetProjects();
 
   const nextPageAction = useCallback(() => {
     dispatch(setNotificationPage(page + 1));

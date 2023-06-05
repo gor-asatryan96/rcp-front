@@ -93,7 +93,6 @@ const IndividualModal: FC<PropTypes> = ({
   };
 
   const onFinish = (data: IIndividualLimits) => {
-    console.log('data.orderBy', data.orderBy);
     const body: IIndividualLimitsRequest = {
       orderBy: data.orderBy,
       limit: 10,

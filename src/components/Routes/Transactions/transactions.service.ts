@@ -9,9 +9,10 @@ import {
 } from './helpers/Transactions.types';
 
 export const transactionsData = {
-  async getTransactions(filters: TRXfiltersForm) {
+  async getTransactions(filters: TRXfiltersForm, page: number) {
     const body: Partial<TRXfiltersForm> = {
       ...filters,
+      page,
       dateTo: filters.dateTo
         ? dayjs(filters.dateTo).format('YYYY/MM/DD HH:mm:ss')
         : undefined,
