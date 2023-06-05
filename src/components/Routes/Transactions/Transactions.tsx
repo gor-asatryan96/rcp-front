@@ -64,14 +64,6 @@ const Transactions: FC = () => {
     },
   );
 
-  // const queryData = useQuery(
-  //   ['transactions', filters],
-  //   () => transactionsData.getTransactions(filters),
-  //   {
-  //     keepPreviousData: true,
-  //   },
-  // );
-
   const mutation = useMutation({
     mutationFn: ({
       transactionId,
@@ -214,22 +206,8 @@ const Transactions: FC = () => {
     },
   ];
 
-  const TRXfilters = useQuery(
-    ['filters'],
-    () => transactionsFilters.getTRXFilters(),
-    // {
-    //   onSuccess: data => {
-    //     console.log('data', data);
-    //     const inAndOut: string[] = [];f
-    //     Object.keys(data).forEach(item => {
-    //       if (item === 'IN' || item === 'OUT') {
-    //         inAndOut.push(...data[item].map(el => el.name));
-    //       }
-    //     });
-    //     console.log('inAndOut', inAndOut);
-    //     setFilters(prev => ({ ...prev, opType: inAndOut }));
-    //   },
-    // },
+  const TRXfilters = useQuery(['filters'], () =>
+    transactionsFilters.getTRXFilters(),
   );
 
   const totalCount = queryData.data?.pages?.length
