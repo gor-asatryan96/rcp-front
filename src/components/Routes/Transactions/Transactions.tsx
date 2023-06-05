@@ -177,6 +177,7 @@ const Transactions: FC = () => {
         </Card>
       ),
     },
+    Table.EXPAND_COLUMN,
     {
       title: 'PUSH',
       key: 'autoPush',

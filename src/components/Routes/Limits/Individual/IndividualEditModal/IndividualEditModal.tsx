@@ -24,7 +24,7 @@ const IndividualEditeModal: FC<PropTypes> = ({
   const mutation = useMutation({
     mutationFn: (value: number) => {
       return axios.post('/setting/individual-limit/set', {
-        value,
+        value: value || null,
         userId: isPlayerEditModalOpen?.userId,
       });
     },
