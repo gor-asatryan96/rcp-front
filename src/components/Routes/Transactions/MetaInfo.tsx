@@ -1,4 +1,4 @@
-import { CheckCircleOutlined, CloseSquareOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Card, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FC } from 'react';
@@ -32,13 +32,13 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'available_withdraw_amount',
     key: 'available_withdraw_amount',
     render(value: Diff) {
-      return value.difference ? (
+      return value.difference && undefined ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },
@@ -50,11 +50,11 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     render(value: Diff) {
       return value.difference ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },
@@ -66,11 +66,11 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     render(value: Diff) {
       return value.difference ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },
@@ -82,11 +82,11 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     render(value: Diff) {
       return value.difference ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },
@@ -98,11 +98,11 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     render(value: Diff) {
       return value.difference ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },
@@ -114,11 +114,11 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     render(value: Diff) {
       return value.difference ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },
@@ -130,11 +130,11 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     render(value: Diff) {
       return value.difference ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },
@@ -146,11 +146,11 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     render(value: Diff) {
       return value.difference ? (
         <Card className={classes.messageColumnsError}>
-          <CloseSquareOutlined />
+          <CloseOutlined />
         </Card>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
-          <CheckCircleOutlined />
+          <CheckOutlined />
         </Card>
       );
     },

@@ -15,11 +15,14 @@ const Individual: FC = () => {
   const [isPlayerEditModalOpen, setIsPlayerEditModalOpen] =
     useState<IIndividualEditLimits | null>(null);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<number>(10);
 
-  const queryData = useQuery(['individual-limit', page], () =>
-    individualLimitsData.getIndividualLimits(page),
+  const queryData = useQuery(['individual-limit', page, pageSize], () =>
+    individualLimitsData.getIndividualLimits(page, pageSize),
   );
   const allTotal = queryData.data?.count;
+
+  const pageSizeOptions = [10, 20, 50];
 
   const onModalClick = () => {
     setIsIndividualModalOpen(!isIndividualModalOpen);
@@ -32,6 +35,10 @@ const Individual: FC = () => {
   const onChangeSave = () => {
     queryData.refetch();
     setIsIndividualModalOpen(false);
+  };
+
+  const onChangePageSize = (e: number) => {
+    setPageSize(e);
   };
 
   const columns: ColumnsType<IIndividualLimits> = [
@@ -53,7 +60,6 @@ const Individual: FC = () => {
       ),
     },
   ];
-
   return (
     <div>
       <Divider orientation='left'>Individual Limits</Divider>
@@ -77,12 +83,14 @@ const Individual: FC = () => {
         size='middle'
         dataSource={queryData.data?.list}
         columns={columns}
+        onChange={(e: any) => onChangePageSize(e.pageSize)}
         pagination={{
           onChange(pages) {
             setPage(pages);
           },
           position: ['bottomCenter'],
           total: allTotal,
+          pageSizeOptions,
           showSizeChanger: true,
           responsive: true,
         }}
