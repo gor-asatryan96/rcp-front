@@ -56,6 +56,7 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
         ...data,
         opType: [...(filtersData.IN || []), ...(filtersData.OUT || [])],
         status: [...(filtersData.status || [])],
+        // AUTO: [...(filtersData.auto || [])],
       };
 
       return newFilters;
@@ -89,22 +90,22 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
           </Col>
           <Col span={4}>
             <Form.Item name='playerId'>
-              <Input placeholder='Player ID' />
+              <Input type='number' placeholder='Player ID' />
             </Form.Item>
           </Col>
           <Col span={4}>
             <Form.Item name='paymentTransactionId'>
-              <Input placeholder='Payment Transaction ID' />
+              <Input type='number' placeholder='Payment Transaction ID' />
             </Form.Item>
           </Col>
           <Col span={4}>
             <Form.Item name='amountFrom'>
-              <Input placeholder='Amount from' />
+              <Input type='number' placeholder='Amount from' />
             </Form.Item>
           </Col>
           <Col span={4}>
             <Form.Item name='amountTo'>
-              <Input placeholder='Amount To' />
+              <Input type='number' placeholder='Amount To' />
             </Form.Item>
           </Col>
         </Row>
@@ -126,7 +127,8 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'flex-end',
+            marginLeft: '15rem',
+            justifyContent: 'center',
           }}>
           <Button htmlType='submit' type='primary'>
             Search

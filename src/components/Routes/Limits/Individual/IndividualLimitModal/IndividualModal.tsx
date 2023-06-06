@@ -28,7 +28,7 @@ const IndividualModal: FC<PropTypes> = ({
   onSave,
 }) => {
   const [inputValue, setInputValue] = useState('');
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
 
   const individualTablecolumns: ColumnsType<IIndividualLimits> = [
     { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
@@ -63,7 +63,7 @@ const IndividualModal: FC<PropTypes> = ({
     },
   });
   const list = mutation.data?.data.list;
-  const allTotal = mutation.data?.data.count;
+  // const allTotal = mutation.data?.data.count;
 
   const searchList = useMutation({
     mutationFn: () => {
@@ -134,22 +134,23 @@ const IndividualModal: FC<PropTypes> = ({
         </Row>
       </Form>
       <Table
+        pagination={false}
         style={{ paddingBottom: '1rem' }}
         size='small'
         columns={individualTablecolumns}
         dataSource={list}
         scroll={{ x: true }}
         loading={list?.isLoading}
-        pagination={{
-          onChange(pages) {
-            setPage(pages);
-          },
-          defaultPageSize: 5,
-          position: ['bottomCenter'],
-          total: allTotal,
-          showSizeChanger: true,
-          responsive: true,
-        }}
+        // pagination={{
+        //   onChange(pages) {
+        //     setPage(pages);
+        //   },
+        //   defaultPageSize: 5,
+        //   position: ['bottomCenter'],
+        //   total: allTotal,
+        //   showSizeChanger: true,
+        //   responsive: true,
+        // }}
       />
       <Form.Item>
         <Input.Password prefix={<LockOutlined />} placeholder='Secret Token ' />

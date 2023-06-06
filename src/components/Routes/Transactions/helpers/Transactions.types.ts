@@ -37,9 +37,9 @@ export interface TRXfiltersForm {
   orderDir: 'DESC' | 'ASC';
   dateFrom: Dayjs | string;
   dateTo: Dayjs | string;
-  amountFrom: number;
-  amountTo: number;
-  playerId: number;
+  amountFrom: number | string;
+  amountTo: number | string;
+  playerId: number | string;
   paymentTransactionId: string;
   status: CheckboxValueType[];
   opType: CheckboxValueType[];

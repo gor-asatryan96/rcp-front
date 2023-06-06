@@ -45,39 +45,54 @@ const IndividualEditeModal: FC<PropTypes> = ({
     mutation.mutate(data.value);
   };
 
+  const onCancel = () => {
+    form.resetFields();
+    setIsPlayerEditModalOpen(null);
+  };
+
   return (
     <Modal
       width={400}
       footer={null}
-      onCancel={() => setIsPlayerEditModalOpen(null)}
+      onCancel={onCancel}
       open={!!isPlayerEditModalOpen}>
-      <Form form={form} onFinish={onFinish} disabled={mutation.isLoading}>
-        <Form.Item label='Phone Number'>
-          {isPlayerEditModalOpen?.phone}
-        </Form.Item>
-        <Form.Item label='Player ID'>{isPlayerEditModalOpen?.userId}</Form.Item>
-        <Form.Item label='Limit' name='value'>
-          <Input defaultValue={isPlayerEditModalOpen?.limit} type='number' />
-        </Form.Item>
-        <Form.Item label='Token'>
-          <Input.Password
-            prefix={<LockOutlined />}
-            placeholder='Secret Token'
-          />
-        </Form.Item>
-        <div className={Classes.SaveAndCancelButtons}>
-          <Button
-            onClick={() => setIsPlayerEditModalOpen(null)}
-            type='primary'
-            danger>
-            Cancel
-          </Button>
-          <Button htmlType='submit' loading={mutation.isLoading} type='primary'>
-            Save
-            <SaveOutlined />
-          </Button>
-        </div>
-      </Form>
+      {isPlayerEditModalOpen && (
+        <Form form={form} onFinish={onFinish} disabled={mutation.isLoading}>
+          <Form.Item label='Phone Number'>
+            {isPlayerEditModalOpen?.phone}
+          </Form.Item>
+          <Form.Item label='Player ID'>
+            {isPlayerEditModalOpen?.userId}
+          </Form.Item>
+          <Form.Item label='Initial Limit'>
+            {isPlayerEditModalOpen?.limit}
+          </Form.Item>
+          <Form.Item label='Limit' name='value'>
+            <Input type='number' />
+          </Form.Item>
+          <Form.Item label='Token'>
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder='Secret Token'
+            />
+          </Form.Item>
+          <div className={Classes.SaveAndCancelButtons}>
+            <Button
+              onClick={() => setIsPlayerEditModalOpen(null)}
+              type='primary'
+              danger>
+              Cancel
+            </Button>
+            <Button
+              htmlType='submit'
+              loading={mutation.isLoading}
+              type='primary'>
+              Save
+              <SaveOutlined />
+            </Button>
+          </div>
+        </Form>
+      )}
     </Modal>
   );
 };

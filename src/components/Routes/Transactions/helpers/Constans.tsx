@@ -1,7 +1,7 @@
 import { Approved } from './Transactions.types';
 
 export const transactionFilterOptions = {
-  status: [
+  STATUS: [
     { name: 'PENDING', type: 'status' },
     { name: 'APPROVED', type: 'status' },
     { name: 'DENIED', type: 'status' },
@@ -9,10 +9,11 @@ export const transactionFilterOptions = {
     { name: 'SUCCESS', type: 'status' },
     { name: 'WAITGW', type: 'status' },
   ],
-  // OTHER: [
-  //   { name: 'AUTOAPPROVED', type: 'other' },
-  //   { name: 'MANUAL', type: 'other' },
-  // ],
+  AUTO: [
+    { name: 'APPROVED', type: 'auto' },
+    { name: 'REJECTED', type: 'auto' },
+    { name: 'PENDING', type: 'auto' },
+  ],
 };
 
 export const autoPushOptions = [

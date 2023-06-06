@@ -81,9 +81,10 @@ const Transactions: FC = () => {
       toast.success(t('Status has successfully changed'));
     },
     onError: err => {
-      const error = err as unknown as AxiosError<IErrorMessage>;
       queryData.remove();
       queryData.refetch();
+
+      const error = err as unknown as AxiosError<IErrorMessage>;
       toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
