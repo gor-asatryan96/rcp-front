@@ -7,7 +7,7 @@ interface IInBo {
 
 export interface IInBoForm extends IInBo {
   usersInput: string;
-  opType: { value: string };
+  opType: string;
 }
 
 export interface IInBoRequest extends IInBo {

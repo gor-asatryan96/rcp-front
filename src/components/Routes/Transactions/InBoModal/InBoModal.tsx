@@ -60,12 +60,13 @@ const InBoModal: FC<PropTypes> = ({
   const onFinish = (data: IInBoForm) => {
     const requestBody: IInBoRequest = {
       amount: data.amount,
-      opType: data.opType.value,
+      opType: data?.opType,
       usersIds: data.usersInput.split(',').map(Number),
       paymentTransactionId: data.paymentTransactionId,
       reason: data.reason,
       type: 'IN',
     };
+    console.log('type', requestBody.opType);
     mutation.mutate(requestBody);
   };
 
@@ -78,7 +79,7 @@ const InBoModal: FC<PropTypes> = ({
       title='In'>
       <Form
         initialValues={{
-          opType: filters?.[0],
+          opType: filters?.[0].value,
         }}
         form={form}
         validateTrigger='onSubmit'

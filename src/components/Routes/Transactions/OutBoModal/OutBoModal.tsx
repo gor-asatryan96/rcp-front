@@ -64,7 +64,7 @@ const OutBoModal: FC<PropTypes> = ({
   const onFinish = (data: IInBoForm) => {
     const requestBody: IInBoRequest = {
       amount: data.amount,
-      opType: data.opType.value,
+      opType: data.opType,
       usersIds: data.usersInput.split(',').map(Number),
       paymentTransactionId: data.paymentTransactionId,
       reason: data.reason,
@@ -82,7 +82,7 @@ const OutBoModal: FC<PropTypes> = ({
       title='OUT'>
       <Form
         initialValues={{
-          opType: filters?.[0],
+          opType: filters?.[0].value,
         }}
         form={form}
         validateTrigger='onSubmit'
