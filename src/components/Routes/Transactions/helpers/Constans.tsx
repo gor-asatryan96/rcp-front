@@ -1,7 +1,7 @@
 import { Approved } from './Transactions.types';
 
 export const transactionFilterOptions = {
-  STATUS: [
+  status: [
     { name: 'PENDING', type: 'status' },
     { name: 'APPROVED', type: 'status' },
     { name: 'DENIED', type: 'status' },

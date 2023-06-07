@@ -6,7 +6,7 @@ import { FC } from 'react';
 import classes from './Transactions.module.scss';
 
 interface IMetaInfoTypes {
-  available_withdraw_amount: Diff;
+  rollback_limit: Diff;
   withdraw_limit: Diff;
   sport_winning_limit: Diff;
   casino_winning_limit: Diff;
@@ -16,7 +16,7 @@ interface IMetaInfoTypes {
   games_ggr_limit: Diff;
 }
 
-type Diff = { difference: number };
+type Diff = { difference?: number };
 
 interface MetaInfoType {
   aa_messages: IMetaInfoTypes;
@@ -28,11 +28,11 @@ type Proptypes = {
 
 const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   {
-    title: 'Accessible Withdraw Amount',
-    dataIndex: 'available_withdraw_amount',
-    key: 'available_withdraw_amount',
+    title: 'Rollback Limit',
+    dataIndex: 'rollback_limit',
+    key: 'rollback_limit',
     render(value: Diff) {
-      return value.difference && undefined ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
@@ -48,7 +48,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'withdraw_limit',
     key: 'withdraw_limit',
     render(value: Diff) {
-      return value.difference ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
@@ -64,7 +64,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'sport_winning_limit',
     key: 'sport_winning_limit',
     render(value: Diff) {
-      return value.difference ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
@@ -80,7 +80,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'casino_winning_limit',
     key: 'casino_winning_limit',
     render(value: Diff) {
-      return value.difference ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
@@ -96,7 +96,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'games_winning_limit',
     key: 'games_winning_limit',
     render(value: Diff) {
-      return value.difference ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
@@ -112,7 +112,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'sport_ggr_limit',
     key: 'sport_ggr_limit',
     render(value: Diff) {
-      return value.difference ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
@@ -128,7 +128,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'casino_ggr_limit',
     key: 'casino_ggr_limit',
     render(value: Diff) {
-      return value.difference ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
@@ -144,7 +144,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'games_ggr_limit',
     key: 'games_ggr_limit',
     render(value: Diff) {
-      return value.difference ? (
+      return value?.difference ? (
         <Card className={classes.messageColumnsError}>
           <CloseOutlined />
         </Card>
