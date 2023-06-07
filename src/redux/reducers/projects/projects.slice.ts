@@ -74,19 +74,20 @@ export const projectsSlice = createSlice({
         state.isGeneralLimitsLoading = false;
         state.generalLimits = action.payload;
       })
-      .addCase(getGeneralLimitsThunk.rejected, state => {
+      .addCase(getGeneralLimitsThunk.rejected, (state, { payload }) => {
         state.isGeneralLimitsLoading = false;
-        toast.error(i18n.t('Something went wrong'));
+        toast.error(payload?.message || i18n.t('Something went wrong'));
       })
       .addCase(setGeneralLimitsThunk.pending, state => {
         state.isGeneralLimitsLoading = true;
       })
       .addCase(setGeneralLimitsThunk.fulfilled, state => {
         state.isGeneralLimitsLoading = false;
+        toast.success('Your changes successfully completed');
       })
-      .addCase(setGeneralLimitsThunk.rejected, state => {
+      .addCase(setGeneralLimitsThunk.rejected, (state, { payload }) => {
         state.isGeneralLimitsLoading = false;
-        toast.error(i18n.t('Something went wrong'));
+        toast.error(payload?.message || i18n.t('Something went wrong'));
       });
   },
 });
