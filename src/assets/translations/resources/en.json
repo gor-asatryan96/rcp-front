@@ -38,10 +38,10 @@
     "Select the project": "Select the project",
     "Тhese IDs don't exist": "Тhese IDs don't exist",
     "Тhese IDs successfully inserted": "Тhese IDs successfully inserted",
-    "Select the project": "Select the project",
     "Status has successfully changed": "Status has successfully changed",
     "Games": "Games",
     "Save": "Save",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "AutoPush and AutoApprove": "AutoPush and AutoApprove"
   }
 }
