@@ -35,6 +35,8 @@ const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
+  // const [rowId, setRowId] = useState();
+  const [TRXId, setTRXId] = useState<number>();
   const [filters, setFilters] = useState<TRXfiltersForm>({
     dateFrom: dayjs().startOf('day'),
     dateTo: dayjs(),
@@ -63,6 +65,28 @@ const Transactions: FC = () => {
       },
     },
   );
+  const mutationManualPush = useMutation({
+    mutationFn: ({ transactionId }: { transactionId: number }) => {
+      return axios.post('/transaction/manual-push', {
+        transactionId,
+      });
+    },
+    onSuccess: () => {
+      queryData.refetch();
+      queryData.remove();
+      toast.success('Manual push has successfully pushed');
+    },
+    onError: err => {
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      toast.error(error.response?.data.message || t('Something went wrong'));
+    },
+  });
+
+  const onPushClick = (data: ITransaction) => {
+    const transactionId = data.id;
+    setTRXId(transactionId);
+    mutationManualPush.mutate({ transactionId });
+  };
 
   const mutation = useMutation({
     mutationFn: ({
@@ -189,16 +213,15 @@ const Transactions: FC = () => {
     {
       title: 'PUSH',
       key: 'autoPush',
-      render: (_, data) => (
+      render: (_, data: ITransaction) => (
         <Button
-          style={{
-            width: '3.5rem',
-            height: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          disabled={data.status === 'PENDING'}
+          loading={
+            data.status === 'APPROVED' &&
+            data.id === TRXId &&
+            mutationManualPush.isLoading
+          }
+          onClick={() => onPushClick(data)}
+          disabled={data.status !== 'APPROVED'}
           type='primary'
           danger>
           PUSH
@@ -322,7 +345,9 @@ const Transactions: FC = () => {
             columns={TransactionsColumns}
             expandable={{
               // eslint-disable-next-line react/no-unstable-nested-components
-              expandedRowRender: data => <MetaInfo data={data.meta_info} />,
+              expandedRowRender: data => (
+                <MetaInfo key={data.id} data={data?.meta_info} />
+              ),
               rowExpandable: data => data.aa_status === 'REJECTED',
             }}
             dataSource={transactionList}
