@@ -14,14 +14,16 @@ import axios, { AxiosError } from 'axios';
 import { t } from 'i18next';
 import { toast } from 'react-toastify';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
 
 import { IErrorMessage } from 'redux/store.types';
+import { selecTimezone } from 'redux/reducers/serverConfigs/serverConfigs.slice';
 
 import NotificationSpinner from '../../Common/NotificationSidebar/NotificationCards/components/NotificationSpinner/NotificationSpinner';
 
 import InBoModal from './InBoModal/InBoModal';
 import OutBoModal from './OutBoModal/OutBoModal';
-import { transactionsData, transactionsFilters } from './transactions.service';
+import { transactionsData, transactionsInsert } from './transactions.service';
 import TransactionFilters from './TransactionFilters/TransactionFilters';
 import {
   Approved,
@@ -32,14 +34,15 @@ import { colors, statusList } from './helpers/Constans';
 import MetaInfo from './MetaInfo';
 
 const Transactions: FC = () => {
+  const timezone = useSelector(selecTimezone);
+
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
-  // const [rowId, setRowId] = useState();
   const [TRXId, setTRXId] = useState<number>();
   const [filters, setFilters] = useState<TRXfiltersForm>({
-    dateFrom: dayjs().startOf('day'),
-    dateTo: dayjs(),
+    dateFrom: dayjs().tz(timezone).startOf('day'),
+    dateTo: dayjs().tz(timezone),
     amountFrom: 0,
     amountTo: 0,
     playerId: 0,
@@ -51,6 +54,8 @@ const Transactions: FC = () => {
     orderBy: 'updated_at',
     orderDir: 'DESC',
   });
+
+  console.log('time', timezone);
 
   const statusOptions = statusList?.map(item => ({ value: item.title }));
 
@@ -230,10 +235,9 @@ const Transactions: FC = () => {
     },
   ];
 
-  const TRXfilters = useQuery(['filters'], () =>
-    transactionsFilters.getTRXFilters(),
+  const TRXInsert = useQuery(['filters-insert'], () =>
+    transactionsInsert.getTRXInsert(),
   );
-
   const totalCount = queryData.data?.pages?.length
     ? queryData.data.pages[queryData.data.pages.length - 1].count
     : 0;
@@ -286,12 +290,12 @@ const Transactions: FC = () => {
       </div>
 
       <InBoModal
-        TRXfilters={TRXfilters.data?.IN}
+        TRXfilters={TRXInsert.data?.op_types.IN}
         isInBoModalOpen={isInBoModalOpen}
         setIsInBoModalOpen={setIsInBoModalOpen}
       />
       <OutBoModal
-        TRXfilters={TRXfilters.data?.OUT}
+        TRXfilters={TRXInsert.data?.op_types.OUT}
         isOutBoModalOpen={isOutBoModalOpen}
         setIsOutBoModalOPen={setIsOutBoModalOpen}
       />

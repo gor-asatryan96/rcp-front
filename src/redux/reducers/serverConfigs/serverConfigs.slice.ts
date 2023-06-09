@@ -123,6 +123,8 @@ export const {
 export const selectIsConnected = (state: RootState) =>
   state.serverConfigs.isConnected;
 export const selectUserAcl = (state: RootState) => state.serverConfigs.user.acl;
+export const selecTimezone = (state: RootState) =>
+  state.serverConfigs.user.timezone;
 export const selectIsTFAConnected = (state: RootState) =>
   !!state.serverConfigs.user.is_twofa_enabled;
 export const selectIsAclExist = (state: RootState, aclPath: IAclPath) =>

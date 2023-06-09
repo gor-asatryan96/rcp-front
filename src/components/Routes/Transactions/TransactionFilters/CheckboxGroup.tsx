@@ -21,7 +21,7 @@ const CheckboxGroup: FC<Proptypes> = ({
 
   return (
     <>
-      <Col span={2}>{name}:</Col>
+      <Col span={3}>{name}:</Col>
       <Checkbox
         checked={isAllCheck}
         onChange={() => onAllCheck(name, isAllCheck ? [] : options)}>

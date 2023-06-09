@@ -28,6 +28,22 @@ type Proptypes = {
 
 const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   {
+    title: 'Aviable Withdraw Limit',
+    dataIndex: 'available_withdraw_amount',
+    key: 'available_withdraw_amount',
+    render(value: Diff) {
+      return value?.difference ? (
+        <Card className={classes.messageColumnsError}>
+          <CloseOutlined />
+        </Card>
+      ) : (
+        <Card className={classes.messageColumnsSuccess}>
+          <CheckOutlined />
+        </Card>
+      );
+    },
+  },
+  {
     title: 'Rollback Limit',
     dataIndex: 'rollback_limit',
     key: 'rollback_limit',
