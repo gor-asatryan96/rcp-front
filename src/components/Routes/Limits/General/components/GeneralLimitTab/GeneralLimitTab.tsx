@@ -14,10 +14,8 @@ const layout = {
   xl: { span: 4 },
   xxl: { span: 6 },
 };
-
 const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
   const { t } = useTranslation();
-
   return (
     <>
       <Row gutter={[16, 16]}>
@@ -29,6 +27,18 @@ const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
                 width: '100%',
               }}
               value={data?.daily_withdraw_limit}
+              readOnly
+            />
+          </Form.Item>
+        </Col>
+        <Col {...layout}>
+          <Form.Item label='Rollback Limit'>
+            <InputNumber
+              disabled
+              style={{
+                width: '100%',
+              }}
+              value={data?.rollback_limit_percentage}
               readOnly
             />
           </Form.Item>
@@ -97,5 +107,4 @@ const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
     </>
   );
 };
-
 export default GeneralLimitTab;

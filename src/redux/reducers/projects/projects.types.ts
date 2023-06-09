@@ -7,6 +7,7 @@ export interface IProjectGeneralLimits {
   sport_ggr_limit: number;
   casino_ggr_limit: number;
   games_ggr_limit: number;
+  rollback_limit_percentage: number;
 }
 
 export type TProjectId = number;
