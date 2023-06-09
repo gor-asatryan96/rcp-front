@@ -57,6 +57,12 @@ const EditeModal: FC<PropTypes> = ({
             label='Withdraw Limit'>
             <InputNumber min={0} style={{ width: 250 }} />
           </Form.Item>
+          <Form.Item
+            labelCol={{ span: 5 }}
+            name='rollback_limit_percentage'
+            label='Rollback Limit'>
+            <InputNumber min={0} style={{ width: 250 }} />
+          </Form.Item>
           <Popover
             trigger='hover'
             placement='top'
