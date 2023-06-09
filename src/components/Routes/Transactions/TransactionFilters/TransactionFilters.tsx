@@ -112,8 +112,11 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
         </Row>
         {filters.map(([key, options]) => {
           return (
-            <Row style={{ paddingBottom: 5, paddingLeft: 5 }} key={key}>
+            <Row
+              style={{ paddingBottom: 5, paddingLeft: 5, flexWrap: 'nowrap' }}
+              key={key}>
               <CheckboxGroup
+                span={1}
                 name={key}
                 options={options.map((item: { name: string }) => item.name)}
                 value={filtersData[key] || []}

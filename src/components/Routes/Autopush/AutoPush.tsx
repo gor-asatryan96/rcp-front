@@ -108,9 +108,16 @@ const AutoPush: FC = () => {
         <GlobalLoader />
       ) : (
         <>
-          <div style={{ paddingTop: 100 }}>
-            <Row style={{ paddingBottom: 10, paddingLeft: 650 }}>
+          <div
+            style={{
+              paddingTop: 100,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+            <Row style={{ paddingBottom: 10 }}>
               <CheckboxGroup
+                span={3}
                 name='Auto Push'
                 onAllCheck={onFilterChange}
                 value={checkboxData['Auto Push']}
@@ -118,8 +125,9 @@ const AutoPush: FC = () => {
                 onFilterChange={onFilterChange}
               />
             </Row>
-            <Row style={{ paddingBottom: 10, paddingLeft: 650 }}>
+            <Row style={{ paddingBottom: 10 }}>
               <CheckboxGroup
+                span={3}
                 name='Auto Approve'
                 onAllCheck={onFilterChange}
                 value={checkboxData['Auto Approve']}
