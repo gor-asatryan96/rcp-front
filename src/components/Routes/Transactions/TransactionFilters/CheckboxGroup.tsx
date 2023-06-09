@@ -8,6 +8,7 @@ type Proptypes = {
   value: CheckboxValueType[];
   onAllCheck: (name: string, values: CheckboxValueType[]) => void;
   onFilterChange: (name: string, values: CheckboxValueType[]) => void;
+  span: number;
 };
 
 const CheckboxGroup: FC<Proptypes> = ({
@@ -16,18 +17,21 @@ const CheckboxGroup: FC<Proptypes> = ({
   value,
   onAllCheck,
   onFilterChange,
+  span,
 }) => {
   const isAllCheck = options.length === value.length;
 
   return (
     <>
-      <Col span={3}>{name}:</Col>
+      <Col span={span} style={{ whiteSpace: 'nowrap' }}>
+        {name}:
+      </Col>
       <Checkbox
         checked={isAllCheck}
         onChange={() => onAllCheck(name, isAllCheck ? [] : options)}>
         ALL
       </Checkbox>
-      <Col span={20}>
+      <Col>
         <Checkbox.Group
           value={value}
           options={options}

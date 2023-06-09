@@ -41,6 +41,6 @@ export const selectIsMenuSidebarOpen = (state: RootState) =>
 export const selectIsNotificationSidebarOpen = (state: RootState) =>
   state.appConfigs.isNotificationSidebarOpen;
 export const selectIsGlobalScrollOff = (state: RootState) =>
-  state.appConfigs.isGlobalScrollOff || state.appConfigs.isMenuSidebarOpen;
+  state.appConfigs.isGlobalScrollOff;
 
 export default appConfigsSlice.reducer;
