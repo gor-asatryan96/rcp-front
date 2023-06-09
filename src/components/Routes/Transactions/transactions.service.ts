@@ -45,7 +45,17 @@ export const transactionsFilters = {
   async getTRXFilters() {
     const { data } = await axios.post<{ op_types: ITRXFilters }>(
       '/transaction/filters',
+      { type: 'filter' },
     );
     return { ...transactionFilterOptions, ...data.op_types } as ITRXFilters;
+  },
+};
+
+export const transactionsInsert = {
+  async getTRXInsert() {
+    const { data } = await axios.post('/transaction/filters', {
+      type: 'manual-insert',
+    });
+    return data;
   },
 };

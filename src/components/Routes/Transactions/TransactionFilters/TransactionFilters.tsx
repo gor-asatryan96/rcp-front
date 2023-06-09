@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { transactionsFilters } from '../transactions.service';
 import { ITRXFilters, TRXfiltersForm } from '../helpers/Transactions.types';
 
+import classes from './TransactionFiltersModal.module.scss';
 import CheckboxGroup from './CheckboxGroup';
 
 type PropTypes = {
@@ -111,7 +112,7 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
         </Row>
         {filters.map(([key, options]) => {
           return (
-            <Row style={{ paddingBottom: 10, paddingLeft: 15 }} key={key}>
+            <Row style={{ paddingBottom: 5, paddingLeft: 5 }} key={key}>
               <CheckboxGroup
                 name={key}
                 options={options.map((item: { name: string }) => item.name)}
@@ -123,13 +124,7 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
           );
         })}
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginLeft: '15rem',
-            justifyContent: 'center',
-          }}>
+        <div className={classes.searchButton}>
           <Button htmlType='submit' type='primary'>
             Search
           </Button>
