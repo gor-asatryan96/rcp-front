@@ -14,3 +14,13 @@
   width: 1rem;
   height: 1rem;
 }
+
+.messageColumns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.difference {
+  padding-left: 10px;
+}

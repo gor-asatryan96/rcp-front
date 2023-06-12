@@ -2,9 +2,11 @@ import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
 import { FC } from 'react';
 import { LockOutlined, SaveOutlined } from '@ant-design/icons';
 import { useMutation } from 'react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { t } from 'i18next';
+
+import { IErrorMessage } from 'redux/store.types';
 
 import { ITRXFilter } from '../helpers/Transactions.types';
 import {
@@ -53,9 +55,9 @@ const OutBoModal: FC<PropTypes> = ({
         );
       }
     },
-    onError: () => {
-      setIsOutBoModalOPen(false);
-      toast.error(t('Something went wrong'));
+    onError: err => {
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
 

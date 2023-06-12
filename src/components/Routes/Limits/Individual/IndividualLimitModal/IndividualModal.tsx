@@ -3,10 +3,12 @@ import { FC, useState } from 'react';
 import { LockOutlined, SaveOutlined, SearchOutlined } from '@ant-design/icons';
 // import { t } from 'i18next';
 import { useMutation, useQuery } from 'react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { t } from 'i18next';
 import { ColumnsType } from 'antd/es/table';
+
+import { IErrorMessage } from 'redux/store.types';
 
 import { selectOptions } from '../constans';
 import {
@@ -29,6 +31,7 @@ const IndividualModal: FC<PropTypes> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [page] = useState(1);
+  const [selectValue, setIsSelectValue] = useState<any>('');
 
   const individualTablecolumns: ColumnsType<IIndividualLimits> = [
     { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
@@ -57,13 +60,12 @@ const IndividualModal: FC<PropTypes> = ({
     onSuccess: () => {
       queryData.refetch();
     },
-    onError: () => {
-      setIsIndividualModalOpen(false);
-      toast.error(t('Something went wrong'));
+    onError: err => {
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
   const list = mutation.data?.data.list;
-  // const allTotal = mutation.data?.data.count;
 
   const searchList = useMutation({
     mutationFn: () => {
@@ -79,9 +81,9 @@ const IndividualModal: FC<PropTypes> = ({
       onSave();
       form.resetFields();
     },
-    onError: () => {
-      setIsIndividualModalOpen(false);
-      toast.error('Something went wrong');
+    onError: err => {
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
 
@@ -113,12 +115,23 @@ const IndividualModal: FC<PropTypes> = ({
         <Row>
           <Col span={7}>
             <Form.Item name='orderBy'>
-              <Select options={selectOptions} />
+              <Select
+                onChange={value => setIsSelectValue(value)}
+                options={selectOptions}
+              />
             </Form.Item>
           </Col>
           <Col span={14}>
             <Form.Item name='id'>
-              <Input style={{ borderRadius: '10px 0 0 10px' }} />
+              <Input
+                placeholder={
+                  selectValue === 'phone'
+                    ? 'Add Min 6 digits'
+                    : 'Add Only Digits'
+                }
+                style={{ borderRadius: '10px 0 0 10px' }}
+                type='number'
+              />
             </Form.Item>
           </Col>
           <Col span={1}>
@@ -141,16 +154,6 @@ const IndividualModal: FC<PropTypes> = ({
         dataSource={list}
         scroll={{ x: true }}
         loading={list?.isLoading}
-        // pagination={{
-        //   onChange(pages) {
-        //     setPage(pages);
-        //   },
-        //   defaultPageSize: 5,
-        //   position: ['bottomCenter'],
-        //   total: allTotal,
-        //   showSizeChanger: true,
-        //   responsive: true,
-        // }}
       />
       <Form.Item>
         <Input.Password prefix={<LockOutlined />} placeholder='Secret Token ' />

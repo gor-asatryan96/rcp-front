@@ -41,8 +41,8 @@ const Transactions: FC = () => {
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
   const [TRXId, setTRXId] = useState<number>();
   const [filters, setFilters] = useState<TRXfiltersForm>({
-    dateFrom: dayjs().tz(timezone).startOf('day'),
-    dateTo: dayjs().tz(timezone),
+    dateFrom: dayjs().startOf('day'),
+    dateTo: dayjs(),
     amountFrom: 0,
     amountTo: 0,
     playerId: 0,
@@ -189,7 +189,12 @@ const Transactions: FC = () => {
       dataIndex: 'gateway_trx_id',
       key: 'gateway_trx_id',
     },
-    { title: 'Username', dataIndex: 'username', key: 'username' },
+    {
+      title: 'Username',
+      dataIndex: 'username',
+      key: 'username',
+      // render: (_, data) => console.log('meta', data.meta_info),
+    },
     {
       title: 'CHECK',
       dataIndex: 'autochecked',
@@ -350,7 +355,9 @@ const Transactions: FC = () => {
             expandable={{
               // eslint-disable-next-line react/no-unstable-nested-components
               expandedRowRender: data => (
-                <MetaInfo key={data.id} data={data?.meta_info} />
+                <div>
+                  <MetaInfo key={data.id} data={data?.meta_info} />
+                </div>
               ),
               rowExpandable: data => data.aa_status === 'REJECTED',
             }}
