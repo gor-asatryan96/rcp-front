@@ -16,6 +16,19 @@ export const transactionFilterOptions = {
   ],
 };
 
+export const transactionStatusChangeDict: Readonly<{
+  [key: string]: { [key: string]: string[] };
+}> = Object.freeze({
+  IN: {
+    WAITGW: ['SUCCESS', 'CANCELED'],
+  },
+  OUT: {
+    PENDING: ['APPROVED', 'DENIED', 'CANCELED'],
+    APPROVED: ['PENDING', 'DENIED', 'CANCELED'],
+    DENIED: ['PENDING', 'APPROVED', 'CANCELED'],
+  },
+});
+
 export const autoPushOptions = [
   {
     name: 'AutoPush',

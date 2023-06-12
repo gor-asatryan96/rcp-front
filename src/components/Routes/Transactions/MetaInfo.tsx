@@ -18,8 +18,9 @@ interface IMetaInfoTypes {
 
 type Diff = { difference?: number };
 
-interface MetaInfoType {
+export interface MetaInfoType {
   aa_messages: IMetaInfoTypes;
+  username: string;
 }
 
 type Proptypes = {
@@ -28,14 +29,17 @@ type Proptypes = {
 
 const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   {
-    title: 'Aviable Withdraw Limit',
+    title: 'Available Withdraw',
     dataIndex: 'available_withdraw_amount',
     key: 'available_withdraw_amount',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -44,14 +48,17 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Rollback Limit',
+    title: 'Rollback',
     dataIndex: 'rollback_limit',
     key: 'rollback_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -60,14 +67,17 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Withdraw Limit',
+    title: 'Withdraw',
     dataIndex: 'withdraw_limit',
     key: 'withdraw_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -76,14 +86,17 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Sport Winning Limit',
+    title: 'Sport Winning',
     dataIndex: 'sport_winning_limit',
     key: 'sport_winning_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -92,14 +105,17 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Casino Winning Limit',
+    title: 'Casino Winning',
     dataIndex: 'casino_winning_limit',
     key: 'casino_winning_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -108,14 +124,17 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Games Winning Limit',
+    title: 'Games Winning',
     dataIndex: 'games_winning_limit',
     key: 'games_winning_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -124,14 +143,17 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Sport GGR Limit',
+    title: 'Sport GGR',
     dataIndex: 'sport_ggr_limit',
     key: 'sport_ggr_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -145,9 +167,12 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     key: 'casino_ggr_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />
@@ -161,9 +186,12 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     key: 'games_ggr_limit',
     render(value: Diff) {
       return value?.difference ? (
-        <Card className={classes.messageColumnsError}>
-          <CloseOutlined />
-        </Card>
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>difference-{value.difference}</h3>
+        </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
           <CheckOutlined />

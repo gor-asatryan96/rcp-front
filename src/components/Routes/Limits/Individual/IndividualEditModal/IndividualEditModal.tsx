@@ -1,9 +1,12 @@
 import { Button, Form, Input, Modal } from 'antd';
 import { FC } from 'react';
 import { useMutation } from 'react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { LockOutlined, SaveOutlined } from '@ant-design/icons';
+import { t } from 'i18next';
+
+import { IErrorMessage } from 'redux/store.types';
 
 import { IIndividualEditLimits, ILimitChange } from '../Individual.types';
 
@@ -34,10 +37,10 @@ const IndividualEditeModal: FC<PropTypes> = ({
       setIsPlayerEditModalOpen(null);
       toast.success('successfully');
     },
-    onError: () => {
-      setIsPlayerEditModalOpen(null);
+    onError: err => {
       refetch();
-      toast.error('Something went wrong');
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
 
