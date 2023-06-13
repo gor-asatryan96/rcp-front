@@ -61,7 +61,7 @@ const EditeModal: FC<PropTypes> = ({
             labelCol={{ span: 5 }}
             name='rollback_limit_percentage'
             label='Rollback Limit'>
-            <InputNumber min={0} style={{ width: 250 }} />
+            <InputNumber prefix='%' min={0} max={100} style={{ width: 250 }} />
           </Form.Item>
           <Popover
             trigger='hover'
