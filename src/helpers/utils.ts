@@ -10,3 +10,15 @@ export const wait = (ms = 3000) =>
   new Promise(resolve => {
     setTimeout(resolve, ms);
   });
+
+export function parseJSON(jsonString: string) {
+  try {
+    const o = JSON.parse(jsonString);
+    if (o && typeof o === 'object') {
+      return o;
+    }
+    // eslint-disable-next-line no-empty
+  } catch (e) {}
+
+  return false;
+}

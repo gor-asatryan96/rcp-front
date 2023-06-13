@@ -68,7 +68,6 @@ const InBoModal: FC<PropTypes> = ({
       reason: data.reason,
       type: 'IN',
     };
-    console.log('type', requestBody.opType);
     mutation.mutate(requestBody);
   };
 

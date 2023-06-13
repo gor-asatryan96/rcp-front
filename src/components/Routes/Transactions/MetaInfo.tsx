@@ -20,7 +20,7 @@ type Diff = { difference?: number };
 
 export interface MetaInfoType {
   aa_messages: IMetaInfoTypes;
-  username: string;
+  sa_username: string;
 }
 
 type Proptypes = {

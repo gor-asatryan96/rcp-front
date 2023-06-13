@@ -48,3 +48,12 @@ export interface TRXfiltersForm {
 export interface ITRXFilters {
   [key: string]: ITRXFilter[];
 }
+
+type Option = {
+  title: string;
+  value: string;
+};
+
+export type IStatusOptions = {
+  [key: string]: Option[];
+};
