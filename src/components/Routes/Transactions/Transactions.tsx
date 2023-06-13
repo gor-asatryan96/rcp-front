@@ -14,10 +14,8 @@ import axios, { AxiosError } from 'axios';
 import { t } from 'i18next';
 import { toast } from 'react-toastify';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useSelector } from 'react-redux';
 
 import { IErrorMessage } from 'redux/store.types';
-import { selecTimezone } from 'redux/reducers/serverConfigs/serverConfigs.slice';
 
 import NotificationSpinner from '../../Common/NotificationSidebar/NotificationCards/components/NotificationSpinner/NotificationSpinner';
 
@@ -30,12 +28,11 @@ import {
   ITransaction,
   TRXfiltersForm,
 } from './helpers/Transactions.types';
-import { colors, statusList } from './helpers/Constans';
+import { colors, validOptionsList } from './helpers/Constans';
 import MetaInfo from './MetaInfo';
+import UsernameInfo from './UsernameInfo';
 
 const Transactions: FC = () => {
-  const timezone = useSelector(selecTimezone);
-
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
@@ -54,10 +51,6 @@ const Transactions: FC = () => {
     orderBy: 'updated_at',
     orderDir: 'DESC',
   });
-
-  console.log('time', timezone);
-
-  const statusOptions = statusList?.map(item => ({ value: item.title }));
 
   const queryData = useInfiniteQuery(
     ['transactions', filters],
@@ -177,7 +170,7 @@ const Transactions: FC = () => {
           onChange={value => onStatusChange(data.id, value)}
           style={{ width: '7rem' }}
           defaultValue={data.status}
-          options={statusOptions}
+          options={validOptionsList[data.status]}
         />
       ),
     },
@@ -193,7 +186,9 @@ const Transactions: FC = () => {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
-      // render: (_, data) => console.log('meta', data.meta_info),
+      render: (_, data) => (
+        <UsernameInfo key={data.id} data={data?.meta_info} />
+      ),
     },
     {
       title: 'CHECK',
@@ -355,9 +350,7 @@ const Transactions: FC = () => {
             expandable={{
               // eslint-disable-next-line react/no-unstable-nested-components
               expandedRowRender: data => (
-                <div>
-                  <MetaInfo key={data.id} data={data?.meta_info} />
-                </div>
+                <MetaInfo key={data.id} data={data?.meta_info} />
               ),
               rowExpandable: data => data.aa_status === 'REJECTED',
             }}

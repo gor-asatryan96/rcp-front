@@ -1,4 +1,4 @@
-import { Approved } from './Transactions.types';
+import { Approved, IStatusOptions } from './Transactions.types';
 
 export const transactionFilterOptions = {
   status: [
@@ -49,11 +49,29 @@ export const colors = {
   [Approved.PENDING]: 'rgb(245,245,245)',
 };
 
-export const statusList = [
-  { title: 'PENDING', value: 'PENDING' },
-  { title: 'APPROVED', value: 'APPROVED' },
-  { title: 'SUCCESS', value: 'SUCCESS' },
-  { title: 'CANCELED', value: 'CANCELED' },
-  { title: 'DENIED', value: 'DENIED' },
-  { title: 'WAITGW', value: 'WAITGW' },
-];
+export const validOptionsList: IStatusOptions = {
+  WAITGW: [
+    { title: 'WAITGW', value: 'WAITGW' },
+    { title: 'SUCCESS', value: 'SUCCESS' },
+    { title: 'CANCELED', value: 'CANCELED' },
+    { title: 'DENIED', value: 'DENIED' },
+  ],
+  PENDING: [
+    { title: 'PENDING', value: 'PENDING' },
+    { title: 'APPROVED', value: 'APPROVED' },
+    { title: 'DENIED', value: 'DENIED' },
+    { title: 'CANCELED', value: 'CANCELED' },
+  ],
+  APPROVED: [
+    { title: 'APPROVED', value: 'APPROVED' },
+    { title: 'PENDING', value: 'PENDING' },
+    { title: 'DENIED', value: 'DENIED' },
+    { title: 'CANCELED', value: 'CANCELED' },
+  ],
+  DENIED: [
+    { title: 'DENIED', value: 'DENIED' },
+    { title: 'PENDING', value: 'PENDING' },
+    { title: 'APPROVED', value: 'APPROVED' },
+    { title: 'CANCELED', value: 'CANCELED' },
+  ],
+};
