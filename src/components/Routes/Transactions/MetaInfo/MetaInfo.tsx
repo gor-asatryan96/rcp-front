@@ -3,29 +3,13 @@ import { Card, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FC } from 'react';
 
-import classes from './Transactions.module.scss';
-
-interface IMetaInfoTypes {
-  rollback_limit: Diff;
-  withdraw_limit: Diff;
-  sport_winning_limit: Diff;
-  casino_winning_limit: Diff;
-  games_winning_limit: Diff;
-  sport_ggr_limit: Diff;
-  casino_ggr_limit: Diff;
-  games_ggr_limit: Diff;
-}
-
-type Diff = { difference?: number };
-
-export interface MetaInfoType {
-  aa_messages: IMetaInfoTypes;
-  sa_username: string;
-}
-
-type Proptypes = {
-  data: string;
-};
+import classes from './MetaInfo.module.scss';
+import {
+  Diff,
+  IMetaInfoTypes,
+  MetaInfoData,
+  MetaInfoType,
+} from './MetaInfoTypes';
 
 const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   {
@@ -38,7 +22,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -57,7 +41,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -76,7 +60,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -95,7 +79,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -114,7 +98,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -133,7 +117,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -152,7 +136,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -171,7 +155,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -190,7 +174,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>difference-{value.difference}</h3>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -201,11 +185,12 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   },
 ];
 
-const MetaInfo: FC<Proptypes> = ({ data }) => {
+const MetaInfo: FC<MetaInfoData> = ({ data }) => {
   const parsedData: MetaInfoType = JSON.parse(data);
 
   return (
     <Table
+      style={{ marginRight: 30 }}
       bordered
       size='small'
       pagination={false}

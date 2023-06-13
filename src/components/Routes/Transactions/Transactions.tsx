@@ -29,8 +29,8 @@ import {
   TRXfiltersForm,
 } from './helpers/Transactions.types';
 import { colors, validOptionsList } from './helpers/Constans';
-import MetaInfo from './MetaInfo';
-import UsernameInfo from './UsernameInfo';
+import UsernameInfo from './UsernameInfo/UsernameInfo';
+import MetaInfo from './MetaInfo/MetaInfo';
 
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);

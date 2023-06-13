@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { parseJSON } from 'helpers/utils';
 
-import { MetaInfoType } from './MetaInfo';
+import { MetaInfoType } from '../MetaInfo/MetaInfoTypes';
 
 type Proptypes = {
   data: string;
