@@ -35,6 +35,7 @@ const GeneralLimitTab: FC<PropTypes> = ({ data }) => {
           <Form.Item label='Rollback Limit'>
             <InputNumber
               disabled
+              prefix='%'
               style={{
                 width: '100%',
               }}

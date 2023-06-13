@@ -10,10 +10,9 @@ import { useTranslation } from 'react-i18next';
 import GlobalLoader from 'components/Common/GlobalLoader/GlobalLoader';
 import { IErrorMessage } from 'redux/store.types';
 
-import CheckboxGroup from '../Transactions/TransactionFilters/CheckboxGroup';
-
 import { autopushAndApproveData } from './Autopush.service';
 import { IAutoPushAndApprove, IOperatorListRequestBody } from './Autopush.type';
+import AutoPushCheckbox from './Components/AutoPushCheckbox/AutoPushCheckbox';
 
 const AutoPush: FC = () => {
   const { t } = useTranslation();
@@ -116,8 +115,7 @@ const AutoPush: FC = () => {
               alignItems: 'center',
             }}>
             <Row style={{ paddingBottom: 10 }}>
-              <CheckboxGroup
-                span={3}
+              <AutoPushCheckbox
                 name='Auto Push'
                 onAllCheck={onFilterChange}
                 value={checkboxData['Auto Push']}
@@ -126,8 +124,7 @@ const AutoPush: FC = () => {
               />
             </Row>
             <Row style={{ paddingBottom: 10 }}>
-              <CheckboxGroup
-                span={3}
+              <AutoPushCheckbox
                 name='Auto Approve'
                 onAllCheck={onFilterChange}
                 value={checkboxData['Auto Approve']}
