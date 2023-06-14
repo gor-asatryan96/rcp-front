@@ -9,4 +9,8 @@ export const autopushAndApproveData = {
     );
     return data;
   },
+  async getApproverTestMode() {
+    const { data } = await axios.post('/setting/general/list');
+    return data;
+  },
 };
