@@ -146,7 +146,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Casino GGR Limit',
+    title: 'Casino GGR',
     dataIndex: 'casino_ggr_limit',
     key: 'casino_ggr_limit',
     render(value: Diff) {
@@ -165,7 +165,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     },
   },
   {
-    title: 'Games GGR Limit',
+    title: 'Games GGR',
     dataIndex: 'games_ggr_limit',
     key: 'games_ggr_limit',
     render(value: Diff) {

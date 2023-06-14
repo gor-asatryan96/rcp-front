@@ -51,25 +51,21 @@ export const colors = {
 
 export const validOptionsList: IStatusOptions = {
   WAITGW: [
-    { title: 'WAITGW', value: 'WAITGW' },
     { title: 'SUCCESS', value: 'SUCCESS' },
     { title: 'CANCELED', value: 'CANCELED' },
     { title: 'DENIED', value: 'DENIED' },
   ],
   PENDING: [
-    { title: 'PENDING', value: 'PENDING' },
     { title: 'APPROVED', value: 'APPROVED' },
     { title: 'DENIED', value: 'DENIED' },
     { title: 'CANCELED', value: 'CANCELED' },
   ],
   APPROVED: [
-    { title: 'APPROVED', value: 'APPROVED' },
     { title: 'PENDING', value: 'PENDING' },
     { title: 'DENIED', value: 'DENIED' },
     { title: 'CANCELED', value: 'CANCELED' },
   ],
   DENIED: [
-    { title: 'DENIED', value: 'DENIED' },
     { title: 'PENDING', value: 'PENDING' },
     { title: 'APPROVED', value: 'APPROVED' },
     { title: 'CANCELED', value: 'CANCELED' },
