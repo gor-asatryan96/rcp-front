@@ -37,6 +37,7 @@ export const transactionsData = {
       count: number;
       amount: number;
     }>('/transaction/list', body);
+    data.list = data.list.map(item => ({ ...item, key: item.id }));
     return data;
   },
 };

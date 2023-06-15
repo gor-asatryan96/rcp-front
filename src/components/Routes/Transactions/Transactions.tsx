@@ -6,7 +6,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Divider, Select, Table, Tooltip } from 'antd';
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
@@ -31,7 +31,7 @@ import {
 import { colors, validOptionsList } from './helpers/Constans';
 import UsernameInfo from './UsernameInfo/UsernameInfo';
 import MetaInfo from './MetaInfo/MetaInfo';
-
+// import MetaInfo from './MetaInfo/MetaInfo';
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
@@ -51,7 +51,6 @@ const Transactions: FC = () => {
     orderBy: 'updated_at',
     orderDir: 'DESC',
   });
-
   const queryData = useInfiniteQuery(
     ['transactions', filters],
     ({ pageParam = 1 }) => transactionsData.getTransactions(filters, pageParam),
@@ -79,13 +78,11 @@ const Transactions: FC = () => {
       toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
-
   const onPushClick = (data: ITransaction) => {
     const transactionId = data.id;
     setTRXId(transactionId);
     mutationManualPush.mutate({ transactionId });
   };
-
   const mutation = useMutation({
     mutationFn: ({
       transactionId,
@@ -105,16 +102,13 @@ const Transactions: FC = () => {
     onError: err => {
       queryData.remove();
       queryData.refetch();
-
       const error = err as unknown as AxiosError<IErrorMessage>;
       toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
-
   const onStatusChange = (transactionId: number, status: string) => {
     mutation.mutate({ transactionId, status });
   };
-
   const TransactionsColumns: ColumnsType<ITransaction> = [
     { title: 'TRX ID', dataIndex: 'id', key: 'id' },
     {
@@ -234,7 +228,6 @@ const Transactions: FC = () => {
       ),
     },
   ];
-
   const TRXInsert = useQuery(['filters-insert'], () =>
     transactionsInsert.getTRXInsert(),
   );
@@ -244,28 +237,26 @@ const Transactions: FC = () => {
   const totalAmount = queryData.data?.pages?.length
     ? queryData.data.pages[queryData.data.pages.length - 1].amount
     : 0;
-
   const onInBoModalOpenClick = () => {
     setIsInBoModalOpen(!isInBoModalOpen);
   };
-
   const onOutBoModalOpenClick = () => {
     setIsOutBoModalOpen(!isOutBoModalOpen);
   };
-
   const onFiltersClick = () => {
     setIsFiltersOpen(!isFiltersOpen);
   };
-
   const transactionList = queryData.data?.pages?.reduce<ITransaction[]>(
     (acc, b) => [...acc, ...b.list],
     [],
   );
-
+  const MetaInfoExtandable = useCallback(
+    (data: ITransaction) => <MetaInfo key={data.id} data={data?.meta_info} />,
+    [],
+  );
   return (
     <>
       <Divider orientation='left'>Transactions</Divider>
-
       <div
         style={{
           display: 'flex',
@@ -288,7 +279,6 @@ const Transactions: FC = () => {
           </Button>
         </div>
       </div>
-
       <InBoModal
         TRXfilters={TRXInsert.data?.op_types.IN}
         isInBoModalOpen={isInBoModalOpen}
@@ -299,9 +289,12 @@ const Transactions: FC = () => {
         isOutBoModalOpen={isOutBoModalOpen}
         setIsOutBoModalOPen={setIsOutBoModalOpen}
       />
-      {isFiltersOpen && (
+      <div
+        style={{
+          display: !isFiltersOpen ? 'none' : '',
+        }}>
         <TransactionFilters setFilters={setFilters} initialFilters={filters} />
-      )}
+      </div>
       <div
         style={{
           display: 'flex',
@@ -348,10 +341,7 @@ const Transactions: FC = () => {
             size='small'
             columns={TransactionsColumns}
             expandable={{
-              // eslint-disable-next-line react/no-unstable-nested-components
-              expandedRowRender: data => (
-                <MetaInfo key={data.id} data={data?.meta_info} />
-              ),
+              expandedRowRender: MetaInfoExtandable,
               rowExpandable: data => data.aa_status === 'REJECTED',
             }}
             dataSource={transactionList}
@@ -364,5 +354,4 @@ const Transactions: FC = () => {
     </>
   );
 };
-
 export default Transactions;
