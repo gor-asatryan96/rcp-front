@@ -56,7 +56,7 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
         ...prev,
         ...data,
         opType: [...(filtersData.IN || []), ...(filtersData.OUT || [])],
-        status: [...(filtersData.status || [])],
+        status: [...(filtersData.STATUS || [])],
         aa_status: [...(filtersData.AUTO || [])],
       };
 

@@ -1,7 +1,7 @@
 import { Approved, IStatusOptions } from './Transactions.types';
 
 export const transactionFilterOptions = {
-  status: [
+  STATUS: [
     { name: 'PENDING', type: 'status' },
     { name: 'APPROVED', type: 'status' },
     { name: 'DENIED', type: 'status' },
