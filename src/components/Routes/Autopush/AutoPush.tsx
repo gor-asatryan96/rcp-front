@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Button, Divider, Input, Row } from 'antd';
+import { Button, Divider, Form, Input, Row } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import { useMutation, useQuery } from 'react-query';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
@@ -13,6 +13,7 @@ import { IErrorMessage } from 'redux/store.types';
 import { autopushAndApproveData } from './Autopush.service';
 import { IAutoPushAndApprove, IOperatorListRequestBody } from './Autopush.type';
 import AutoPushCheckbox from './Components/AutoPushCheckbox/AutoPushCheckbox';
+import SetModeSwitch from './Components/SetModeSwitch/SetModeSwitch';
 
 const AutoPush: FC = () => {
   const { t } = useTranslation();
@@ -114,6 +115,9 @@ const AutoPush: FC = () => {
               flexDirection: 'column',
               alignItems: 'center',
             }}>
+            <Form.Item label='Set mode'>
+              <SetModeSwitch />
+            </Form.Item>
             <Row style={{ paddingBottom: 10 }}>
               <AutoPushCheckbox
                 name='Auto Push'
