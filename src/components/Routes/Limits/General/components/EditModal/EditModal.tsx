@@ -52,16 +52,22 @@ const EditeModal: FC<PropTypes> = ({
       <Form onFinish={handleSubmit} initialValues={data} form={form}>
         <Card className={classes.dailyEditModalCard}>
           <Form.Item
+            rules={[{ required: true, message: '' }]}
             labelCol={{ span: 5 }}
             name='daily_withdraw_limit'
             label='Withdraw Limit'>
             <InputNumber min={0} style={{ width: 250 }} />
           </Form.Item>
           <Form.Item
+            rules={[
+              { required: true, message: '' },
+              { type: 'number', max: 100, message: 'Max 100%' },
+              { type: 'number', min: 1, message: 'Min 1%' },
+            ]}
             labelCol={{ span: 5 }}
             name='rollback_limit_percentage'
             label='Rollback Limit'>
-            <InputNumber prefix='%' min={0} max={100} style={{ width: 250 }} />
+            <InputNumber prefix='%' style={{ width: 250 }} />
           </Form.Item>
           <Popover
             trigger='hover'
@@ -70,13 +76,13 @@ const EditeModal: FC<PropTypes> = ({
             <Form.Item
               name='used_unused_percentage'
               labelCol={{ span: 5 }}
+              rules={[
+                { required: true, message: '' },
+                { type: 'number', max: 100, message: 'Max 100%' },
+                { type: 'number', min: 1, message: 'Min 1%' },
+              ]}
               label='DDC'>
-              <InputNumber
-                prefix='%'
-                min={0}
-                max={100}
-                style={{ width: 250 }}
-              />
+              <InputNumber prefix='%' style={{ width: 250 }} />
             </Form.Item>
           </Popover>
           <Row justify='center'>
