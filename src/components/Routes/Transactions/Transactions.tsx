@@ -19,6 +19,7 @@ import { IErrorMessage } from 'redux/store.types';
 
 import NotificationSpinner from '../../Common/NotificationSidebar/NotificationCards/components/NotificationSpinner/NotificationSpinner';
 
+import classes from './Transactions.module.scss';
 import InBoModal from './InBoModal/InBoModal';
 import OutBoModal from './OutBoModal/OutBoModal';
 import { transactionsData, transactionsInsert } from './transactions.service';
@@ -159,14 +160,20 @@ const Transactions: FC = () => {
     {
       title: 'Status',
       dataIndex: 'status',
-      render: (_, data) => (
-        <Select
-          onChange={value => onStatusChange(data.id, value)}
-          style={{ width: '7rem' }}
-          defaultValue={data.status}
-          options={validOptionsList[data.status]}
-        />
-      ),
+      render: (_, data) =>
+        data.status === 'SUCCESS' || data.status === 'CANCELED' ? (
+          <Card className={classes.tableStatus}>{data.status}</Card>
+        ) : (
+          <Select
+            onChange={value => {
+              data.status = value;
+              onStatusChange(data.id, value);
+            }}
+            style={{ width: '7rem' }}
+            defaultValue={data.status}
+            options={validOptionsList[data.status]}
+          />
+        ),
     },
     { title: 'Code', dataIndex: 'code', key: 'code' },
     { title: 'MSISDN', dataIndex: 'msisdn', key: 'msisdn' },
