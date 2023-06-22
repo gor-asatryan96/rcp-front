@@ -115,7 +115,7 @@ const AutoPush: FC = () => {
               flexDirection: 'column',
               alignItems: 'center',
             }}>
-            <Form.Item label='Set mode'>
+            <Form.Item label='Test Mode'>
               <SetModeSwitch />
             </Form.Item>
             <Row style={{ paddingBottom: 10 }}>

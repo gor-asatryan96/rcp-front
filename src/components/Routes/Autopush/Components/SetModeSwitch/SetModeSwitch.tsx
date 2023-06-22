@@ -34,8 +34,10 @@ const SetModeSwitch: FC = () => {
     setSwitchValue(checked);
     setApproverTestMode.mutate();
   };
+
   return (
     <Switch
+      defaultChecked
       checkedChildren={<CheckOutlined />}
       unCheckedChildren={<CloseOutlined />}
       onChange={handleSwitchChange}
