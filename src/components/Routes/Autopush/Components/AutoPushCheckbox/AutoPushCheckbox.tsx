@@ -9,7 +9,6 @@ type Proptypes = {
   onAllCheck: (name: string, values: CheckboxValueType[]) => void;
   onFilterChange: (name: string, values: CheckboxValueType[]) => void;
 };
-
 const AutoPushCheckbox: FC<Proptypes> = ({
   name,
   options,
@@ -18,28 +17,28 @@ const AutoPushCheckbox: FC<Proptypes> = ({
   onFilterChange,
 }) => {
   const isAllCheck = options.length === value.length;
-
   return (
     <>
-      <Form.Item name={name} label={name}>
-        <Row>
-          <Col offset={0}>
-            <Checkbox
-              checked={isAllCheck}
-              onChange={() => onAllCheck(name, isAllCheck ? [] : options)}>
-              ALL
-            </Checkbox>
-            <Checkbox.Group
-              value={value}
-              options={options}
-              onChange={values => onFilterChange(name, values)}
-              style={{ flexWrap: 'wrap' }}
-            />
-          </Col>
-        </Row>
-      </Form.Item>
+      <Form>
+        <Form.Item name={name} label={name}>
+          <Row>
+            <Col offset={0}>
+              <Checkbox
+                checked={isAllCheck}
+                onChange={() => onAllCheck(name, isAllCheck ? [] : options)}>
+                ALL
+              </Checkbox>
+              <Checkbox.Group
+                value={value}
+                options={options}
+                onChange={values => onFilterChange(name, values)}
+                style={{ flexWrap: 'wrap' }}
+              />
+            </Col>
+          </Row>
+        </Form.Item>
+      </Form>
     </>
   );
 };
-
 export default AutoPushCheckbox;
