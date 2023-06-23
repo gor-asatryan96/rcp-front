@@ -11,6 +11,6 @@ export const autopushAndApproveData = {
   },
   async getApproverTestMode() {
     const { data } = await axios.post('/setting/general/list');
-    return data;
+    return data.approver_test_mode;
   },
 };

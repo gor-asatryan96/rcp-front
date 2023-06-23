@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Switch } from 'antd';
 import { useMutation, useQuery } from 'react-query';
@@ -10,41 +10,34 @@ import { autopushAndApproveData } from '../../Autopush.service';
 
 const SetModeSwitch: FC = () => {
   const { t } = useTranslation();
-
   const testModeData = useQuery(
     ['testMode'],
     autopushAndApproveData.getApproverTestMode,
   );
-  const [switchValue, setSwitchValue] = useState(
-    testModeData.data?.approver_test_mode,
-  );
-
   const setApproverTestMode = useMutation({
-    mutationFn: () => {
+    mutationFn: (checked: boolean) => {
       return axios.post('/setting/general/set', {
-        approver_test_mode: !switchValue,
+        approver_test_mode: checked,
       });
     },
     onSuccess: () => {
       toast.success(t('Your changes have been'));
+      testModeData.refetch();
     },
   });
-
   const handleSwitchChange = (checked: boolean) => {
-    setSwitchValue(checked);
-    setApproverTestMode.mutate();
+    setApproverTestMode.mutate(checked);
   };
-
   return (
-    <Switch
-      defaultChecked
-      checkedChildren={<CheckOutlined />}
-      unCheckedChildren={<CloseOutlined />}
-      onChange={handleSwitchChange}
-      loading={setApproverTestMode.isLoading}
-      checked={switchValue}
-    />
+    <>
+      <Switch
+        checkedChildren={<CheckOutlined />}
+        unCheckedChildren={<CloseOutlined />}
+        onChange={handleSwitchChange}
+        loading={testModeData.isLoading || setApproverTestMode.isLoading}
+        checked={!!testModeData?.data}
+      />
+    </>
   );
 };
-
 export default SetModeSwitch;
