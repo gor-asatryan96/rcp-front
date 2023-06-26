@@ -53,7 +53,6 @@ const Header: FC = () => {
           <Select
             value={validCountries.length !== 0 ? activeProjectId : null}
             onChange={handleButtonSelect}
-            showSearch
             className={classes.headerSelector}
             placeholder='Select project'
             options={validCountries.map(country => ({
