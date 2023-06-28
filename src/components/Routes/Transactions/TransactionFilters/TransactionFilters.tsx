@@ -11,11 +11,16 @@ import classes from './TransactionFiltersModal.module.scss';
 import CheckboxGroup from './CheckboxGroup';
 
 type PropTypes = {
+  remove: any;
   setFilters: Dispatch<SetStateAction<TRXfiltersForm>>;
   initialFilters: TRXfiltersForm;
 };
 
-const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
+const TransactionFilters: FC<PropTypes> = ({
+  setFilters,
+  initialFilters,
+  remove,
+}) => {
   const [filtersData, setFiltersData] = useState<{
     [key: string]: CheckboxValueType[];
   }>({
@@ -59,6 +64,7 @@ const TransactionFilters: FC<PropTypes> = ({ setFilters, initialFilters }) => {
         status: [...(filtersData.STATUS || [])],
         aa_status: [...(filtersData.AUTO || [])],
       };
+      remove();
 
       return newFilters;
     });
