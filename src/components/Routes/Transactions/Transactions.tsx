@@ -32,7 +32,7 @@ import {
 import { colors, validOptionsList } from './helpers/Constans';
 import UsernameInfo from './UsernameInfo/UsernameInfo';
 import MetaInfo from './MetaInfo/MetaInfo';
-// import MetaInfo from './MetaInfo/MetaInfo';
+
 const Transactions: FC = () => {
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
@@ -63,6 +63,7 @@ const Transactions: FC = () => {
       },
     },
   );
+
   const mutationManualPush = useMutation({
     mutationFn: ({ transactionId }: { transactionId: number }) => {
       return axios.post('/transaction/manual-push', {
@@ -70,8 +71,8 @@ const Transactions: FC = () => {
       });
     },
     onSuccess: () => {
-      queryData.refetch();
-      queryData.remove();
+      // queryData.refetch();
+      // queryData.remove();
       toast.success('Manual push has successfully pushed');
     },
     onError: err => {
@@ -134,7 +135,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <div>
           {data.created_at
-            ? dayjs(data.created_at).format('DD/MM/YYYY HH:MM')
+            ? dayjs(data.created_at).format('DD/MM/YYYY h:mm')
             : ''}
         </div>
       ),
@@ -146,7 +147,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <div>
           {data.updated_at
-            ? dayjs(data.updated_at).format('DD/MM/YYYY HH:MM')
+            ? dayjs(data.updated_at).format('DD/MM/YYYY h:mm')
             : ''}
         </div>
       ),
@@ -235,6 +236,7 @@ const Transactions: FC = () => {
       ),
     },
   ];
+
   const TRXInsert = useQuery(['filters-insert'], () =>
     transactionsInsert.getTRXInsert(),
   );

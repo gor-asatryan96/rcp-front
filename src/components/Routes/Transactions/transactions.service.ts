@@ -20,18 +20,10 @@ export const transactionsData = {
         ? dayjs(filters.dateFrom).format('YYYY/MM/DD HH:mm:ss')
         : undefined,
     };
-    if (filters.paymentTransactionId === '') {
-      delete body.paymentTransactionId;
-    }
-    if (filters.playerId === '') {
-      delete body.playerId;
-    }
-    if (filters.amountTo === '') {
-      delete body.amountTo;
-    }
-    if (filters.amountFrom === '') {
-      delete body.amountFrom;
-    }
+    if (filters.paymentTransactionId === '') delete body.paymentTransactionId;
+    if (filters.playerId === '') delete body.playerId;
+    if (filters.amountTo === '') delete body.amountTo;
+    if (filters.amountFrom === '') delete body.amountFrom;
     const { data } = await axios.post<{
       list: ITransaction[];
       count: number;

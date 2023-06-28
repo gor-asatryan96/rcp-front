@@ -190,7 +190,7 @@ const MetaInfo: FC<MetaInfoData> = ({ data }) => {
 
   return (
     <Table
-      style={{ marginRight: 30 }}
+      style={{ marginRight: 45 }}
       bordered
       size='small'
       pagination={false}
