@@ -302,7 +302,11 @@ const Transactions: FC = () => {
         style={{
           display: !isFiltersOpen ? 'none' : '',
         }}>
-        <TransactionFilters setFilters={setFilters} initialFilters={filters} />
+        <TransactionFilters
+          remove={queryData.remove}
+          setFilters={setFilters}
+          initialFilters={filters}
+        />
       </div>
       <div
         style={{
