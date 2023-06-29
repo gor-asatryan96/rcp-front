@@ -10,9 +10,9 @@ export const transactionFilterOptions = {
     { name: 'WAITGW', type: 'status' },
   ],
   AUTO: [
-    { name: 'APPROVED', type: 'auto' },
-    { name: 'REJECTED', type: 'auto' },
-    { name: 'PENDING', type: 'auto' },
+    { name: 'APPROVED', type: 'aa_status' },
+    { name: 'REJECTED', type: 'aa_status' },
+    { name: 'PENDING', type: 'aa_status' },
   ],
 };
 

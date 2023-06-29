@@ -42,6 +42,7 @@ export interface TRXfiltersForm {
   playerId: number | string;
   paymentTransactionId: string;
   status: CheckboxValueType[];
+  aa_status: CheckboxValueType[];
   opType: CheckboxValueType[];
 }
 
