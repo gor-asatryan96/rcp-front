@@ -30,7 +30,6 @@ import {
   TRXfiltersForm,
 } from './helpers/Transactions.types';
 import { colors, validOptionsList } from './helpers/Constans';
-import UsernameInfo from './UsernameInfo/UsernameInfo';
 import MetaInfo from './MetaInfo/MetaInfo';
 
 const Transactions: FC = () => {
@@ -47,11 +46,13 @@ const Transactions: FC = () => {
     paymentTransactionId: '',
     opType: [],
     status: ['PENDING'],
+    aa_status: [],
     limit: 10,
     page: 1,
     orderBy: 'updated_at',
     orderDir: 'DESC',
   });
+
   const queryData = useInfiniteQuery(
     ['transactions', filters],
     ({ pageParam = 1 }) => transactionsData.getTransactions(filters, pageParam),
@@ -71,8 +72,8 @@ const Transactions: FC = () => {
       });
     },
     onSuccess: () => {
-      // queryData.refetch();
-      // queryData.remove();
+      queryData.refetch();
+      queryData.remove();
       toast.success('Manual push has successfully pushed');
     },
     onError: err => {
@@ -126,7 +127,12 @@ const Transactions: FC = () => {
         </a>
       ),
     },
-    { title: 'Amount', dataIndex: 'amount', key: 'amount' },
+    {
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
+      render: (_, data) => <div>{parseInt(data.amount, 10)}</div>,
+    },
     { title: 'Currency', dataIndex: 'currency', key: 'currency' },
     {
       title: 'Created',
@@ -188,9 +194,6 @@ const Transactions: FC = () => {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
-      render: (_, data) => (
-        <UsernameInfo key={data.id} data={data?.meta_info} />
-      ),
     },
     {
       title: 'CHECK',
@@ -279,13 +282,17 @@ const Transactions: FC = () => {
             style={{ fontSize: 24, cursor: 'pointer' }}
           />
         </Tooltip>
-        <div style={{ paddingBottom: 10 }}>
-          <Button onClick={onOutBoModalOpenClick} type='primary' danger>
-            <MinusOutlined />
-          </Button>
-          <Button onClick={onInBoModalOpenClick} type='primary'>
-            <PlusOutlined />
-          </Button>
+        <div style={{ display: 'flex', paddingBottom: 10 }}>
+          <div style={{ marginRight: '0.5rem' }}>
+            <Button onClick={onOutBoModalOpenClick} type='primary' danger>
+              <MinusOutlined />
+            </Button>
+          </div>
+          <div>
+            <Button onClick={onInBoModalOpenClick} type='primary'>
+              <PlusOutlined />
+            </Button>
+          </div>
         </div>
       </div>
       <InBoModal
