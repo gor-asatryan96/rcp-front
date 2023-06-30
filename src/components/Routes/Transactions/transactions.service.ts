@@ -21,6 +21,7 @@ export const transactionsData = {
         : undefined,
     };
     if (filters.paymentTransactionId === '') delete body.paymentTransactionId;
+    if (filters.transactionId === '') delete body.transactionId;
     if (filters.playerId === '') delete body.playerId;
     if (filters.amountTo === '') delete body.amountTo;
     if (filters.amountFrom === '') delete body.amountFrom;
