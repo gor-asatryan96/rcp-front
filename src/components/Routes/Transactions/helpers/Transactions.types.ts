@@ -23,6 +23,7 @@ export interface ITransaction {
   internal_status: string;
   aa_status: Approved;
   meta_info: string;
+  is_manual: number;
 }
 
 export interface ITRXFilter {
@@ -41,6 +42,7 @@ export interface TRXfiltersForm {
   amountTo: number | string;
   playerId: number | string;
   paymentTransactionId: string;
+  transactionId: number | string;
   status: CheckboxValueType[];
   aa_status: CheckboxValueType[];
   opType: CheckboxValueType[];

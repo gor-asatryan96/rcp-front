@@ -44,6 +44,7 @@ const Transactions: FC = () => {
     amountTo: 0,
     playerId: 0,
     paymentTransactionId: '',
+    transactionId: '',
     opType: [],
     status: ['PENDING'],
     aa_status: [],
@@ -113,7 +114,11 @@ const Transactions: FC = () => {
     mutation.mutate({ transactionId, status });
   };
   const TransactionsColumns: ColumnsType<ITransaction> = [
-    { title: 'TRX ID', dataIndex: 'id', key: 'id' },
+    {
+      title: 'TRX ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
     {
       title: 'UID',
       dataIndex: 'user_id',
@@ -141,7 +146,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <div>
           {data.created_at
-            ? dayjs(data.created_at).format('DD/MM/YYYY h:mm')
+            ? dayjs(data.created_at).format('DD/MM/YYYY hh:mm')
             : ''}
         </div>
       ),
@@ -153,7 +158,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <div>
           {data.updated_at
-            ? dayjs(data.updated_at).format('DD/MM/YYYY h:mm')
+            ? dayjs(data.updated_at).format('DD/MM/YYYY hh:mm')
             : ''}
         </div>
       ),
@@ -358,6 +363,8 @@ const Transactions: FC = () => {
           hasMore={!!queryData.hasNextPage}
           dataLength={transactionList?.length || 0}>
           <Table
+            rowKey={data => data.id}
+            rowClassName={data => (data.is_manual === 1 ? classes.manual : '')}
             size='small'
             columns={TransactionsColumns}
             expandable={{

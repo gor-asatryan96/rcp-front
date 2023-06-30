@@ -85,32 +85,37 @@ const TransactionFilters: FC<PropTypes> = ({
           dateTo: dayjs(initialFilters.dateTo),
         }}>
         <Row gutter={24}>
-          <Col span={4}>
+          <Col span={3}>
             <Form.Item name='dateFrom'>
               <DatePicker showTime placeholder='date from' allowClear={false} />
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <Form.Item name='dateTo'>
               <DatePicker showTime placeholder='date to' allowClear={false} />
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <Form.Item name='playerId'>
               <Input type='number' placeholder='Player ID' />
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <Form.Item name='paymentTransactionId'>
               <Input type='number' placeholder='Payment Transaction ID' />
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col span={3}>
+            <Form.Item name='transactionId'>
+              <Input type='number' placeholder='TRX ID' />
+            </Form.Item>
+          </Col>
+          <Col span={3}>
             <Form.Item name='amountFrom'>
               <Input type='number' placeholder='Amount from' />
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <Form.Item name='amountTo'>
               <Input type='number' placeholder='Amount To' />
             </Form.Item>

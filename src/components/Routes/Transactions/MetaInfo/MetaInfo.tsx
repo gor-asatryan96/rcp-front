@@ -13,6 +13,25 @@ import {
 
 const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   {
+    title: 'First Deposit',
+    dataIndex: 'first_deposit',
+    key: 'first_deposit',
+    render(value: Diff) {
+      return value?.difference ? (
+        <div className={classes.messageColumns}>
+          <Card className={classes.messageColumnsError}>
+            <CloseOutlined />
+          </Card>
+          <h3 className={classes.difference}>diff-{value.difference}</h3>
+        </div>
+      ) : (
+        <Card className={classes.messageColumnsSuccess}>
+          <CheckOutlined />
+        </Card>
+      );
+    },
+  },
+  {
     title: 'Available Withdraw',
     dataIndex: 'available_withdraw_amount',
     key: 'available_withdraw_amount',
