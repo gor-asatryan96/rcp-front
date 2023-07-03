@@ -166,8 +166,8 @@ const Transactions: FC = () => {
     { title: 'Kind', dataIndex: 'op_type', key: 'op_type' },
     {
       title: 'PTRX ID',
-      dataIndex: 'paymentTransactionId',
-      key: 'paymentTransactionId',
+      dataIndex: 'gateway_response',
+      key: 'gateway_response',
     },
     {
       title: 'Status',
