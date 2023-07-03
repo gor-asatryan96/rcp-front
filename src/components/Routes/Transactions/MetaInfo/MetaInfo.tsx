@@ -17,16 +17,16 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'first_withdraw',
     key: 'first_withdraw',
     render(value: Diff) {
-      return value?.first_withdraw ? (
+      return value?.is_first_withdraw === true ? (
+        <Card className={classes.messageColumnsSuccess}>
+          <CheckOutlined />
+        </Card>
+      ) : (
         <div className={classes.messageColumns}>
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
         </div>
-      ) : (
-        <Card className={classes.messageColumnsSuccess}>
-          <CheckOutlined />
-        </Card>
       );
     },
   },
