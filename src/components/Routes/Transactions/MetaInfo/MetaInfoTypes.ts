@@ -9,7 +9,10 @@ export interface IMetaInfoTypes {
   games_ggr_limit: Diff;
 }
 
-export type Diff = { difference?: number };
+export type Diff = {
+  difference?: number;
+  first_withdraw: number;
+};
 
 export interface MetaInfoType {
   aa_messages: IMetaInfoTypes;
