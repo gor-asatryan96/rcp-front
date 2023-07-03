@@ -11,7 +11,7 @@ export interface IMetaInfoTypes {
 
 export type Diff = {
   difference?: number;
-  first_withdraw: number;
+  is_first_withdraw: boolean;
 };
 
 export interface MetaInfoType {
