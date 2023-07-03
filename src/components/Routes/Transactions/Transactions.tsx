@@ -136,7 +136,7 @@ const Transactions: FC = () => {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
-      render: (_, data) => <div>{data.amount}</div>,
+      render: (_, data) => <div>{data.amount.split('.')[0]}</div>,
     },
     { title: 'Currency', dataIndex: 'currency', key: 'currency' },
     {
