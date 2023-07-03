@@ -49,6 +49,15 @@ export const colors = {
   [Approved.PENDING]: 'rgb(245,245,245)',
 };
 
+export const statusColors: { [key: string]: string } = {
+  PENDING: 'rgb(22,119,255)', // blue
+  SUCCESS: 'rgb(51,194,32)', // green
+  APPROVED: 'yellow', // yellow
+  DENIED: 'rgb(255,77,79)', // red
+  CANCELED: 'rgb(245,245,245)', // gray
+  WAITGW: 'white', // gray
+};
+
 export const validOptionsList: IStatusOptions = {
   WAITGW: [
     { title: 'SUCCESS', value: 'SUCCESS' },

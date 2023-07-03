@@ -29,7 +29,7 @@ import {
   ITransaction,
   TRXfiltersForm,
 } from './helpers/Transactions.types';
-import { colors, validOptionsList } from './helpers/Constans';
+import { colors, statusColors, validOptionsList } from './helpers/Constans';
 import MetaInfo from './MetaInfo/MetaInfo';
 
 const Transactions: FC = () => {
@@ -136,7 +136,7 @@ const Transactions: FC = () => {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
-      render: (_, data) => <div>{parseInt(data.amount, 10)}</div>,
+      render: (_, data) => <div>{data.amount}</div>,
     },
     { title: 'Currency', dataIndex: 'currency', key: 'currency' },
     {
@@ -174,14 +174,20 @@ const Transactions: FC = () => {
       dataIndex: 'status',
       render: (_, data) =>
         data.status === 'SUCCESS' || data.status === 'CANCELED' ? (
-          <Card className={classes.tableStatus}>{data.status}</Card>
+          <Card
+            style={{ backgroundColor: statusColors[data.status] }}
+            className={classes.tableStatus}>
+            {data.status}
+          </Card>
         ) : (
           <Select
             onChange={value => {
               data.status = value;
               onStatusChange(data.id, value);
             }}
-            style={{ width: '7rem' }}
+            style={{
+              width: '7rem',
+            }}
             defaultValue={data.status}
             options={validOptionsList[data.status]}
           />
@@ -254,6 +260,10 @@ const Transactions: FC = () => {
   const totalAmount = queryData.data?.pages?.length
     ? queryData.data.pages[queryData.data.pages.length - 1].amount
     : 0;
+  const usersCount = queryData.data?.pages?.length
+    ? queryData.data.pages[queryData.data.pages.length - 1].users_count
+    : 0;
+
   const onInBoModalOpenClick = () => {
     setIsInBoModalOpen(!isInBoModalOpen);
   };
@@ -354,6 +364,20 @@ const Transactions: FC = () => {
           size='small'
           headStyle={{ padding: 10 }}>
           Total Amount: {totalAmount}
+        </Card>
+        <Card
+          bodyStyle={{
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            minWidth: 150,
+            height: 30,
+            backgroundColor: 'rgb(120, 177, 235)',
+            borderRadius: 5,
+          }}
+          headStyle={{ padding: 10 }}
+          size='small'>
+          Users Count: {usersCount}
         </Card>
       </div>
       <div>

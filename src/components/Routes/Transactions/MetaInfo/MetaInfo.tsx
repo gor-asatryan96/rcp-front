@@ -13,16 +13,15 @@ import {
 
 const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   {
-    title: 'First Deposit',
-    dataIndex: 'first_deposit',
-    key: 'first_deposit',
+    title: 'First Withdraw',
+    dataIndex: 'first_withdraw',
+    key: 'first_withdraw',
     render(value: Diff) {
-      return value?.difference ? (
+      return value.first_withdraw ? (
         <div className={classes.messageColumns}>
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
