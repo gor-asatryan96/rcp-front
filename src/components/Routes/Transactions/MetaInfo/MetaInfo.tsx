@@ -17,7 +17,7 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
     dataIndex: 'first_withdraw',
     key: 'first_withdraw',
     render(value: Diff) {
-      return value.first_withdraw ? (
+      return value?.first_withdraw ? (
         <div className={classes.messageColumns}>
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
