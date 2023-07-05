@@ -24,7 +24,7 @@ const TransactionFilters: FC<PropTypes> = ({
   const [filtersData, setFiltersData] = useState<{
     [key: string]: CheckboxValueType[];
   }>({
-    status: ['PENDING'],
+    STATUS: ['PENDING'],
   });
 
   const [form] = Form.useForm();
