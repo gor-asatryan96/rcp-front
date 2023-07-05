@@ -162,9 +162,9 @@ const Transactions: FC = () => {
       },
       render: (_, data) => (
         <div>
-          {data.created_at
-            ? dayjs(data.created_at).format('DD/MM/YYYY hh:mm')
-            : ''}
+          {dayjs(data.created_at)
+            .subtract(4, 'hours')
+            .format('DD/MM/YYYY H:mm')}
         </div>
       ),
     },
@@ -179,9 +179,11 @@ const Transactions: FC = () => {
       },
       render: (_, data) => (
         <div>
-          {data.updated_at
-            ? dayjs(data.updated_at).format('DD/MM/YYYY hh:mm')
-            : ''}
+          <div>
+            {dayjs(data.created_at)
+              .subtract(4, 'hours')
+              .format('DD/MM/YYYY H:mm')}
+          </div>
         </div>
       ),
     },
