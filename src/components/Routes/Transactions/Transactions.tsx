@@ -180,7 +180,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <div>
           {data.updated_at
-            ? dayjs(data.updated_at).format('DD/MM/YYYY hh:mm')
+            ? dayjs(data.updated_at).format('DD/MM/YYYY h:m')
             : ''}
         </div>
       ),
@@ -355,6 +355,7 @@ const Transactions: FC = () => {
           display: !isFiltersOpen ? 'none' : '',
         }}>
         <TransactionFilters
+          refetch={queryData.refetch}
           remove={queryData.remove}
           setFilters={setFilters}
           initialFilters={filters}
