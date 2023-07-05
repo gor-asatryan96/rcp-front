@@ -7,11 +7,11 @@ export interface IMetaInfoTypes {
   sport_ggr_limit: Diff;
   casino_ggr_limit: Diff;
   games_ggr_limit: Diff;
+  is_first_withdraw: boolean;
 }
 
 export type Diff = {
   difference?: number;
-  is_first_withdraw: boolean;
 };
 
 export interface MetaInfoType {

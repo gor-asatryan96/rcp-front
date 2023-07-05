@@ -14,9 +14,9 @@ import {
 const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
   {
     title: 'First Withdraw',
-    dataIndex: 'first_withdraw',
-    key: 'first_withdraw',
-    render(value: Diff) {
+    dataIndex: 'is_first_withdraw',
+    key: 'is_first_withdraw',
+    render(value: IMetaInfoTypes) {
       return value?.is_first_withdraw ? (
         <div className={classes.messageColumns}>
           <Card className={classes.messageColumnsError}>

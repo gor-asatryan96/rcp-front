@@ -12,6 +12,7 @@ import CheckboxGroup from './CheckboxGroup';
 
 type PropTypes = {
   remove: any;
+  refetch: any;
   setFilters: Dispatch<SetStateAction<TRXfiltersForm>>;
   initialFilters: TRXfiltersForm;
 };
@@ -20,6 +21,7 @@ const TransactionFilters: FC<PropTypes> = ({
   setFilters,
   initialFilters,
   remove,
+  refetch,
 }) => {
   const [filtersData, setFiltersData] = useState<{
     [key: string]: CheckboxValueType[];
@@ -65,6 +67,7 @@ const TransactionFilters: FC<PropTypes> = ({
         aa_status: [...(filtersData.AUTO || [])],
       };
       remove();
+      refetch();
 
       return newFilters;
     });
