@@ -180,7 +180,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <div>
           {data.updated_at
-            ? dayjs(data.updated_at).format('DD/MM/YYYY h:m')
+            ? dayjs(data.updated_at).format('DD/MM/YYYY hh:mm')
             : ''}
         </div>
       ),
