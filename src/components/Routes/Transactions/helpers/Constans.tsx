@@ -55,7 +55,7 @@ export const statusColors: { [key: string]: string } = {
   APPROVED: 'yellow', // yellow
   DENIED: 'rgb(255,77,79)', // red
   CANCELED: 'rgb(245,245,245)', // gray
-  WAITGW: 'white', // gray
+  WAITGW: 'white', // white
 };
 
 export const validOptionsList: IStatusOptions = {

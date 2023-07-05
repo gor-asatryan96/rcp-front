@@ -39,7 +39,7 @@ const Transactions: FC = () => {
   const [TRXId, setTRXId] = useState<number>();
   const [filters, setFilters] = useState<TRXfiltersForm>({
     dateFrom: dayjs().startOf('day'),
-    dateTo: dayjs(),
+    dateTo: dayjs().add(1, 'hour'),
     amountFrom: 0,
     amountTo: 0,
     playerId: 0,
@@ -123,6 +123,12 @@ const Transactions: FC = () => {
       title: 'UID',
       dataIndex: 'user_id',
       key: 'user_id',
+      sorter: (a, b) => {
+        if (a.user_id === null && b.user_id === null) return 0;
+        if (a.user_id === null) return -1;
+        if (b.user_id === null) return 1;
+        return a.user_id - b.user_id;
+      },
       render: (_, data) => (
         <a
           target='_blank'
@@ -136,6 +142,12 @@ const Transactions: FC = () => {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
+      sorter: (a, b) => {
+        const amountA = parseFloat(a.amount);
+        const amountB = parseFloat(b.amount);
+        return amountA - amountB;
+      },
+
       render: (_, data) => <div>{data.amount.split('.')[0]}</div>,
     },
     { title: 'Currency', dataIndex: 'currency', key: 'currency' },
@@ -143,6 +155,11 @@ const Transactions: FC = () => {
       title: 'Created',
       dataIndex: 'created_at',
       key: 'created_at',
+      sorter: (a, b) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+        return dateA.getTime() - dateB.getTime();
+      },
       render: (_, data) => (
         <div>
           {data.created_at
@@ -155,6 +172,11 @@ const Transactions: FC = () => {
       title: 'Updated',
       dataIndex: 'updated_at',
       key: 'updated_at',
+      sorter: (a, b) => {
+        const dateA = new Date(a.updated_at);
+        const dateB = new Date(b.updated_at);
+        return dateA.getTime() - dateB.getTime();
+      },
       render: (_, data) => (
         <div>
           {data.updated_at
@@ -172,10 +194,15 @@ const Transactions: FC = () => {
     {
       title: 'Status',
       dataIndex: 'status',
+      sorter: (a, b) => a.status.localeCompare(b.status),
       render: (_, data) =>
         data.status === 'SUCCESS' || data.status === 'CANCELED' ? (
           <Card
-            style={{ backgroundColor: statusColors[data.status] }}
+            style={{
+              border: 'solid 3px',
+              borderRadius: '10px 10px 10px 10px',
+              borderColor: statusColors[data.status],
+            }}
             className={classes.tableStatus}>
             {data.status}
           </Card>
@@ -187,6 +214,9 @@ const Transactions: FC = () => {
             }}
             style={{
               width: '7rem',
+              border: 'solid 3px',
+              borderRadius: '10px',
+              borderColor: statusColors[data.status],
             }}
             defaultValue={data.status}
             options={validOptionsList[data.status]}
