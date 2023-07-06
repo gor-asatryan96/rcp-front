@@ -105,7 +105,7 @@ const TransactionFilters: FC<PropTypes> = ({
           </Col>
           <Col span={3}>
             <Form.Item name='paymentTransactionId'>
-              <Input type='number' placeholder='Payment Transaction ID' />
+              <Input placeholder='Payment Transaction ID' />
             </Form.Item>
           </Col>
           <Col span={3}>

@@ -32,6 +32,7 @@ const IndividualModal: FC<PropTypes> = ({
   const [inputValue, setInputValue] = useState('');
   const [page] = useState(1);
   const [selectValue, setIsSelectValue] = useState<any>('');
+  const [secretToken, setSecretToken] = useState('');
 
   const individualTablecolumns: ColumnsType<IIndividualLimits> = [
     { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
@@ -69,10 +70,18 @@ const IndividualModal: FC<PropTypes> = ({
 
   const searchList = useMutation({
     mutationFn: () => {
-      return axios.post('/setting/individual-limit/set', {
-        value: inputValue || null,
-        userId: list[0].userId,
-      });
+      return axios.post(
+        '/setting/individual-limit/set',
+        {
+          value: inputValue || null,
+          userId: list[0].userId,
+        },
+        {
+          headers: {
+            'x-tf-token': secretToken,
+          },
+        },
+      );
     },
     onSuccess: () => {
       setIsIndividualModalOpen(false);
@@ -155,9 +164,12 @@ const IndividualModal: FC<PropTypes> = ({
         scroll={{ x: true }}
         loading={list?.isLoading}
       />
-      <Form.Item>
-        <Input.Password prefix={<LockOutlined />} placeholder='Secret Token ' />
-      </Form.Item>
+      <Input.Password
+        prefix={<LockOutlined />}
+        value={secretToken}
+        onChange={e => setSecretToken(e.target.value)}
+        placeholder='Secret Token '
+      />
       <div className={Classes.SaveAndCancelButtons}>
         <Button
           type='primary'

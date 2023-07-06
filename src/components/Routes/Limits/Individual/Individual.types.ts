@@ -23,4 +23,5 @@ export interface IIndividualLimitsRequest {
 
 export interface ILimitChange {
   value: number;
+  token: string;
 }

@@ -16,7 +16,13 @@ export const AuthService = {
     return response.data;
   },
   async changeProfile(data: Partial<ILoginBody>) {
-    const response = await axios.post<IUser>('/auth/update-profile', data);
+    const response = await axios.post<IUser>(
+      '/auth/update-profile',
+      [data.password, data.username],
+      {
+        headers: { 'x-tf-token': data.tft },
+      },
+    );
     return response.data;
   },
   async applyInvitation(token: string) {

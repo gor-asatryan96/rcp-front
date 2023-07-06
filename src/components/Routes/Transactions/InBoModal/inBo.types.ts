@@ -3,6 +3,7 @@ interface IInBo {
   type: string;
   reason: string;
   paymentTransactionId: number;
+  token: string;
 }
 
 export interface IInBoForm extends IInBo {
@@ -13,6 +14,7 @@ export interface IInBoForm extends IInBo {
 export interface IInBoRequest extends IInBo {
   usersIds: number[];
   opType: string;
+  token: string;
 }
 
 export interface IInBoResponse {

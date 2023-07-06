@@ -8,6 +8,7 @@ export interface IGeneraList {
   casino_ggr_limit: number;
   games_ggr_limit: number;
   rollback_limit_percentage: number;
+  tft: string;
 }
 
 export interface InputNumberProps {

@@ -33,6 +33,11 @@ export const ProjectService = {
     const { data } = await axios.post<IGeneralListSetResponse>(
       '/setting/daily-limit/set',
       body,
+      {
+        headers: {
+          'x-tf-token': body.tft,
+        },
+      },
     );
     return data;
   },

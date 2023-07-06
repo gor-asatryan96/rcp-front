@@ -22,6 +22,7 @@ const AutoPush: FC = () => {
     'Auto Push': [],
     'Auto Approve': [],
   });
+  const [autoPushToken, setAutoPushToken] = useState('');
 
   const operatorListData = useQuery(
     ['operator/list'],
@@ -55,6 +56,9 @@ const AutoPush: FC = () => {
         '/setting/operators/update-status',
         {
           updatedStatuses: [...data],
+        },
+        {
+          headers: { 'x-tf-token': autoPushToken },
         },
       );
     },
@@ -139,6 +143,8 @@ const AutoPush: FC = () => {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Input.Password
+              value={autoPushToken}
+              onChange={e => setAutoPushToken(e.target.value)}
               style={{ width: 300 }}
               prefix={<LockOutlined className='site-form-item-icon' />}
               placeholder='Secret Token '
