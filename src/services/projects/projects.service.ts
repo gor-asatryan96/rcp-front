@@ -30,12 +30,13 @@ export const ProjectService = {
     return data;
   },
   async setGeneralLimits(body: IProjectGeneralLimits) {
+    const { tft, ...rest } = body;
     const { data } = await axios.post<IGeneralListSetResponse>(
       '/setting/daily-limit/set',
-      body,
+      rest,
       {
         headers: {
-          'x-tf-token': body.tft,
+          'x-tf-token': tft,
         },
       },
     );
