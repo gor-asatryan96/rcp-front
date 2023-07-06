@@ -32,7 +32,11 @@ const OutBoModal: FC<PropTypes> = ({
 
   const mutation = useMutation({
     mutationFn: (data: IInBoRequest) => {
-      return axios.post<IInBoResponse>('/transaction/insert', data);
+      return axios.post<IInBoResponse>('/transaction/insert', data, {
+        headers: {
+          'x-tf-token': data.token,
+        },
+      });
     },
     onSuccess: res => {
       const requestBody: IInBoRequest = JSON.parse(res.config.data);
@@ -71,6 +75,7 @@ const OutBoModal: FC<PropTypes> = ({
       paymentTransactionId: data.paymentTransactionId,
       reason: data.reason,
       type: 'OUT',
+      token: data.token,
     };
     mutation.mutate(requestBody);
   };
@@ -122,11 +127,13 @@ const OutBoModal: FC<PropTypes> = ({
             <Form.Item name='reason'>
               <Input style={{ marginTop: '1rem' }} placeholder='Reason' />
             </Form.Item>
-            <Input.Password
-              style={{ marginTop: '1rem' }}
-              prefix={<LockOutlined className='site-form-item-icon' />}
-              placeholder='Secret Token '
-            />
+            <Form.Item name='token'>
+              <Input.Password
+                style={{ marginTop: '1rem' }}
+                prefix={<LockOutlined className='site-form-item-icon' />}
+                placeholder='Secret Token '
+              />
+            </Form.Item>
           </Col>
         </Row>
         <div className={Classes.SaveAndCancelButtons}>

@@ -164,7 +164,7 @@ const Transactions: FC = () => {
         <div>
           {dayjs(data.created_at)
             .subtract(4, 'hours')
-            .format('DD/MM/YYYY H:mm')}
+            .format('DD/MM/YYYY HH:mm')}
         </div>
       ),
     },
@@ -182,7 +182,7 @@ const Transactions: FC = () => {
           <div>
             {dayjs(data.updated_at)
               .subtract(4, 'hours')
-              .format('DD/MM/YYYY H:mm')}
+              .format('DD/MM/YYYY HH:mm')}
           </div>
         </div>
       ),

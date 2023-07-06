@@ -25,11 +25,19 @@ const IndividualEditeModal: FC<PropTypes> = ({
 }) => {
   const [form] = Form.useForm();
   const mutation = useMutation({
-    mutationFn: (value: number) => {
-      return axios.post('/setting/individual-limit/set', {
-        value: value || null,
-        userId: isPlayerEditModalOpen?.userId,
-      });
+    mutationFn: (data: ILimitChange) => {
+      return axios.post(
+        '/setting/individual-limit/set',
+        {
+          value: data.value || null,
+          userId: isPlayerEditModalOpen?.userId,
+        },
+        {
+          headers: {
+            'x-tf-token': data.token,
+          },
+        },
+      );
     },
     onSuccess: () => {
       refetch();
@@ -45,7 +53,7 @@ const IndividualEditeModal: FC<PropTypes> = ({
   });
 
   const onFinish = (data: ILimitChange) => {
-    mutation.mutate(data.value);
+    mutation.mutate(data);
   };
 
   const onCancel = () => {
@@ -73,7 +81,7 @@ const IndividualEditeModal: FC<PropTypes> = ({
           <Form.Item label='Limit' name='value'>
             <Input type='number' />
           </Form.Item>
-          <Form.Item label='Token'>
+          <Form.Item label='Token' name='token'>
             <Input.Password
               prefix={<LockOutlined />}
               placeholder='Secret Token'

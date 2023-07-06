@@ -27,6 +27,7 @@ const initialState: IProjectsSlice = {
     sport_winning_limit: 0,
     used_unused_percentage: 0,
     rollback_limit_percentage: 0,
+    tft: '',
   },
   isLoading: false,
   isGeneralLimitsLoading: false,
