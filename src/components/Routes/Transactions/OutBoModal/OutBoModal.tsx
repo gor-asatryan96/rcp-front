@@ -32,9 +32,10 @@ const OutBoModal: FC<PropTypes> = ({
 
   const mutation = useMutation({
     mutationFn: (data: IInBoRequest) => {
-      return axios.post<IInBoResponse>('/transaction/insert', data, {
+      const { token, ...rest } = data;
+      return axios.post<IInBoResponse>('/transaction/insert', rest, {
         headers: {
-          'x-tf-token': data.token,
+          'x-tf-token': token,
         },
       });
     },

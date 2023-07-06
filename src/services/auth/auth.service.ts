@@ -6,7 +6,11 @@ import { ILoginBody, ITFAResponse } from './auth.service.types';
 
 export const AuthService = {
   async login(loginBody: ILoginBody) {
-    const response = await axios.post<IUser>('/auth/login', loginBody);
+    const token = loginBody.tft;
+    delete loginBody.tft;
+    const response = await axios.post<IUser>('/auth/login', loginBody, {
+      headers: { 'x-tf-token': token },
+    });
     return response.data;
   },
   async getProfileByToken(token: string) {
@@ -18,7 +22,7 @@ export const AuthService = {
   async changeProfile(data: Partial<ILoginBody>) {
     const response = await axios.post<IUser>(
       '/auth/update-profile',
-      [data.password, data.username],
+      { password: data.password },
       {
         headers: { 'x-tf-token': data.tft },
       },
