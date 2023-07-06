@@ -48,13 +48,22 @@ export const loginByTokenThunk = createAsyncThunk<IUser, UserToken>(
   },
 );
 
-export const changeProfileThunk = createAsyncThunk<IUser, Partial<ILoginBody>>(
-  'configs/changeProfile',
-  async data => {
+export const changeProfileThunk = createAsyncThunk<
+  IUser,
+  Partial<ILoginBody>,
+  { rejectValue: IErrorMessage }
+>('configs/changeProfile', async (data, { rejectWithValue }) => {
+  try {
     const response = await AuthService.changeProfile(data);
     return response;
-  },
-);
+  } catch (err) {
+    const error = err as unknown as AxiosError<IErrorMessage>;
+    if (!error.response) {
+      throw err;
+    }
+    return rejectWithValue(error.response.data);
+  }
+});
 
 export const applyInvitationThunk = createAsyncThunk<IUser, UserToken>(
   'configs/applyInvitation',
