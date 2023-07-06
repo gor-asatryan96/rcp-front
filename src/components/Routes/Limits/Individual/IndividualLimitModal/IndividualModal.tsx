@@ -1,12 +1,11 @@
 import { Button, Col, Form, Input, Modal, Row, Select, Table } from 'antd';
 import { FC, useState } from 'react';
 import { LockOutlined, SaveOutlined, SearchOutlined } from '@ant-design/icons';
-// import { t } from 'i18next';
 import { useMutation, useQuery } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { t } from 'i18next';
 import { ColumnsType } from 'antd/es/table';
+import { useTranslation } from 'react-i18next';
 
 import { IErrorMessage } from 'redux/store.types';
 
@@ -33,6 +32,7 @@ const IndividualModal: FC<PropTypes> = ({
   const [page] = useState(1);
   const [selectValue, setIsSelectValue] = useState<any>('');
 
+  const { t } = useTranslation();
   const individualTablecolumns: ColumnsType<IIndividualLimits> = [
     { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
     { title: 'Phone Number', dataIndex: 'phone', key: 'phone' },
@@ -163,10 +163,10 @@ const IndividualModal: FC<PropTypes> = ({
           type='primary'
           danger
           onClick={() => setIsIndividualModalOpen(false)}>
-          Cancel
+          {t('Cancel')}
         </Button>
         <Button type='primary' onClick={onSaveClick}>
-          Save
+          {t('Save')}
           <SaveOutlined />
         </Button>
       </div>

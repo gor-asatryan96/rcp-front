@@ -10,6 +10,8 @@ export interface IIndividualLimits {
   orderBy: string;
   orderDir: 'DESC' | 'ASC';
   id: string;
+  userId: string;
+  phone: string;
 }
 
 export interface IIndividualLimitsRequest {

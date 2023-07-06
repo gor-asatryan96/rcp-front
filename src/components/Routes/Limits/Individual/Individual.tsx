@@ -1,8 +1,14 @@
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Table } from 'antd';
+/* eslint-disable react/no-unstable-nested-components */
+import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Divider, Input, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FC, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
+
+import { IErrorMessage } from 'redux/store.types';
 
 import Classes from './Individual.module.scss';
 import IndividualModal from './IndividualLimitModal/IndividualModal';
@@ -16,6 +22,14 @@ const Individual: FC = () => {
     useState<IIndividualEditLimits | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState<number>(10);
+  const [searchValueWithId, setSearchValueWithId] = useState<
+    string | undefined
+  >('');
+  const [searchValueWithPhone, setSearchValueWithPhone] = useState<
+    string | undefined
+  >('');
+
+  const { t } = useTranslation();
 
   const queryData = useQuery(['individual-limit', page, pageSize], () =>
     individualLimitsData.getIndividualLimits(page, pageSize),
@@ -41,9 +55,149 @@ const Individual: FC = () => {
     setPageSize(e);
   };
 
+  const searchWithUserId = useMutation(
+    () =>
+      individualLimitsData.getIndividualLimitsWithUserId(
+        1,
+        10,
+        searchValueWithId || '',
+      ),
+    {
+      onSuccess: data => {
+        queryData.data!.list = data.list;
+        queryData.data!.count = data.count;
+      },
+      onError: err => {
+        const error = err as unknown as AxiosError<IErrorMessage>;
+        toast.error(error.response?.data.message || t('Something went wrong'));
+      },
+    },
+  );
+  const searchWithUserPhone = useMutation(
+    () =>
+      individualLimitsData.getIndividualLimitsWithPhone(
+        1,
+        10,
+        searchValueWithPhone || '',
+      ),
+    {
+      onSuccess: data => {
+        queryData.data!.list = data.list;
+        queryData.data!.count = data.count;
+      },
+      onError: err => {
+        const error = err as unknown as AxiosError<IErrorMessage>;
+        toast.error(error.response?.data.message || t('Something went wrong'));
+      },
+    },
+  );
+
+  const handleSearchId = () => {
+    setPage(1);
+    searchWithUserId.mutate();
+  };
+
+  const handleResetId = () => {
+    setSearchValueWithId('');
+    queryData.refetch();
+  };
+  const handleSearchPhone = () => {
+    setPage(1);
+    searchWithUserPhone.mutate();
+  };
+
+  const handleResetPhone = () => {
+    setSearchValueWithPhone('');
+    queryData.refetch();
+  };
+
+  const handleInputChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValueWithId(e.target.value);
+  };
+
+  const handleInputChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValueWithPhone(e.target.value);
+  };
   const columns: ColumnsType<IIndividualLimits> = [
-    { title: 'Player Id', dataIndex: 'userId', key: 'userId' },
-    { title: 'Phone Number', dataIndex: 'phone', key: 'phone' },
+    {
+      title: 'Player Id',
+      dataIndex: 'userId',
+      key: 'userId',
+      filterDropdown: () => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder='Search Player Id'
+            value={searchValueWithId}
+            onPressEnter={handleSearchId}
+            onChange={handleInputChangeId}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Space>
+            <Button
+              loading={searchWithUserId.isLoading}
+              disabled={!searchValueWithId}
+              type='primary'
+              onClick={handleSearchId}
+              icon={<SearchOutlined />}
+              size='small'
+              style={{ width: 90 }}>
+              {t('Search')}
+            </Button>
+            <Button onClick={handleResetId} size='small' style={{ width: 90 }}>
+              {t('Reset')}
+            </Button>
+          </Space>
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      onFilter: (value, record) =>
+        record.userId
+          ? record.userId.toString().includes(value.toString())
+          : false,
+    },
+    {
+      title: 'Phone Number',
+      dataIndex: 'phone',
+      key: 'phone',
+      filterDropdown: () => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder='Search Phone Number'
+            value={searchValueWithPhone}
+            onChange={handleInputChangePhone}
+            onPressEnter={handleSearchPhone}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Space>
+            <Button
+              loading={searchWithUserId.isLoading}
+              type='primary'
+              disabled={!searchValueWithPhone}
+              onClick={handleSearchPhone}
+              icon={<SearchOutlined />}
+              size='small'
+              style={{ width: 90 }}>
+              {t('Search')}
+            </Button>
+            <Button
+              onClick={handleResetPhone}
+              size='small'
+              style={{ width: 90 }}>
+              {t('Reset')}
+            </Button>
+          </Space>
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      onFilter: (value, record) =>
+        record.phone
+          ? record.phone.toString().includes(value.toString())
+          : false,
+    },
     {
       title: 'Individual Limit',
       dataIndex: 'limit',
@@ -81,7 +235,10 @@ const Individual: FC = () => {
       <Table
         loading={queryData.isLoading}
         size='middle'
-        dataSource={queryData.data?.list}
+        dataSource={queryData.data?.list.map((item, index) => ({
+          ...item,
+          key: index,
+        }))}
         columns={columns}
         onChange={(e: any) => onChangePageSize(e.pageSize)}
         pagination={{

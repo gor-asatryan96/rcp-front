@@ -103,9 +103,9 @@ export const serverConfigsSlice = createSlice({
         state.user.is_sp_reset = 0;
         toast.success(i18n.t('Your profile has successfully updated'));
       })
-      .addCase(changeProfileThunk.rejected, state => {
+      .addCase(changeProfileThunk.rejected, (state, { payload }) => {
         state.isProfileChangeLoading = false;
-        toast.error(i18n.t('Something went wrong'));
+        toast.error(payload?.message || i18n.t('Something went wrong'));
       });
   },
 });
