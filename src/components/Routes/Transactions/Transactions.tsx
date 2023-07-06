@@ -180,7 +180,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <div>
           <div>
-            {dayjs(data.created_at)
+            {dayjs(data.updated_at)
               .subtract(4, 'hours')
               .format('DD/MM/YYYY H:mm')}
           </div>
