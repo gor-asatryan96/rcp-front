@@ -161,11 +161,7 @@ const Transactions: FC = () => {
         return dateA.getTime() - dateB.getTime();
       },
       render: (_, data) => (
-        <div>
-          {dayjs(data.created_at)
-            .subtract(4, 'hours')
-            .format('DD/MM/YYYY HH:mm')}
-        </div>
+        <div>{dayjs(data.created_at).format('DD/MM/YYYY HH:mm')}</div>
       ),
     },
     {
@@ -179,11 +175,7 @@ const Transactions: FC = () => {
       },
       render: (_, data) => (
         <div>
-          <div>
-            {dayjs(data.updated_at)
-              .subtract(4, 'hours')
-              .format('DD/MM/YYYY HH:mm')}
-          </div>
+          <div>{dayjs(data.updated_at).format('DD/MM/YYYY HH:mm')}</div>
         </div>
       ),
     },
