@@ -38,7 +38,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -57,7 +59,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -76,7 +80,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -95,7 +101,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -114,7 +122,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -133,7 +143,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -152,7 +164,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -171,7 +185,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
@@ -190,7 +206,9 @@ const metaInfoColumns: ColumnsType<IMetaInfoTypes> = [
           <Card className={classes.messageColumnsError}>
             <CloseOutlined />
           </Card>
-          <h3 className={classes.difference}>diff-{value.difference}</h3>
+          <h3 className={classes.difference}>
+            diff-{value.difference.toFixed(0)}
+          </h3>
         </div>
       ) : (
         <Card className={classes.messageColumnsSuccess}>
