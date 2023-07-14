@@ -21,9 +21,12 @@ const initialState: IServerConfigs = {
   isNewProfile: false,
   user: {
     id: null,
+    first_name: '',
+    last_name: '',
     acl: [],
     created_at: '',
     email: '',
+    phone: 0,
     is_active: 1,
     is_sp_reset: 0,
     is_twofa_enabled: 0,
@@ -129,6 +132,8 @@ export const selectIsTFAConnected = (state: RootState) =>
   !!state.serverConfigs.user.is_twofa_enabled;
 export const selectIsAclExist = (state: RootState, aclPath: IAclPath) =>
   state.serverConfigs.user.acl.includes(aclPath);
+export const selectLoginUserInfo = (state: RootState) =>
+  state.serverConfigs.user;
 export const selectIsServerConfigsLoading = (state: RootState) =>
   state.serverConfigs.isLoading;
 export const selectIsProfileChangeLoading = (state: RootState) =>
