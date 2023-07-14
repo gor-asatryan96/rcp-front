@@ -12,13 +12,36 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     title: 'Username',
     dataIndex: 'username',
     key: 'username',
-    width: 120,
+  },
+  {
+    title: 'Name',
+    dataIndex: 'Name',
+    key: 'Name',
+  },
+  {
+    title: 'First Name',
+    dataIndex: 'firstName',
+    key: 'firstName',
+  },
+  {
+    title: 'Last Name',
+    dataIndex: 'lastName',
+    key: 'lastName',
+  },
+  {
+    title: 'Phone Number',
+    dataIndex: 'phone',
+    key: 'phone',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
   {
     title: 'Role',
     dataIndex: 'role',
     key: 'role',
-    width: 100,
   },
   {
     title: 'Status',
@@ -27,7 +50,6 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     render: (a: UserStatus) => {
       return <Badge status={Statuses[a]} text={a} />;
     },
-    width: 80,
     filters: [
       {
         text: 'Online',
@@ -55,7 +77,6 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
           : ''}
       </div>
     ),
-    width: 100,
   },
   {
     title: 'Actions',
@@ -66,6 +87,5 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
         <BlockUser user={data} />
       </Space>
     ),
-    width: 170,
   },
 ];

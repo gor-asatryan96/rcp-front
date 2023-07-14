@@ -10,6 +10,9 @@ export type TRole = 'SUPER_ADMIN' | 'USER';
 export interface IUser {
   id: number | null;
   username: string;
+  first_name: string;
+  last_name: string;
+  phone: number;
   token: UserToken;
   acl: IAcl;
   email: string;
