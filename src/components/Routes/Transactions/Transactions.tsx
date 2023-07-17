@@ -50,8 +50,8 @@ const Transactions: FC = () => {
     aa_status: [],
     limit: 10,
     page: 1,
-    orderBy: 'updated_at',
-    orderDir: 'DESC',
+    orderBy: 'amount',
+    orderDir: 'ASC',
   });
 
   const queryData = useInfiniteQuery(
@@ -110,6 +110,7 @@ const Transactions: FC = () => {
       toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
+
   const onStatusChange = (transactionId: number, status: string) => {
     mutation.mutate({ transactionId, status });
   };
@@ -351,6 +352,7 @@ const Transactions: FC = () => {
         <TransactionFilters
           refetch={queryData.refetch}
           remove={queryData.remove}
+          filter={filters}
           setFilters={setFilters}
           initialFilters={filters}
         />
