@@ -3,6 +3,9 @@ import { DatePicker, Input, Form, Row, Col, Button } from 'antd';
 import { useQuery } from 'react-query';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+
+import { selectLoginUserInfo } from 'redux/reducers/serverConfigs/serverConfigs.slice';
 
 import { transactionsFilters } from '../transactions.service';
 import { ITRXFilters, TRXfiltersForm } from '../helpers/Transactions.types';
@@ -10,15 +13,46 @@ import { ITRXFilters, TRXfiltersForm } from '../helpers/Transactions.types';
 import classes from './TransactionFiltersModal.module.scss';
 import CheckboxGroup from './CheckboxGroup';
 
+function exportFile(token: string, body: Record<string, any>) {
+  const myHeaders = new Headers();
+  myHeaders.append('x-auth-token', token);
+  myHeaders.append('Content-Type', 'application/json');
+
+  const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+    redirect: 'follow',
+  };
+
+  fetch(
+    `${process.env.REACT_APP_API_URL}/transaction/export`,
+    requestOptions as any,
+  )
+    .then(response => response.blob())
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.click();
+      URL.revokeObjectURL(url);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
 type PropTypes = {
   remove: any;
   refetch: any;
+  filter: any;
   setFilters: Dispatch<SetStateAction<TRXfiltersForm>>;
   initialFilters: TRXfiltersForm;
 };
 
 const TransactionFilters: FC<PropTypes> = ({
   setFilters,
+  filter,
   initialFilters,
   remove,
   refetch,
@@ -28,6 +62,7 @@ const TransactionFilters: FC<PropTypes> = ({
   }>({
     STATUS: ['PENDING'],
   });
+  const loginUserInfo = useSelector(selectLoginUserInfo);
 
   const [form] = Form.useForm();
 
@@ -37,6 +72,10 @@ const TransactionFilters: FC<PropTypes> = ({
 
   const onAllCheck = (name: string, values: CheckboxValueType[]) => {
     setFiltersData(prevState => ({ ...prevState, [name]: values }));
+  };
+
+  const exportEnv = () => {
+    exportFile(loginUserInfo.token, filter);
   };
 
   const TRXfilters = useQuery<ITRXFilters>(
@@ -141,9 +180,15 @@ const TransactionFilters: FC<PropTypes> = ({
           );
         })}
 
-        <div className={classes.searchButton}>
-          <Button htmlType='submit' type='primary'>
-            Search
+        <div className={classes.searchExportButton}>
+          <div className={classes.searchButton}>
+            <Button htmlType='submit' type='primary'>
+              Search
+            </Button>
+          </div>
+
+          <Button type='primary' onClick={exportEnv}>
+            Export
           </Button>
         </div>
       </Form>
