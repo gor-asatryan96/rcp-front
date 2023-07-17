@@ -22,7 +22,7 @@ const UserInfo: FC = () => {
       return axios.post('/auth/update-profile', data);
     },
     onSuccess: () => {
-      toast.success('success');
+      window.location.reload();
     },
     onError: err => {
       const error = err as unknown as AxiosError<IErrorMessage>;
