@@ -24,12 +24,21 @@ const ChangePassword: FC = () => {
   const isAuthPage = useSelector(selectIsPasswordChangeRequired);
   const isNewProfile = useSelector(selectIsNewProfile);
 
-  const onFinish = ({ password, passwordConfirm, tft }: ICreatePassword) => {
+  const onFinish = ({
+    password,
+    passwordConfirm,
+    tft,
+    username,
+    lastName,
+    firstName,
+  }: ICreatePassword) => {
     if (password !== passwordConfirm) {
       toast.error(t('Passwords do not match'));
       return;
     }
-    dispatch(changeProfileThunk({ password, tft }));
+    dispatch(
+      changeProfileThunk({ password, tft, username, lastName, firstName }),
+    );
   };
 
   useEffect(() => {
@@ -107,7 +116,7 @@ const ChangePassword: FC = () => {
           <Input placeholder='Last Name' />
         </Form.Item>
         <Form.Item name='username'>
-          <Input placeholder='USername' />
+          <Input placeholder='Username' />
         </Form.Item>
         {!isNewProfile && (
           <Form.Item className={classes.secretToken} name='tft'>

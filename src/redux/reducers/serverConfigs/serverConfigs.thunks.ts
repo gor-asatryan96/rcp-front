@@ -14,11 +14,16 @@ export const loginThunk = createAsyncThunk<
   { rejectValue: IErrorMessage }
 >(
   'configs/get',
-  async ({ username, password, tft }, { dispatch, rejectWithValue }) => {
+  async (
+    { username, password, tft, lastName, firstName },
+    { dispatch, rejectWithValue },
+  ) => {
     try {
       const response = await AuthService.login({
         username,
         password,
+        lastName,
+        firstName,
         tft,
       });
       if (response.meta?.currentProject?.id) {

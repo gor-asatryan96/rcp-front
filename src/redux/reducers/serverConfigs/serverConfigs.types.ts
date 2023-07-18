@@ -43,6 +43,8 @@ export interface IServerConfigs {
 
 export interface ILoginForm {
   username: string;
+  firstName: string;
+  lastName: string;
   password: string;
   tft?: string;
   isRemember?: boolean;
@@ -50,6 +52,9 @@ export interface ILoginForm {
 
 export interface ICreatePassword {
   oldPassword?: string;
+  username: string;
+  firstName: string;
+  lastName: string;
   password: string;
   passwordConfirm: string;
   tft?: string;
