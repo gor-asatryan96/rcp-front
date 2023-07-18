@@ -109,15 +109,19 @@ const ChangePassword: FC = () => {
             placeholder='Confirm New Password'
           />
         </Form.Item>
-        <Form.Item name='firstName'>
-          <Input placeholder='First Name' />
-        </Form.Item>
-        <Form.Item name='lastname'>
-          <Input placeholder='Last Name' />
-        </Form.Item>
-        <Form.Item name='username'>
-          <Input placeholder='Username' />
-        </Form.Item>
+        {isNewProfile && (
+          <>
+            <Form.Item name='firstName'>
+              <Input placeholder='First Name' />
+            </Form.Item>
+            <Form.Item name='lastname'>
+              <Input placeholder='Last Name' />
+            </Form.Item>
+            <Form.Item name='username'>
+              <Input placeholder='Username' />
+            </Form.Item>
+          </>
+        )}
         {!isNewProfile && (
           <Form.Item className={classes.secretToken} name='tft'>
             <Input.Password
