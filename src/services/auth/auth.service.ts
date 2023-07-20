@@ -23,6 +23,7 @@ export const AuthService = {
     const response = await axios.post<IUser>(
       '/auth/update-profile',
       {
+        username: data.username,
         password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,

@@ -10,6 +10,7 @@ import {
   selectIsNewProfile,
   selectIsPasswordChangeRequired,
   selectIsProfileChangeLoading,
+  selectLoginUserInfo,
 } from 'redux/reducers/serverConfigs/serverConfigs.slice';
 import { ICreatePassword } from 'redux/reducers/serverConfigs/serverConfigs.types';
 import { useAppDispatch } from 'redux/hooks/redux.hooks';
@@ -23,19 +24,22 @@ const ChangePassword: FC = () => {
   const isLoading = useSelector(selectIsProfileChangeLoading);
   const isAuthPage = useSelector(selectIsPasswordChangeRequired);
   const isNewProfile = useSelector(selectIsNewProfile);
+  const userInfo = useSelector(selectLoginUserInfo);
 
-  const onFinish = ({
-    password,
-    passwordConfirm,
-    tft,
-    lastName,
-    firstName,
-  }: ICreatePassword) => {
+  const onFinish = ({ password, passwordConfirm, tft }: ICreatePassword) => {
     if (password !== passwordConfirm) {
       toast.error(t('Passwords do not match'));
       return;
     }
-    dispatch(changeProfileThunk({ password, tft, firstName, lastName }));
+    dispatch(
+      changeProfileThunk({
+        password,
+        tft,
+        firstName: userInfo.first_name,
+        lastName: userInfo.last_name,
+        username: userInfo.username,
+      }),
+    );
   };
 
   useEffect(() => {
@@ -60,6 +64,9 @@ const ChangePassword: FC = () => {
         disabled={isLoading}
         className={classes.form}
         onFinish={onFinish}
+        initialValues={{
+          username: userInfo.username,
+        }}
         autoComplete='off'>
         {isNewProfile && isAuthPage && (
           <>
