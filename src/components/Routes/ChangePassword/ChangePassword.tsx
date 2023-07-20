@@ -68,7 +68,7 @@ const ChangePassword: FC = () => {
           username: userInfo.username,
         }}
         autoComplete='off'>
-        {!isNewProfile && !isAuthPage && (
+        {isNewProfile && isAuthPage && (
           <>
             <Form.Item
               name='username'
