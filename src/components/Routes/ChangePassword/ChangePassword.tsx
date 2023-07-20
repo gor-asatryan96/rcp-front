@@ -42,9 +42,9 @@ const ChangePassword: FC = () => {
       changeProfileThunk({
         password,
         tft,
-        firstName,
-        lastName,
-        username,
+        firstName: isAuthPage && isNewProfile ? firstName : userInfo.first_name,
+        lastName: isAuthPage && isNewProfile ? lastName : userInfo.last_name,
+        username: isAuthPage && isNewProfile ? username : userInfo.username,
       }),
     );
   };
