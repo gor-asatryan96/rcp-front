@@ -22,7 +22,11 @@ export const AuthService = {
   async changeProfile(data: Partial<ILoginBody>) {
     const response = await axios.post<IUser>(
       '/auth/update-profile',
-      { password: data.password },
+      {
+        password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      },
       {
         headers: { 'x-tf-token': data.tft },
       },

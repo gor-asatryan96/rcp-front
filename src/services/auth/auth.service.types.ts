@@ -3,9 +3,9 @@ export interface ITFAResponse {
 }
 
 export interface ILoginBody {
-  username?: string;
   firstName: string;
   lastName: string;
+  username?: string;
   password: string;
   tft?: string;
 }

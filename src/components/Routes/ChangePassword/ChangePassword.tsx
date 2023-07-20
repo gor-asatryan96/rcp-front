@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { LockOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +28,6 @@ const ChangePassword: FC = () => {
     password,
     passwordConfirm,
     tft,
-    username,
     lastName,
     firstName,
   }: ICreatePassword) => {
@@ -36,9 +35,7 @@ const ChangePassword: FC = () => {
       toast.error(t('Passwords do not match'));
       return;
     }
-    dispatch(
-      changeProfileThunk({ password, tft, username, lastName, firstName }),
-    );
+    dispatch(changeProfileThunk({ password, tft, firstName, lastName }));
   };
 
   useEffect(() => {
@@ -64,21 +61,32 @@ const ChangePassword: FC = () => {
         className={classes.form}
         onFinish={onFinish}
         autoComplete='off'>
-        {/* {isAuthPage && (
-          <Form.Item
-            name='username'
-            initialValue='test'
-            rules={[
-              { required: true, message: 'Please input your Username!' },
-            ]}>
-            <Input
-              readOnly
-              disabled
-              prefix={<UserOutlined className='site-form-item-icon' />}
-              placeholder='Username'
-            />
-          </Form.Item>
-        )} */}
+        {isNewProfile && isAuthPage && (
+          <>
+            {/* <Form.Item
+              name='username'
+              rules={[
+                { required: true, message: 'Please input your Username!' },
+              ]}>
+              <Input
+                prefix={<UserOutlined className='site-form-item-icon' />}
+                placeholder='Username'
+              />
+            </Form.Item> */}
+            <Form.Item name='firstName'>
+              <Input
+                prefix={<UserOutlined className='site-form-item-icon' />}
+                placeholder='first Name'
+              />
+            </Form.Item>
+            <Form.Item name='lastName'>
+              <Input
+                prefix={<UserOutlined className='site-form-item-icon' />}
+                placeholder='Last Name'
+              />
+            </Form.Item>
+          </>
+        )}
         {/* {!isAuthPage && (
           <Form.Item
             name='oldPassword'
@@ -109,19 +117,6 @@ const ChangePassword: FC = () => {
             placeholder='Confirm New Password'
           />
         </Form.Item>
-        {isNewProfile && (
-          <>
-            <Form.Item name='firstName'>
-              <Input placeholder='First Name' />
-            </Form.Item>
-            <Form.Item name='lastname'>
-              <Input placeholder='Last Name' />
-            </Form.Item>
-            <Form.Item name='username'>
-              <Input placeholder='Username' />
-            </Form.Item>
-          </>
-        )}
         {!isNewProfile && (
           <Form.Item className={classes.secretToken} name='tft'>
             <Input.Password
@@ -136,7 +131,7 @@ const ChangePassword: FC = () => {
             type='primary'
             htmlType='submit'
             className={classes.loginButton}>
-            Change
+            {isAuthPage && isNewProfile ? 'Create' : 'Change'}
           </Button>
         </Form.Item>
       </Form>
