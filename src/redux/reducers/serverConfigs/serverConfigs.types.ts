@@ -51,6 +51,7 @@ export interface ILoginForm {
 
 export interface ICreatePassword {
   oldPassword?: string;
+  username?: string;
   firstName: string;
   lastName: string;
   password: string;
