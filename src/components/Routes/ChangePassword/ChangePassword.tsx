@@ -26,7 +26,14 @@ const ChangePassword: FC = () => {
   const isNewProfile = useSelector(selectIsNewProfile);
   const userInfo = useSelector(selectLoginUserInfo);
 
-  const onFinish = ({ password, passwordConfirm, tft }: ICreatePassword) => {
+  const onFinish = ({
+    password,
+    passwordConfirm,
+    tft,
+    username,
+    lastName,
+    firstName,
+  }: ICreatePassword) => {
     if (password !== passwordConfirm) {
       toast.error(t('Passwords do not match'));
       return;
@@ -35,9 +42,9 @@ const ChangePassword: FC = () => {
       changeProfileThunk({
         password,
         tft,
-        firstName: userInfo.first_name,
-        lastName: userInfo.last_name,
-        username: userInfo.username,
+        firstName,
+        lastName,
+        username,
       }),
     );
   };
