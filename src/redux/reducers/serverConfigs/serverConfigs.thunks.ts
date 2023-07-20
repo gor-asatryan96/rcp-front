@@ -15,7 +15,7 @@ export const loginThunk = createAsyncThunk<
 >(
   'configs/get',
   async (
-    { password, tft, lastName, firstName },
+    { password, tft, lastName, firstName, username },
     { dispatch, rejectWithValue },
   ) => {
     try {
@@ -24,6 +24,7 @@ export const loginThunk = createAsyncThunk<
         tft,
         lastName,
         firstName,
+        username,
       });
       if (response.meta?.currentProject?.id) {
         dispatch(selectCountry(response.meta.currentProject.id));

@@ -43,6 +43,7 @@ export interface IServerConfigs {
 
 export interface ILoginForm {
   lastName: string;
+  username?: string;
   firstName: string;
   password: string;
   tft?: string;
