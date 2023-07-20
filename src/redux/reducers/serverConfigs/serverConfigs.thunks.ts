@@ -15,16 +15,15 @@ export const loginThunk = createAsyncThunk<
 >(
   'configs/get',
   async (
-    { username, password, tft, lastName, firstName },
+    { password, tft, lastName, firstName },
     { dispatch, rejectWithValue },
   ) => {
     try {
       const response = await AuthService.login({
-        username,
         password,
+        tft,
         lastName,
         firstName,
-        tft,
       });
       if (response.meta?.currentProject?.id) {
         dispatch(selectCountry(response.meta.currentProject.id));
