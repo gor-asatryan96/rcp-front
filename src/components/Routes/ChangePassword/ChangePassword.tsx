@@ -68,9 +68,9 @@ const ChangePassword: FC = () => {
           username: userInfo.username,
         }}
         autoComplete='off'>
-        {isNewProfile && isAuthPage && (
+        {!isNewProfile && !isAuthPage && (
           <>
-            {/* <Form.Item
+            <Form.Item
               name='username'
               rules={[
                 { required: true, message: 'Please input your Username!' },
@@ -79,7 +79,7 @@ const ChangePassword: FC = () => {
                 prefix={<UserOutlined className='site-form-item-icon' />}
                 placeholder='Username'
               />
-            </Form.Item> */}
+            </Form.Item>
             <Form.Item name='firstName'>
               <Input
                 prefix={<UserOutlined className='site-form-item-icon' />}
