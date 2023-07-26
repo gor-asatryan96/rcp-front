@@ -14,19 +14,14 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     key: 'username',
   },
   {
-    title: 'Name',
-    dataIndex: 'Name',
-    key: 'Name',
-  },
-  {
     title: 'First Name',
-    dataIndex: 'firstName',
-    key: 'firstName',
+    dataIndex: 'first_name',
+    key: 'first_name',
   },
   {
     title: 'Last Name',
-    dataIndex: 'lastName',
-    key: 'lastName',
+    dataIndex: 'last_name',
+    key: 'last_name',
   },
   {
     title: 'Phone Number',

@@ -46,7 +46,12 @@ const ChangePassword: FC = () => {
         lastName: isAuthPage && isNewProfile ? lastName : userInfo.last_name,
         username: isAuthPage && isNewProfile ? username : userInfo.username,
       }),
-    );
+    ).then(() => {
+      if (isAuthPage && isNewProfile) {
+        localStorage.removeItem('token');
+        window.location.reload();
+      }
+    });
   };
 
   useEffect(() => {
