@@ -162,7 +162,7 @@ const Transactions: FC = () => {
         return dateA.getTime() - dateB.getTime();
       },
       render: (_, data) => (
-        <div>{dayjs(data.created_at).format('DD/MM/YYYY HH:mm')}</div>
+        <div>{dayjs.utc(data.created_at).format('DD/MM/YYYY HH:mm')}</div>
       ),
     },
     {
@@ -176,7 +176,7 @@ const Transactions: FC = () => {
       },
       render: (_, data) => (
         <div>
-          <div>{dayjs(data.updated_at).format('DD/MM/YYYY HH:mm')}</div>
+          <div>{dayjs.utc(data.created_at).format('DD/MM/YYYY HH:mm')}</div>
         </div>
       ),
     },
