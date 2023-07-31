@@ -50,7 +50,7 @@ const Transactions: FC = () => {
     aa_status: [],
     limit: 10,
     page: 1,
-    orderBy: 'updated_at',
+    orderBy: 'created_at',
     orderDir: 'DESC',
   });
 
@@ -176,7 +176,7 @@ const Transactions: FC = () => {
       },
       render: (_, data) => (
         <div>
-          <div>{dayjs.utc(data.created_at).format('DD/MM/YYYY HH:mm')}</div>
+          <div>{dayjs.utc(data.updated_at).format('DD/MM/YYYY HH:mm')}</div>
         </div>
       ),
     },
