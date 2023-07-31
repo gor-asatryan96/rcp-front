@@ -44,14 +44,14 @@ const Transactions: FC = () => {
     amountTo: 0,
     playerId: 0,
     paymentTransactionId: '',
-    transactionId: '',
+    transactionId: +'',
     opType: [],
     status: ['PENDING'],
     aa_status: [],
     limit: 10,
     page: 1,
-    orderBy: 'amount',
-    orderDir: 'ASC',
+    orderBy: 'updated_at',
+    orderDir: 'DESC',
   });
 
   const queryData = useInfiniteQuery(
@@ -230,6 +230,16 @@ const Transactions: FC = () => {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
+      render: (_, data) => {
+        if (data.meta_info) {
+          try {
+            return <div>{JSON.parse(data.meta_info).sa_username}</div>;
+          } catch {
+            /* empty */
+          }
+        }
+        return '';
+      },
     },
     {
       title: 'CHECK',
