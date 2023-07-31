@@ -75,7 +75,11 @@ const TransactionFilters: FC<PropTypes> = ({
   };
 
   const exportEnv = () => {
-    exportFile(loginUserInfo.token, filter);
+    const exportFilter: any = { ...filter };
+    delete exportFilter.page;
+    delete exportFilter.limit;
+
+    exportFile(loginUserInfo.token, exportFilter);
   };
 
   const TRXfilters = useQuery<ITRXFilters>(
