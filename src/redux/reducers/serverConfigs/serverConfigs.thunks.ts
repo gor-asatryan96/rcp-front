@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 import { AuthService, ILoginBody } from 'services/auth';
 
@@ -72,8 +73,17 @@ export const changeProfileThunk = createAsyncThunk<
 
 export const applyInvitationThunk = createAsyncThunk<IUser, UserToken>(
   'configs/applyInvitation',
-  async token => {
-    const response = await AuthService.applyInvitation(token);
-    return response;
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.applyInvitation(token);
+      return response;
+    } catch (err) {
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      if (!error.response) {
+        throw err;
+      }
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
   },
 );

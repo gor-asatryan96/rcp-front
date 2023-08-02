@@ -15,6 +15,7 @@ import {
 import { ICreatePassword } from 'redux/reducers/serverConfigs/serverConfigs.types';
 import { useAppDispatch } from 'redux/hooks/redux.hooks';
 import { changeProfileThunk } from 'redux/reducers/serverConfigs/serverConfigs.thunks';
+import { REGEXPS } from 'constants/regexp.constants';
 
 import classes from './ChangePassword.module.scss';
 
@@ -52,6 +53,12 @@ const ChangePassword: FC = () => {
         window.location.reload();
       }
     });
+  };
+  const validatePassword = (value: any) => {
+    if (REGEXPS.PASSWORD.test(value)) {
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error('Password must be 8-20 characters '));
   };
 
   useEffect(() => {
@@ -130,7 +137,12 @@ const ChangePassword: FC = () => {
         </Form.Item>
         <Form.Item
           name='passwordConfirm'
-          rules={[{ required: true, message: 'Please input your Password!' }]}>
+          rules={[
+            { required: true, message: 'Please input your Password!' },
+            {
+              validator: validatePassword,
+            },
+          ]}>
           <Input.Password
             prefix={<LockOutlined className='site-form-item-icon' />}
             placeholder='Confirm New Password'
