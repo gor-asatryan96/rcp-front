@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation, useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { Card, Spin } from 'antd';
-import { InfoCircleTwoTone } from '@ant-design/icons';
+// import { InfoCircleTwoTone } from '@ant-design/icons';
 
 import { AuthService } from 'services/auth';
 import {
@@ -13,7 +13,7 @@ import {
 } from 'redux/reducers/serverConfigs/serverConfigs.slice';
 import { useAppDispatch } from 'redux/hooks/redux.hooks';
 
-import TFAPopup from './TFAPopup/TFAPopup';
+// import TFAPopup from './TFAPopup/TFAPopup';
 import classes from './TFAConnect.module.scss';
 import TFAForm from './TFAForm/TFAForm';
 import TFASuccess from './TFASuccess/TFASuccess';
@@ -21,16 +21,16 @@ import TFASuccess from './TFASuccess/TFASuccess';
 const TFAConnect: FC = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const isTFAConnected = useSelector(selectIsTFAConnected);
   const { isLoading, data } = useQuery(['qrCode'], AuthService.getTFACode, {
     enabled: !isTFAConnected,
     cacheTime: 0,
   });
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
   const mutation = useMutation(AuthService.verifyTFACode);
 
@@ -57,16 +57,17 @@ const TFAConnect: FC = () => {
     <Card
       className={classes.root}
       title={t('Connect Google Two Factor Authentication')}
-      extra={
-        !mutation.isSuccess && (
-          <InfoCircleTwoTone
-            type='primary'
-            onClick={showModal}
-            style={{ fontSize: 24 }}
-          />
-        )
-      }>
-      <TFAPopup isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      // extra={
+      //   !mutation.isSuccess && (
+      //     <InfoCircleTwoTone
+      //       type='primary'
+      //       // onClick={showModal}
+      //       style={{ fontSize: 24 }}
+      //     />
+      //   )
+      // }
+    >
+      {/* <TFAPopup isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} /> */}
       {isLoading || !data ? (
         <Spin className={classes.loader} size='large' />
       ) : (
