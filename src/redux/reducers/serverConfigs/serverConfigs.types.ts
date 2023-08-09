@@ -46,6 +46,7 @@ export interface ILoginForm {
   username?: string;
   firstName: string;
   password: string;
+  oldPassword: string;
   tft?: string;
   isRemember?: boolean;
 }
