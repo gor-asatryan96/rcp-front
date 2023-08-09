@@ -16,12 +16,13 @@ export const loginThunk = createAsyncThunk<
 >(
   'configs/get',
   async (
-    { password, tft, lastName, firstName, username },
+    { password, tft, lastName, firstName, username, oldPassword },
     { dispatch, rejectWithValue },
   ) => {
     try {
       const response = await AuthService.login({
         password,
+        oldPassword,
         tft,
         lastName,
         firstName,

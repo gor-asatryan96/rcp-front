@@ -24,6 +24,7 @@ export const AuthService = {
       '/auth/update-profile',
       {
         username: data.username,
+        oldPassword: data.oldPassword,
         password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,

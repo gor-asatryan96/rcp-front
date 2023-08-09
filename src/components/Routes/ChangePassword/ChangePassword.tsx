@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
+import { useForm } from 'antd/es/form/Form';
 
 import {
   selectIsNewProfile,
@@ -26,11 +27,13 @@ const ChangePassword: FC = () => {
   const isAuthPage = useSelector(selectIsPasswordChangeRequired);
   const isNewProfile = useSelector(selectIsNewProfile);
   const userInfo = useSelector(selectLoginUserInfo);
+  const [form] = useForm();
 
   const onFinish = ({
     password,
     passwordConfirm,
     tft,
+    oldPassword,
     username,
     lastName,
     firstName,
@@ -43,6 +46,7 @@ const ChangePassword: FC = () => {
       changeProfileThunk({
         password,
         tft,
+        oldPassword,
         firstName: isAuthPage && isNewProfile ? firstName : userInfo.first_name,
         lastName: isAuthPage && isNewProfile ? lastName : userInfo.last_name,
         username: isAuthPage && isNewProfile ? username : userInfo.username,
@@ -54,11 +58,18 @@ const ChangePassword: FC = () => {
       }
     });
   };
-  const validatePassword = (value: any) => {
-    if (REGEXPS.PASSWORD.test(value)) {
-      return Promise.resolve();
-    }
-    return Promise.reject(new Error('Password must be 8-20 characters '));
+  const validatePassword = (_: any, value: string) => {
+    const passwordFieldValue = form.getFieldValue('password'); // Access the password field value
+    if (!value) return Promise.reject(new Error('Enter a password.'));
+    if (passwordFieldValue !== value)
+      return Promise.reject(new Error('Passwords do not match.'));
+    if (!REGEXPS.PASSWORD.test(value))
+      return Promise.reject(
+        new Error(
+          'Password must have 8-20 characters, including at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special symbol.',
+        ),
+      );
+    return Promise.resolve();
   };
 
   useEffect(() => {
@@ -80,6 +91,7 @@ const ChangePassword: FC = () => {
       )}
       className={classNames(classes.root, { [classes.authPage]: isAuthPage })}>
       <Form
+        form={form}
         disabled={isLoading}
         className={classes.form}
         onFinish={onFinish}
@@ -113,7 +125,7 @@ const ChangePassword: FC = () => {
             </Form.Item>
           </>
         )}
-        {/* {!isAuthPage && (
+        {!isAuthPage && (
           <Form.Item
             name='oldPassword'
             rules={[
@@ -124,11 +136,14 @@ const ChangePassword: FC = () => {
               placeholder='Old Password'
             />
           </Form.Item>
-        )} */}
+        )}
         <Form.Item
           name='password'
           rules={[
-            { required: true, message: 'Please input your New Password!' },
+            { required: true, message: 'Please input your Password!' },
+            {
+              validator: validatePassword,
+            },
           ]}>
           <Input.Password
             prefix={<LockOutlined className='site-form-item-icon' />}
@@ -137,8 +152,9 @@ const ChangePassword: FC = () => {
         </Form.Item>
         <Form.Item
           name='passwordConfirm'
+          dependencies={['password']}
           rules={[
-            { required: true, message: 'Please input your Password!' },
+            { required: true, message: 'Please confirm your Password!' },
             {
               validator: validatePassword,
             },
