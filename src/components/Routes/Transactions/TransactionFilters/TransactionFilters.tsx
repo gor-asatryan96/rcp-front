@@ -166,6 +166,11 @@ const TransactionFilters: FC<PropTypes> = ({
               <Input type='number' placeholder='Amount To' />
             </Form.Item>
           </Col>
+          <Col span={3}>
+            <Form.Item name='msisdn'>
+              <Input type='number' placeholder='Phone Number' />
+            </Form.Item>
+          </Col>
         </Row>
         {filters.map(([key, options]) => {
           return (

@@ -42,6 +42,7 @@ const Transactions: FC = () => {
     dateTo: dayjs().add(1, 'hour'),
     amountFrom: 0,
     amountTo: 0,
+    phone: '',
     playerId: 0,
     paymentTransactionId: '',
     transactionId: +'',
@@ -234,6 +235,21 @@ const Transactions: FC = () => {
         if (data.meta_info) {
           try {
             return <div>{JSON.parse(data.meta_info).sa_username}</div>;
+          } catch {
+            /* empty */
+          }
+        }
+        return '';
+      },
+    },
+    {
+      title: 'Reason',
+      dataIndex: 'reason',
+      key: 'reason',
+      render: (_, data) => {
+        if (data.meta_info) {
+          try {
+            return <div>{JSON.parse(data.meta_info).reason}</div>;
           } catch {
             /* empty */
           }
