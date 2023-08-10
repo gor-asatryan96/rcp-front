@@ -17,6 +17,7 @@ export type Diff = {
 export interface MetaInfoType {
   aa_messages: IMetaInfoTypes;
   sa_username: string;
+  reason: string;
 }
 
 export type MetaInfoData = {

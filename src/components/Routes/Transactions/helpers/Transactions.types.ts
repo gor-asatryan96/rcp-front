@@ -39,6 +39,7 @@ export interface TRXfiltersForm {
   dateFrom: Dayjs | string;
   dateTo: Dayjs | string;
   amountFrom: number | string;
+  phone: string;
   amountTo: number | string;
   playerId: number | string;
   paymentTransactionId: string;

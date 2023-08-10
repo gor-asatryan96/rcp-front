@@ -25,6 +25,7 @@ export const transactionsData = {
     if (filters.playerId === '') delete body.playerId;
     if (filters.amountTo === '') delete body.amountTo;
     if (filters.amountFrom === '') delete body.amountFrom;
+    if (filters.phone === '') delete body.phone;
     const { data } = await axios.post<{
       list: ITransaction[];
       count: number;
