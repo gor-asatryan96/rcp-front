@@ -62,7 +62,7 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     // onFilter: (value: string, record) => record.is_active,
   },
   {
-    title: 'Last visit',
+    title: 'Last Action',
     dataIndex: 'lastVisit',
     key: 'lastVisit',
     render: (_, data) => (
