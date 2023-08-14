@@ -158,7 +158,7 @@ const TransactionFilters: FC<PropTypes> = ({
           </Col>
           <Col span={3}>
             <Form.Item name='amountFrom'>
-              <Input type='number' placeholder='Amount from' />
+              <Input type='number' placeholder='Amount From' />
             </Form.Item>
           </Col>
           <Col span={3}>
