@@ -44,6 +44,7 @@ const Transactions: FC = () => {
     amountTo: 0,
     phone: '',
     playerId: 0,
+    remoteId: '',
     paymentTransactionId: '',
     transactionId: +'',
     opType: [],
