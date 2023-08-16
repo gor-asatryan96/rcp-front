@@ -130,45 +130,50 @@ const TransactionFilters: FC<PropTypes> = ({
           dateFrom: dayjs(initialFilters.dateFrom),
           dateTo: dayjs(initialFilters.dateTo),
         }}>
-        <Row gutter={24}>
-          <Col span={3}>
+        <Row gutter={25}>
+          <Col span={2.5}>
             <Form.Item name='dateFrom'>
               <DatePicker showTime placeholder='date from' allowClear={false} />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2.5}>
             <Form.Item name='dateTo'>
               <DatePicker showTime placeholder='date to' allowClear={false} />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2.5}>
             <Form.Item name='playerId'>
               <Input type='number' placeholder='Player ID' />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2.5}>
             <Form.Item name='paymentTransactionId'>
               <Input placeholder='Payment Transaction ID' />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2.5}>
             <Form.Item name='transactionId'>
               <Input type='number' placeholder='TRX ID' />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2.5}>
             <Form.Item name='amountFrom'>
               <Input type='number' placeholder='Amount From' />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2.5}>
             <Form.Item name='amountTo'>
               <Input type='number' placeholder='Amount To' />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={2.5}>
             <Form.Item name='msisdn'>
               <Input type='number' placeholder='Phone Number' />
+            </Form.Item>
+          </Col>
+          <Col span={2.5}>
+            <Form.Item name='remoteId'>
+              <Input type='number' placeholder='Remote ID' />
             </Form.Item>
           </Col>
         </Row>
