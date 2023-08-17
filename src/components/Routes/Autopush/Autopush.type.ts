@@ -3,8 +3,8 @@ import { CheckboxValueType } from 'antd/es/checkbox/Group';
 export interface IOperatorListRequest {
   id: number;
   project_id: number;
-  auto_push_enabled: 0 | 1;
-  auto_approve_enabled: 0 | 1;
+  auto_push_enabled: 0 | 1 | 2;
+  auto_approve_enabled: 0 | 1 | 2;
   op_name: string;
 }
 
