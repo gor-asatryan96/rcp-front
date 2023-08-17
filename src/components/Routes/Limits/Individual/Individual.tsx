@@ -2,13 +2,15 @@
 import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Divider, Input, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { useSelector } from 'react-redux';
 
 import { IErrorMessage } from 'redux/store.types';
+import { selectActiveProjectID } from 'redux/reducers/projects/projects.slice';
 
 import Classes from './Individual.module.scss';
 import IndividualModal from './IndividualLimitModal/IndividualModal';
@@ -17,6 +19,8 @@ import IndividualEditeModal from './IndividualEditModal/IndividualEditModal';
 import { individualLimitsData } from './individualLimits.service';
 
 const Individual: FC = () => {
+  const activeCountryId = useSelector(selectActiveProjectID);
+
   const [isIndividualModalOpen, setIsIndividualModalOpen] = useState(false);
   const [isPlayerEditModalOpen, setIsPlayerEditModalOpen] =
     useState<IIndividualEditLimits | null>(null);
@@ -37,6 +41,10 @@ const Individual: FC = () => {
   const allTotal = queryData.data?.count;
 
   const pageSizeOptions = [10, 20, 50];
+
+  useEffect(() => {
+    queryData.refetch();
+  }, [activeCountryId]);
 
   const onModalClick = () => {
     setIsIndividualModalOpen(!isIndividualModalOpen);
@@ -235,6 +243,7 @@ const Individual: FC = () => {
       <Table
         loading={queryData.isLoading}
         size='middle'
+        scroll={{ x: 1200, y: 571 }}
         dataSource={queryData.data?.list.map((item, index) => ({
           ...item,
           key: index,

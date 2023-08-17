@@ -1,3 +1,4 @@
+import { FC, useCallback, useEffect, useState } from 'react';
 import {
   DownCircleOutlined,
   FilterTwoTone,
@@ -6,7 +7,6 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Divider, Select, Table, Tooltip } from 'antd';
-import { FC, useCallback, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
@@ -14,8 +14,10 @@ import axios, { AxiosError } from 'axios';
 import { t } from 'i18next';
 import { toast } from 'react-toastify';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
 
 import { IErrorMessage } from 'redux/store.types';
+import { selectActiveProjectID } from 'redux/reducers/projects/projects.slice';
 
 import NotificationSpinner from '../../Common/NotificationSidebar/NotificationCards/components/NotificationSpinner/NotificationSpinner';
 
@@ -33,6 +35,8 @@ import { colors, statusColors, validOptionsList } from './helpers/Constans';
 import MetaInfo from './MetaInfo/MetaInfo';
 
 const Transactions: FC = () => {
+  const activeCountryId = useSelector(selectActiveProjectID);
+
   const [isInBoModalOpen, setIsInBoModalOpen] = useState(false);
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
@@ -308,6 +312,11 @@ const Transactions: FC = () => {
   const onFiltersClick = () => {
     setIsFiltersOpen(!isFiltersOpen);
   };
+
+  useEffect(() => {
+    queryData.refetch();
+    TRXInsert.refetch();
+  }, [activeCountryId]);
   const transactionList = queryData.data?.pages?.reduce<ITransaction[]>(
     (acc, b) => [...acc, ...b.list],
     [],

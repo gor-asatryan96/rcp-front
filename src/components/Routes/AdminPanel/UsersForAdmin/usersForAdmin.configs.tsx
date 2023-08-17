@@ -77,6 +77,7 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     title: 'Actions',
     dataIndex: 'actions',
     key: 'actions',
+    width: '14rem',
     render: (_, data) => (
       <Space>
         <BlockUser user={data} />

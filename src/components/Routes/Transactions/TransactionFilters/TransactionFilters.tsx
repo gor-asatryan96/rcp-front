@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction, useMemo, useState } from 'react';
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { DatePicker, Input, Form, Row, Col, Button } from 'antd';
 import { useQuery } from 'react-query';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
@@ -6,6 +13,7 @@ import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 
 import { selectLoginUserInfo } from 'redux/reducers/serverConfigs/serverConfigs.slice';
+import { selectActiveProjectID } from 'redux/reducers/projects/projects.slice';
 
 import { transactionsFilters } from '../transactions.service';
 import { ITRXFilters, TRXfiltersForm } from '../helpers/Transactions.types';
@@ -63,6 +71,7 @@ const TransactionFilters: FC<PropTypes> = ({
     STATUS: ['PENDING'],
   });
   const loginUserInfo = useSelector(selectLoginUserInfo);
+  const activeCountryId = useSelector(selectActiveProjectID);
 
   const [form] = Form.useForm();
 
@@ -99,6 +108,10 @@ const TransactionFilters: FC<PropTypes> = ({
       },
     },
   );
+
+  useEffect(() => {
+    TRXfilters.refetch();
+  }, [activeCountryId]);
 
   const onFinish = (data: TRXfiltersForm) => {
     setFilters(prev => {

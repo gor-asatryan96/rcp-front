@@ -1,29 +1,30 @@
-import { FC, useState } from 'react';
-import { Button, Divider, Form, Input, Row } from 'antd';
+import { FC, useEffect, useState } from 'react';
+import { Button, Divider, Input, Row } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import { useMutation, useQuery } from 'react-query';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import GlobalLoader from 'components/Common/GlobalLoader/GlobalLoader';
 import { IErrorMessage } from 'redux/store.types';
+import { selectActiveProjectID } from 'redux/reducers/projects/projects.slice';
 
 import { autopushAndApproveData } from './Autopush.service';
 import { IAutoPushAndApprove, IOperatorListRequestBody } from './Autopush.type';
 import AutoPushCheckbox from './Components/AutoPushCheckbox/AutoPushCheckbox';
-import SetModeSwitch from './Components/SetModeSwitch/SetModeSwitch';
 
 const AutoPush: FC = () => {
   const { t } = useTranslation();
+  const activeCountryId = useSelector(selectActiveProjectID);
 
   const [checkboxData, setCheckboxData] = useState<IAutoPushAndApprove>({
     'Auto Push': [],
     'Auto Approve': [],
   });
   const [autoPushToken, setAutoPushToken] = useState('');
-
   const operatorListData = useQuery(
     ['operator/list'],
     autopushAndApproveData.getOperatorsList,
@@ -33,10 +34,10 @@ const AutoPush: FC = () => {
         const autoApprove: CheckboxValueType[] = [];
 
         data.forEach(item => {
-          if (item.auto_push_enabled) {
+          if (item.auto_push_enabled !== 2) {
             autoPush.push(item.op_name);
           }
-          if (item.auto_approve_enabled) {
+          if (item.auto_approve_enabled !== 2) {
             autoApprove.push(item.op_name);
           }
         });
@@ -49,6 +50,10 @@ const AutoPush: FC = () => {
     },
   );
   const operatorList = operatorListData?.data;
+
+  useEffect(() => {
+    operatorListData.refetch();
+  }, [activeCountryId]);
 
   const mutation = useMutation({
     mutationFn: (data: IOperatorListRequestBody[]) => {
@@ -76,7 +81,14 @@ const AutoPush: FC = () => {
     setCheckboxData(prev => ({ ...prev, [name]: values }));
   };
 
-  const checkboxOptions = operatorList?.map(item => item.op_name) || [];
+  const autoApproveCheckboxOptions =
+    operatorList
+      ?.filter(item => item.auto_approve_enabled !== 2)
+      .map(item => item.op_name) || [];
+  const autoPushCheckboxOptions =
+    operatorList
+      ?.filter(item => item.auto_push_enabled !== 2)
+      .map(item => item.op_name) || [];
 
   const onSave = () => {
     if (!operatorList) return;
@@ -119,15 +131,15 @@ const AutoPush: FC = () => {
               flexDirection: 'column',
               alignItems: 'center',
             }}>
-            <Form.Item label='Test Mode'>
+            {/* <Form.Item label='Test Mode'>
               <SetModeSwitch />
-            </Form.Item>
+            </Form.Item> */}
             <Row style={{ paddingBottom: 10 }}>
               <AutoPushCheckbox
                 name='Auto Push'
                 onAllCheck={onFilterChange}
                 value={checkboxData['Auto Push']}
-                options={checkboxOptions}
+                options={autoPushCheckboxOptions}
                 onFilterChange={onFilterChange}
               />
             </Row>
@@ -136,7 +148,7 @@ const AutoPush: FC = () => {
                 name='Auto Approve'
                 onAllCheck={onFilterChange}
                 value={checkboxData['Auto Approve']}
-                options={checkboxOptions}
+                options={autoApproveCheckboxOptions}
                 onFilterChange={onFilterChange}
               />
             </Row>

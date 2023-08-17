@@ -77,7 +77,7 @@ const UserInfo: FC = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
-          <Button type='primary' htmlType='submit'>
+          <Button type='primary' block htmlType='submit'>
             Save
           </Button>
         </Form.Item>

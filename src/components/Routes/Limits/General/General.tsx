@@ -8,6 +8,7 @@ import GlobalLoader from 'components/Common/GlobalLoader/GlobalLoader';
 import { useAppDispatch } from 'redux/hooks/redux.hooks';
 import { getGeneralLimitsThunk } from 'redux/reducers/projects/projects.thunks';
 import {
+  selectActiveProjectID,
   selectGeneralLimits,
   selectIsGeneralLimitsLoading,
 } from 'redux/reducers/projects/projects.slice';
@@ -21,6 +22,7 @@ const General: FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const generalLimits = useSelector(selectGeneralLimits);
   const isGeneralLimitsLoading = useSelector(selectIsGeneralLimitsLoading);
+  const activeCountryId = useSelector(selectActiveProjectID);
 
   const onEditModalClick = () => {
     setIsEditModalOpen(true);
@@ -28,7 +30,7 @@ const General: FC = () => {
 
   useEffect(() => {
     dispatch(getGeneralLimitsThunk());
-  }, []);
+  }, [activeCountryId]);
 
   return (
     <>
