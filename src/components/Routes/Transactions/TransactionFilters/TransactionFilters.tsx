@@ -84,11 +84,20 @@ const TransactionFilters: FC<PropTypes> = ({
   };
 
   const exportEnv = () => {
-    const exportFilter: any = { ...filter };
-    delete exportFilter.page;
-    delete exportFilter.limit;
+    const body: Partial<TRXfiltersForm> = {
+      ...filter,
+    };
+    if (filter.paymentTransactionId === '') delete body.paymentTransactionId;
+    if (filter.transactionId === '') delete body.transactionId;
+    if (filter.playerId === '') delete body.playerId;
+    if (filter.amountTo === '') delete body.amountTo;
+    if (filter.amountFrom === '') delete body.amountFrom;
+    if (filter.phone === '') delete body.phone;
+    if (filter.remoteId === '') delete body.remoteId;
+    delete body.page;
+    delete body.limit;
 
-    exportFile(loginUserInfo.token, exportFilter);
+    exportFile(loginUserInfo.token, body);
   };
 
   const TRXfilters = useQuery<ITRXFilters>(
