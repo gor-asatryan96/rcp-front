@@ -43,7 +43,7 @@ const Transactions: FC = () => {
   const [TRXId, setTRXId] = useState<number>();
   const [filters, setFilters] = useState<TRXfiltersForm>({
     dateFrom: dayjs().startOf('day'),
-    dateTo: dayjs().add(1, 'hour'),
+    dateTo: dayjs().endOf('day').set('hour', 23).set('minute', 59),
     amountFrom: 0,
     amountTo: 0,
     phone: '',
