@@ -1,0 +1,36 @@
+stages:
+  - build
+
+variables:
+  IMAGE_NAME: "registry.betunit.com/risk-managment/rcp-frontend"
+  VERSION: ""
+  #   value: ""
+  #   description: "Input the container tag (version of build). exampl: v0.0.1" 
+
+build_project: 
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.14.0-debug
+    entrypoint: [""]
+  before_script:
+    - VERSION=$(cat build-version.env)
+    - CONTAINER_NAME=${IMAGE_NAME}:${VERSION}
+    - |
+      if [ -z $VERSION ]; then
+        echo "Please select a container version" 
+        exit 1 
+      fi
+    - echo ${CONTAINER_NAME}
+    - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${REGISTRY_USER}" "${REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+  script:
+    - echo "Build container..."
+    - /kaniko/executor 
+      --context $CI_PROJECT_DIR 
+      --dockerfile $CI_PROJECT_DIR/Dockerfile 
+      --destination ${CONTAINER_NAME}
+  tags:
+    - commonboiler
+  when: manual
+  only:
+    refs:
+      - master
