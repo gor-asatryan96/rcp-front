@@ -12,6 +12,7 @@ import {
   changeProfileThunk,
   loginByTokenThunk,
   loginThunk,
+  logoutThunk,
 } from './serverConfigs.thunks';
 
 const initialState: IServerConfigs = {
@@ -54,10 +55,6 @@ export const serverConfigsSlice = createSlice({
     },
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
-    },
-    logout: () => {
-      localStorage.removeItem('token');
-      return { ...initialState, isConnected: true };
     },
     toggleTFA: state => {
       state.user.is_twofa_enabled = 1;
@@ -109,18 +106,26 @@ export const serverConfigsSlice = createSlice({
       .addCase(changeProfileThunk.rejected, (state, { payload }) => {
         state.isProfileChangeLoading = false;
         toast.error(payload?.message || i18n.t('Something went wrong'));
+      })
+      .addCase(
+        logoutThunk.fulfilled,
+        (_, action: PayloadAction<{ isConnected: boolean }>) => {
+          return { ...initialState, ...action.payload, isConnected: true };
+        },
+      )
+      .addCase(logoutThunk.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(logoutThunk.rejected, state => {
+        state.isLoading = false;
+        toast.error(i18n.t('Something went wrong'));
       });
   },
 });
 
 // ACTIONS
-export const {
-  setIsConnected,
-  setIsLoading,
-  toggleTFA,
-  logout,
-  resetServerConfigs,
-} = serverConfigsSlice.actions;
+export const { setIsConnected, setIsLoading, toggleTFA, resetServerConfigs } =
+  serverConfigsSlice.actions;
 
 // SELECTORS
 export const selectIsConnected = (state: RootState) =>

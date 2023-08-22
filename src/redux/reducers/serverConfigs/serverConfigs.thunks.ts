@@ -88,3 +88,20 @@ export const applyInvitationThunk = createAsyncThunk<IUser, UserToken>(
     }
   },
 );
+
+export const logoutThunk = createAsyncThunk(
+  'auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.logout();
+      return response;
+    } catch (err) {
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      if (!error.response) {
+        throw err;
+      }
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
