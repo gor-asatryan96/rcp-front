@@ -195,7 +195,7 @@ const TransactionFilters: FC<PropTypes> = ({
           </Col>
           <Col span={2.5}>
             <Form.Item name='remoteId'>
-              <Input type='number' placeholder='Remote ID' />
+              <Input placeholder='Remote ID' />
             </Form.Item>
           </Col>
         </Row>
