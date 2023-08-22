@@ -34,10 +34,10 @@ const AutoPush: FC = () => {
         const autoApprove: CheckboxValueType[] = [];
 
         data.forEach(item => {
-          if (item.auto_push_enabled !== 2) {
+          if (item.auto_push_enabled === 1) {
             autoPush.push(item.op_name);
           }
-          if (item.auto_approve_enabled !== 2) {
+          if (item.auto_approve_enabled === 1) {
             autoApprove.push(item.op_name);
           }
         });

@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+
+import { resetServerConfigs } from 'redux/reducers/serverConfigs/serverConfigs.slice';
 
 import { store } from '../redux/store';
 
@@ -50,6 +53,9 @@ export function setupAxios() {
         if (method.toLowerCase() === 'get') {
           cancels.delete(`${method}:${url}`);
         }
+      } else if (error.response?.status === 403) {
+        const dispatch = useDispatch();
+        dispatch(resetServerConfigs);
       }
 
       return Promise.reject(error);

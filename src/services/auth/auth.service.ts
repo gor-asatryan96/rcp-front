@@ -51,4 +51,8 @@ export const AuthService = {
     });
     return response.data;
   },
+  async logout() {
+    const response = await axios.post('/auth/logout');
+    return response.data;
+  },
 };
