@@ -43,6 +43,7 @@ export const projectsSlice = createSlice({
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    resetProjectsSlice: () => initialState,
   },
   extraReducers: builder => {
     builder
@@ -95,7 +96,8 @@ export const projectsSlice = createSlice({
 });
 
 // ACTIONS
-export const { selectCountry, setIsLoading } = projectsSlice.actions;
+export const { selectCountry, setIsLoading, resetProjectsSlice } =
+  projectsSlice.actions;
 
 // SELECTORS
 export const selectCountries = (state: RootState) => state.projects.countries;

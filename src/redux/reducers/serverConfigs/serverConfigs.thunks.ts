@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { AuthService, ILoginBody } from 'services/auth';
 
-import { selectCountry } from '../projects/projects.slice';
+import { resetProjectsSlice, selectCountry } from '../projects/projects.slice';
 
 import type { UserToken, ILoginForm, IUser } from './serverConfigs.types';
 import type { IErrorMessage } from 'redux/store.types';
@@ -91,9 +91,10 @@ export const applyInvitationThunk = createAsyncThunk<IUser, UserToken>(
 
 export const logoutThunk = createAsyncThunk(
   'auth/logout',
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       const response = await AuthService.logout();
+      dispatch(resetProjectsSlice());
       return response;
     } catch (err) {
       const error = err as unknown as AxiosError<IErrorMessage>;
