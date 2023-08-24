@@ -68,7 +68,7 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     render: (_, data) => (
       <div>
         {data.meta.last_action_at
-          ? dayjs(data.meta.last_action_at).format('DD/MM/YYYY HH:MM')
+          ? dayjs(data.meta.last_action_at).format('DD/MM/YYYY HH:mm')
           : ''}
       </div>
     ),

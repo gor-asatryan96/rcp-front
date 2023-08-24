@@ -110,7 +110,12 @@ export const serverConfigsSlice = createSlice({
       .addCase(
         logoutThunk.fulfilled,
         (_, action: PayloadAction<{ isConnected: boolean }>) => {
-          return { ...initialState, ...action.payload, isConnected: true };
+          localStorage.removeItem('token');
+          return {
+            ...initialState,
+            ...action.payload,
+            isConnected: true,
+          };
         },
       )
       .addCase(logoutThunk.pending, state => {
