@@ -41,6 +41,7 @@ const Transactions: FC = () => {
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
   const [TRXId, setTRXId] = useState<number>();
+  const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const [filters, setFilters] = useState<TRXfiltersForm>({
     dateFrom: dayjs().startOf('day'),
     dateTo: dayjs().endOf('day').set('hour', 23).set('minute', 59),
@@ -342,6 +343,20 @@ const Transactions: FC = () => {
     (data: ITransaction) => <MetaInfo key={data.id} data={data?.meta_info} />,
     [],
   );
+
+  const handleToggleAllRows = () => {
+    if (expandedRows.length === 0 && Array.isArray(transactionList)) {
+      setExpandedRows(transactionList.map(tr => tr.id));
+    } else {
+      setExpandedRows([]);
+    }
+  };
+
+  const onExpanded = (status: boolean, tr: any) => {
+    if (status) setExpandedRows([...expandedRows, tr.id]);
+    else setExpandedRows(expandedRows.filter(id => id !== tr.id));
+  };
+
   return (
     <>
       <Divider orientation='left'>Transactions</Divider>
@@ -449,6 +464,13 @@ const Transactions: FC = () => {
           loader={<NotificationSpinner />}
           hasMore={!!queryData.hasNextPage}
           dataLength={transactionList?.length || 0}>
+          <div className={classes.expandAllButton}>
+            <Button
+              style={{ borderRadius: '40% 40% 40% 40%' }}
+              onClick={handleToggleAllRows}>
+              {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}
+            </Button>
+          </div>
           <Table
             rowKey={data => data.id}
             rowClassName={data => (data.is_manual === 1 ? classes.manual : '')}
@@ -457,6 +479,8 @@ const Transactions: FC = () => {
             expandable={{
               expandedRowRender: MetaInfoExtandable,
               rowExpandable: data => data.aa_status === 'REJECTED',
+              expandedRowKeys: expandedRows,
+              onExpand: (status, tr) => onExpanded(status, tr),
             }}
             dataSource={transactionList}
             loading={queryData.isLoading}
