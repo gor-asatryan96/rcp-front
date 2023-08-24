@@ -12,13 +12,31 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     title: 'Username',
     dataIndex: 'username',
     key: 'username',
-    width: 120,
+  },
+  {
+    title: 'First Name',
+    dataIndex: 'first_name',
+    key: 'first_name',
+  },
+  {
+    title: 'Last Name',
+    dataIndex: 'last_name',
+    key: 'last_name',
+  },
+  {
+    title: 'Phone Number',
+    dataIndex: 'phone',
+    key: 'phone',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
   {
     title: 'Role',
     dataIndex: 'role',
     key: 'role',
-    width: 100,
   },
   {
     title: 'Status',
@@ -27,7 +45,6 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     render: (a: UserStatus) => {
       return <Badge status={Statuses[a]} text={a} />;
     },
-    width: 80,
     filters: [
       {
         text: 'Online',
@@ -45,27 +62,26 @@ export const usersForAdminColumns: ColumnsType<IUser> = [
     // onFilter: (value: string, record) => record.is_active,
   },
   {
-    title: 'Last visit',
+    title: 'Last Action',
     dataIndex: 'lastVisit',
     key: 'lastVisit',
     render: (_, data) => (
       <div>
         {data.meta.last_action_at
-          ? dayjs(data.meta.last_action_at).format('DD/MM/YYYY HH:MM')
+          ? dayjs(data.meta.last_action_at).format('DD/MM/YYYY HH:mm')
           : ''}
       </div>
     ),
-    width: 100,
   },
   {
     title: 'Actions',
     dataIndex: 'actions',
     key: 'actions',
+    width: '14rem',
     render: (_, data) => (
       <Space>
         <BlockUser user={data} />
       </Space>
     ),
-    width: 170,
   },
 ];

@@ -1,0 +1,18 @@
+.tableStatus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  height: 2rem;
+}
+
+.manual {
+  background-color: rgb(249, 249, 167);
+}
+
+.expandAllButton {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 6%;
+}

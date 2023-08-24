@@ -6,7 +6,11 @@ import { ILoginBody, ITFAResponse } from './auth.service.types';
 
 export const AuthService = {
   async login(loginBody: ILoginBody) {
-    const response = await axios.post<IUser>('/auth/login', loginBody);
+    const token = loginBody.tft;
+    delete loginBody.tft;
+    const response = await axios.post<IUser>('/auth/login', loginBody, {
+      headers: { 'x-tf-token': token },
+    });
     return response.data;
   },
   async getProfileByToken(token: string) {
@@ -16,7 +20,19 @@ export const AuthService = {
     return response.data;
   },
   async changeProfile(data: Partial<ILoginBody>) {
-    const response = await axios.post<IUser>('/auth/update-profile', data);
+    const response = await axios.post<IUser>(
+      '/auth/update-profile',
+      {
+        username: data.username,
+        oldPassword: data.oldPassword,
+        password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      },
+      {
+        headers: { 'x-tf-token': data.tft },
+      },
+    );
     return response.data;
   },
   async applyInvitation(token: string) {
@@ -33,6 +49,10 @@ export const AuthService = {
     const response = await axios.post<ITFAResponse>('/auth/verify-two-factor', {
       token: code,
     });
+    return response.data;
+  },
+  async logout() {
+    const response = await axios.post('/auth/logout');
     return response.data;
   },
 };

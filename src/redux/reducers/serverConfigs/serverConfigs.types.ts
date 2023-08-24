@@ -1,5 +1,7 @@
 import { IAclPath } from 'components/Routes/routes.types';
 
+import { ICountry } from '../projects/projects.types';
+
 export type UserToken = string;
 export type IAcl = IAclPath[];
 export type TLocal = 'EN';
@@ -8,6 +10,9 @@ export type TRole = 'SUPER_ADMIN' | 'USER';
 export interface IUser {
   id: number | null;
   username: string;
+  first_name: string;
+  last_name: string;
+  phone: number;
   token: UserToken;
   acl: IAcl;
   email: string;
@@ -26,6 +31,7 @@ export interface IUser {
 
 export interface IMeta {
   last_action_at: string;
+  currentProject: ICountry;
 }
 export interface IServerConfigs {
   isConnected: boolean;
@@ -36,14 +42,20 @@ export interface IServerConfigs {
 }
 
 export interface ILoginForm {
-  username: string;
+  lastName: string;
+  username?: string;
+  firstName: string;
   password: string;
+  oldPassword: string;
   tft?: string;
   isRemember?: boolean;
 }
 
 export interface ICreatePassword {
   oldPassword?: string;
+  username?: string;
+  firstName: string;
+  lastName: string;
   password: string;
   passwordConfirm: string;
   tft?: string;

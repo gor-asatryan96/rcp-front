@@ -1,12 +1,13 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Button, Form, Input, Select, Modal } from 'antd';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 import { t } from 'i18next';
 import { useMediaQuery } from 'react-responsive';
 
 import { REGEXPS } from 'constants/regexp.constants';
+import { IErrorMessage } from 'redux/store.types';
 
 import { IUserInvite } from './inviteUsers.types';
 import classes from './InviteUser.module.scss';
@@ -31,13 +32,14 @@ const InviteUser: FC<PropTypes> = ({
     },
     onSuccess: () => {
       setIsAddUserModalOpen(false);
-      toast.success(t('User hase successfully invited'));
+      toast.success(t('User has successfully invited'));
       queryData.refetch();
       form.resetFields();
     },
-    onError: () => {
+    onError: err => {
       setIsAddUserModalOpen(false);
-      toast.error(t('Something went wrong'));
+      const error = err as unknown as AxiosError<IErrorMessage>;
+      toast.error(error.response?.data.message || t('Something went wrong'));
     },
   });
 

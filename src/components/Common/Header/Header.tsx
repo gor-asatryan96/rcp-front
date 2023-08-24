@@ -1,7 +1,14 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Layout, theme } from 'antd';
+import { Layout, Select, theme } from 'antd';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
+
+import {
+  selectActiveProjectID,
+  selectCountries,
+} from 'redux/reducers/projects/projects.slice';
+import { TProjectId } from 'redux/reducers/projects/projects.types';
+import { getChooseProjectThunck } from 'redux/reducers/projects/projects.thunks';
 
 import { useIsMobile } from '../../../helpers/hooks.helpers';
 import { useAppDispatch } from '../../../redux/hooks/redux.hooks';
@@ -21,9 +28,17 @@ const Header: FC = () => {
   const isSidebarOpen = useSelector(selectIsMenuSidebarOpen);
   const TriggerIcon = isSidebarOpen ? MenuFoldOutlined : MenuUnfoldOutlined;
 
+  const countries = useSelector(selectCountries);
+  const activeProjectId = useSelector(selectActiveProjectID);
   const onTriggerClick = () => {
     dispatch(toggleMenuSidebar(!isSidebarOpen));
   };
+
+  const handleButtonSelect = (id: TProjectId) => {
+    dispatch(getChooseProjectThunck(id));
+  };
+
+  const validCountries = countries.filter(country => country.is_active);
 
   return (
     <Layout.Header
@@ -35,6 +50,16 @@ const Header: FC = () => {
         </div>
         {isMobile && <NrgLogo />}
         <div className={classes.headerRightActions}>
+          <Select
+            value={validCountries.length !== 0 ? activeProjectId : null}
+            onChange={handleButtonSelect}
+            className={classes.headerSelector}
+            placeholder='Select project'
+            options={validCountries.map(country => ({
+              label: country.project,
+              value: country.id,
+            }))}
+          />
           <NotificationTrigger isInSidebar={false} />
         </div>
       </div>

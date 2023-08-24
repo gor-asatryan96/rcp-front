@@ -12,6 +12,7 @@ import {
   changeProfileThunk,
   loginByTokenThunk,
   loginThunk,
+  logoutThunk,
 } from './serverConfigs.thunks';
 
 const initialState: IServerConfigs = {
@@ -21,9 +22,12 @@ const initialState: IServerConfigs = {
   isNewProfile: false,
   user: {
     id: null,
+    first_name: '',
+    last_name: '',
     acl: [],
     created_at: '',
     email: '',
+    phone: 0,
     is_active: 1,
     is_sp_reset: 0,
     is_twofa_enabled: 0,
@@ -36,6 +40,7 @@ const initialState: IServerConfigs = {
     username: '',
     meta: {
       last_action_at: '',
+      currentProject: { id: 0, is_active: 0, project: '' },
     },
     ws_token: '',
   },
@@ -50,10 +55,6 @@ export const serverConfigsSlice = createSlice({
     },
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
-    },
-    logout: () => {
-      localStorage.removeItem('token');
-      return { ...initialState, isConnected: true };
     },
     toggleTFA: state => {
       state.user.is_twofa_enabled = 1;
@@ -102,30 +103,47 @@ export const serverConfigsSlice = createSlice({
         state.user.is_sp_reset = 0;
         toast.success(i18n.t('Your profile has successfully updated'));
       })
-      .addCase(changeProfileThunk.rejected, state => {
+      .addCase(changeProfileThunk.rejected, (state, { payload }) => {
         state.isProfileChangeLoading = false;
+        toast.error(payload?.message || i18n.t('Something went wrong'));
+      })
+      .addCase(
+        logoutThunk.fulfilled,
+        (_, action: PayloadAction<{ isConnected: boolean }>) => {
+          localStorage.removeItem('token');
+          return {
+            ...initialState,
+            ...action.payload,
+            isConnected: true,
+          };
+        },
+      )
+      .addCase(logoutThunk.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(logoutThunk.rejected, state => {
+        state.isLoading = false;
         toast.error(i18n.t('Something went wrong'));
       });
   },
 });
 
 // ACTIONS
-export const {
-  setIsConnected,
-  setIsLoading,
-  toggleTFA,
-  logout,
-  resetServerConfigs,
-} = serverConfigsSlice.actions;
+export const { setIsConnected, setIsLoading, toggleTFA, resetServerConfigs } =
+  serverConfigsSlice.actions;
 
 // SELECTORS
 export const selectIsConnected = (state: RootState) =>
   state.serverConfigs.isConnected;
 export const selectUserAcl = (state: RootState) => state.serverConfigs.user.acl;
+export const selecTimezone = (state: RootState) =>
+  state.serverConfigs.user.timezone;
 export const selectIsTFAConnected = (state: RootState) =>
   !!state.serverConfigs.user.is_twofa_enabled;
 export const selectIsAclExist = (state: RootState, aclPath: IAclPath) =>
   state.serverConfigs.user.acl.includes(aclPath);
+export const selectLoginUserInfo = (state: RootState) =>
+  state.serverConfigs.user;
 export const selectIsServerConfigsLoading = (state: RootState) =>
   state.serverConfigs.isLoading;
 export const selectIsProfileChangeLoading = (state: RootState) =>
