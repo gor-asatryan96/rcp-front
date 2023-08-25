@@ -121,6 +121,7 @@ const Transactions: FC = () => {
   const onStatusChange = (transactionId: number, status: string) => {
     mutation.mutate({ transactionId, status });
   };
+
   const TransactionsColumns: ColumnsType<ITransaction> = [
     {
       title: 'TRX ID',
@@ -269,14 +270,8 @@ const Transactions: FC = () => {
       key: 'autochecked',
       render: (_, data) => (
         <Card
-          style={{
-            backgroundColor: colors[data.aa_status],
-            width: '2.2rem',
-            height: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          className={classes.check}
+          style={{ backgroundColor: colors[data.aa_status] }}>
           <div>
             {data.aa_status === Approved.REJECTED ? (
               <InfoOutlined />
@@ -287,6 +282,16 @@ const Transactions: FC = () => {
         </Card>
       ),
     },
+    // {
+    //   fixed: 'right',
+    //   title: (
+    //     <div style={{ display: 'flex', justifyContent: 'center' }}>
+    //       <Button size='small' onClick={handleToggleAllRows}>
+    //         {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}
+    //       </Button>
+    //     </div>
+    //   ),
+    // },
     Table.EXPAND_COLUMN,
     {
       title: 'PUSH',
@@ -335,26 +340,26 @@ const Transactions: FC = () => {
     queryData.refetch();
     TRXInsert.refetch();
   }, [activeCountryId]);
-  const transactionList = queryData.data?.pages?.reduce<ITransaction[]>(
-    (acc, b) => [...acc, ...b.list],
-    [],
-  );
+
   const MetaInfoExtandable = useCallback(
     (data: ITransaction) => <MetaInfo key={data.id} data={data?.meta_info} />,
     [],
   );
 
+  const onExpanded = (status: boolean, tr: any) => {
+    if (status) setExpandedRows([...expandedRows, tr.id]);
+    else setExpandedRows(expandedRows.filter(id => id !== tr.id));
+  };
+  const transactionList = queryData.data?.pages?.reduce<ITransaction[]>(
+    (acc, b) => [...acc, ...b.list],
+    [],
+  );
   const handleToggleAllRows = () => {
     if (expandedRows.length === 0 && Array.isArray(transactionList)) {
       setExpandedRows(transactionList.map(tr => tr.id));
     } else {
       setExpandedRows([]);
     }
-  };
-
-  const onExpanded = (status: boolean, tr: any) => {
-    if (status) setExpandedRows([...expandedRows, tr.id]);
-    else setExpandedRows(expandedRows.filter(id => id !== tr.id));
   };
 
   return (
@@ -466,6 +471,7 @@ const Transactions: FC = () => {
           dataLength={transactionList?.length || 0}>
           <div className={classes.expandAllButton}>
             <Button
+              size='small'
               style={{ borderRadius: '40% 40% 40% 40%' }}
               onClick={handleToggleAllRows}>
               {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}

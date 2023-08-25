@@ -89,9 +89,6 @@ const OutBoModal: FC<PropTypes> = ({
       onCancel={() => setIsOutBoModalOPen(false)}
       title='OUT'>
       <Form
-        initialValues={{
-          opType: filters?.[0].value,
-        }}
         form={form}
         validateTrigger='onSubmit'
         disabled={mutation.isLoading}

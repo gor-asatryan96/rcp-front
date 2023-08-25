@@ -85,9 +85,6 @@ const InBoModal: FC<PropTypes> = ({
       onCancel={() => setIsInBoModalOpen(false)}
       title='In'>
       <Form
-        initialValues={{
-          opType: filters?.[0].value,
-        }}
         form={form}
         validateTrigger='onSubmit'
         disabled={mutation.isLoading}
