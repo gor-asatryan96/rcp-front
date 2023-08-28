@@ -83,11 +83,11 @@ const AutoPush: FC = () => {
 
   const autoApproveCheckboxOptions =
     operatorList
-      ?.filter(item => item.auto_approve_enabled !== 2)
+      ?.filter(item => item.auto_approve_exist === 1)
       .map(item => item.op_name) || [];
   const autoPushCheckboxOptions =
     operatorList
-      ?.filter(item => item.auto_push_enabled !== 2)
+      ?.filter(item => item.auto_push_exist === 1)
       .map(item => item.op_name) || [];
 
   const onSave = () => {
