@@ -1,11 +1,19 @@
 stages:
   - build
+  - update
+  - delivery
 
 variables:
   IMAGE_NAME: "registry.betunit.com/risk-managment/rcp-frontend"
   VERSION: ""
-  #   value: ""
-  #   description: "Input the container tag (version of build). exampl: v0.0.1" 
+  LAST_VERSION: ""
+  VERSION_INCREMENT_MODE:
+    value: "2"
+    options:
+      - "0"
+      - "1"
+      - "2"
+    description: "Increment mode for version updating. 0 is major, 1 minor, 2 patch."
 
 build_project: 
   stage: build
@@ -13,7 +21,10 @@ build_project:
     name: gcr.io/kaniko-project/executor:v1.14.0-debug
     entrypoint: [""]
   before_script:
-    - VERSION=$(cat build-version.env)
+    - LAST_VERSION=$(cat build-version.env)
+    - cat ${VERSION_SH_FILE} > version.sh
+    - chmod +x ./version.sh
+    - VERSION=$(sh ./version.sh $VERSION_INCREMENT_MODE $LAST_VERSION)
     - CONTAINER_NAME=${IMAGE_NAME}:${VERSION}
     - |
       if [ -z $VERSION ]; then
@@ -28,9 +39,86 @@ build_project:
       --context $CI_PROJECT_DIR 
       --dockerfile $CI_PROJECT_DIR/Dockerfile 
       --destination ${CONTAINER_NAME}
+    - echo "NEW_VERSION=${VERSION}" > build.env
   tags:
     - commonboiler
   when: manual
+  artifacts:
+    when: on_success
+    expire_in: 30 minutes
+    reports:
+      dotenv: build.env
+  only:
+    refs:
+      - master
+
+update_version_info:
+  stage: update
+  needs:
+    - job: build_project
+      artifacts: true
+  image:
+    name: docker.io/alpine/git
+    entrypoint: [""]
+  before_script:
+    - |
+      if [ -z $NEW_VERSION ]; then
+        echo "Where not found NEW_VERSION in artifact" 
+        exit 1 
+      fi
+    - git --version
+    - git config user.email "pusher@nrgaming.com"
+    - git config user.name "Pusher"
+    - git remote add gitlab_origin https://${PUSH_MASTER_NAME}:${PUSH_MASTER_TOKEN}@${CI_REPOSITORY_URL#*@}
+  script:
+    - echo "Publishing container version to git..."
+    - echo -n "${NEW_VERSION}" > build-version.env
+    - git add build-version.env
+    - git commit -m "${NEW_VERSION}"
+    - git push gitlab_origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
+  tags:
+    - commonboiler
+  when: on_success
+  only:
+    refs:
+      - master
+
+delivery_to_helmchart_values:
+  stage: delivery
+  variables:
+    FILE_PATH: rmcp/charts/rcp-frontend/values.yaml
+    TAG_PATH: ".image.tag"
+    CHART_PATH: git.betunit.com/devops/risk-management-control-panel.git
+
+  needs:
+    - job: build_project
+      artifacts: true
+  image: docker.io/alpine/git #mikefarah/yq:4
+  before_script:
+    - |
+      if [ -z $NEW_VERSION ]; then
+        echo "Where not found NEW_VERSION in artifact" 
+        exit 1 
+      fi
+    - apk update && apk add yq
+    - git --version
+    - git config user.email "pusher@nrgaming.com"
+    - git config user.name "Pusher"
+    - git remote set-url origin https://${K8S_CD_NAME}:${K8S_CD_TOKEN}@${CHART_PATH}
+    # # Reset to remote main branch
+    - git fetch
+    - git switch main
+    - git reset --hard origin/main
+    - ls -la
+  script:
+    # Update YAML file
+    - yq -i ''$TAG_PATH' = "'$NEW_VERSION'"' $FILE_PATH
+    - git add $FILE_PATH
+    - git commit -m "CI Deliver $NEW_VERSION to $TAG"
+    - git push -o ci.skip origin HEAD:main
+  tags:
+    - commonboiler
+  when: on_success
   only:
     refs:
       - master
