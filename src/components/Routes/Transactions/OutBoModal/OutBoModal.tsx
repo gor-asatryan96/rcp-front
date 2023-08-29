@@ -1,5 +1,5 @@
+import { FC, useEffect } from 'react';
 import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
-import { FC } from 'react';
 import { LockOutlined, SaveOutlined } from '@ant-design/icons';
 import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
@@ -29,7 +29,11 @@ const OutBoModal: FC<PropTypes> = ({
   isOutBoModalOpen,
 }) => {
   const [form] = Form.useForm();
-
+  useEffect(() => {
+    if (!isOutBoModalOpen) {
+      form.resetFields();
+    }
+  }, [isOutBoModalOpen]);
   const mutation = useMutation({
     mutationFn: (data: IInBoRequest) => {
       const { token, ...rest } = data;
@@ -89,9 +93,6 @@ const OutBoModal: FC<PropTypes> = ({
       onCancel={() => setIsOutBoModalOPen(false)}
       title='OUT'>
       <Form
-        initialValues={{
-          opType: filters?.[0].value,
-        }}
         form={form}
         validateTrigger='onSubmit'
         disabled={mutation.isLoading}
