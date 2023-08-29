@@ -69,7 +69,7 @@ update_version_info:
     - git --version
     - git config user.email "pusher@nrgaming.com"
     - git config user.name "Pusher"
-    - git remote add gitlab_origin https://${PUSH_MASTER_NAME}:${PUSH_MASTER_TOKEN}@git.betunit.com/riskmanagement/rcp-frontend.git
+    - git remote add gitlab_origin https://${PUSH_MASTER_NAME}:${PUSH_MASTER_TOKEN}@${CI_REPOSITORY_URL#*@}
   script:
     - echo "Publishing container version to git..."
     - echo -n "${NEW_VERSION}" > build-version.env
