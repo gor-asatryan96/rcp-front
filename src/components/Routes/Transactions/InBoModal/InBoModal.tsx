@@ -35,7 +35,7 @@ const InBoModal: FC<PropTypes> = ({
   const maxAmountData = amountData.data?.mi_limit;
   const numericLimit = maxAmountData ? parseFloat(maxAmountData) : undefined;
 
-  const [amountValue, setAmountValue] = useState('');
+  const [amountValue, setAmountValue] = useState<string>('');
 
   useEffect(() => {
     amountData.refetch();
@@ -45,7 +45,7 @@ const InBoModal: FC<PropTypes> = ({
     if (!isInBoModalOpen) {
       form.resetFields();
     }
-  }, [isInBoModalOpen, amountValue]);
+  }, [isInBoModalOpen]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAmountValue(e.target.value);
@@ -161,7 +161,7 @@ const InBoModal: FC<PropTypes> = ({
               <Input
                 onChange={handleInputChange}
                 placeholder='Amount'
-                type='text'
+                type='number'
                 value={amountValue}
               />
             </Form.Item>
