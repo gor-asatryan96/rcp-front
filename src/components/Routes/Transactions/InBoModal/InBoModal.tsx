@@ -1,12 +1,15 @@
-import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
-import { FC } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { Button, Col, Form, Input, Modal, Popconfirm, Row, Select } from 'antd';
 import { LockOutlined, SaveOutlined } from '@ant-design/icons';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { t } from 'i18next';
+import { useSelector } from 'react-redux';
 
 import { IErrorMessage } from 'redux/store.types';
+import { ProjectService } from 'services/projects';
+import { selectActiveProjectID } from 'redux/reducers/projects/projects.slice';
 
 import { ITRXFilter } from '../helpers/Transactions.types';
 
@@ -25,6 +28,28 @@ const InBoModal: FC<PropTypes> = ({
   TRXfilters,
 }) => {
   const [form] = Form.useForm();
+
+  const activeCountryId = useSelector(selectActiveProjectID);
+
+  const amountData = useQuery(['project/info'], ProjectService.getProjectInfo);
+  const maxAmountData = amountData.data?.mi_limit;
+  const numericLimit = maxAmountData ? parseFloat(maxAmountData) : undefined;
+
+  const [amountValue, setAmountValue] = useState<string>('');
+
+  useEffect(() => {
+    amountData.refetch();
+  }, [activeCountryId]);
+
+  useEffect(() => {
+    if (!isInBoModalOpen) {
+      form.resetFields();
+    }
+  }, [isInBoModalOpen]);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAmountValue(e.target.value);
+  };
 
   const mutation = useMutation({
     mutationFn: (data: IInBoRequest) => {
@@ -105,8 +130,40 @@ const InBoModal: FC<PropTypes> = ({
         </Form.Item>
         <Row>
           <Col span={14}>
-            <Form.Item name='amount'>
-              <Input placeholder='Amount' type='number' />
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'The field is required!',
+                },
+                {
+                  pattern: /^\d+(\.\d{1,2})?$/,
+                  message: 'Invalid input. Please enter a valid number.',
+                },
+                {
+                  validator: (_, value) => {
+                    if (value === '') {
+                      return Promise.resolve();
+                    }
+                    if (
+                      numericLimit !== undefined &&
+                      parseFloat(value) > numericLimit
+                    ) {
+                      return Promise.reject(
+                        new Error(`Max amount ${numericLimit}`),
+                      );
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
+              name='amount'>
+              <Input
+                onChange={handleInputChange}
+                placeholder='Amount'
+                type='number'
+                value={amountValue}
+              />
             </Form.Item>
           </Col>
           <Col span={2}>
@@ -137,10 +194,21 @@ const InBoModal: FC<PropTypes> = ({
             danger>
             Cancel
           </Button>
-          <Button loading={mutation.isLoading} type='primary' htmlType='submit'>
-            Save
-            <SaveOutlined />
-          </Button>
+          <Popconfirm
+            overlayStyle={{ width: '22rem' }}
+            title={`Are you sure the correct amount is: ${
+              form.getFieldValue('amount') || ''
+            } `}
+            onConfirm={() => form.submit()}
+            placement='topRight'>
+            <Button
+              loading={mutation.isLoading}
+              type='primary'
+              htmlType='submit'>
+              Save
+              <SaveOutlined />
+            </Button>
+          </Popconfirm>
         </div>
       </Form>
     </Modal>

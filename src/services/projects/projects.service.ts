@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { IProjectResponse } from './projects.service.types';
+import { IProjectInfo, IProjectResponse } from './projects.service.types';
 
 import type {
   ICountry,
@@ -21,6 +21,10 @@ export const ProjectService = {
         projectId: id,
       },
     );
+    return data;
+  },
+  async getProjectInfo() {
+    const { data } = await axios.post<IProjectInfo>('/home/project/info');
     return data;
   },
   async getGeneralLimits() {
