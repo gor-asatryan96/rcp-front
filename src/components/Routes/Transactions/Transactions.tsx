@@ -55,7 +55,7 @@ const Transactions: FC = () => {
     opType: [],
     status: ['PENDING'],
     aa_status: [],
-    limit: 10,
+    limit: 50,
     page: 1,
     orderBy: 'created_at',
     orderDir: 'DESC',
@@ -416,67 +416,70 @@ const Transactions: FC = () => {
       <div
         style={{
           display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 10,
-          marginTop: 10,
+          marginTop: '1rem',
         }}>
-        <Card
-          bodyStyle={{
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 150,
-            height: 30,
-            backgroundColor: 'rgb(120, 177, 235)',
-            borderRadius: 5,
-          }}
-          headStyle={{ padding: 10 }}
-          size='small'>
-          Total Count: {totalCount}
-        </Card>
-        <Card
-          bodyStyle={{
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 150,
-            height: 30,
-            backgroundColor: 'rgb(120, 177, 235)',
-            borderRadius: 5,
-          }}
-          size='small'
-          headStyle={{ padding: 10 }}>
-          Total Amount: {totalAmount}
-        </Card>
-        <Card
-          bodyStyle={{
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 150,
-            height: 30,
-            backgroundColor: 'rgb(120, 177, 235)',
-            borderRadius: 5,
-          }}
-          headStyle={{ padding: 10 }}
-          size='small'>
-          Users Count: {usersCount}
-        </Card>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Card
+            bodyStyle={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              minWidth: 150,
+              height: 30,
+              backgroundColor: 'rgb(120, 177, 235)',
+              borderRadius: 5,
+            }}
+            headStyle={{ padding: 10 }}
+            size='small'>
+            Total Count: {totalCount}
+          </Card>
+          <Card
+            bodyStyle={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              minWidth: 150,
+              height: 30,
+              backgroundColor: 'rgb(120, 177, 235)',
+              borderRadius: 5,
+            }}
+            size='small'
+            headStyle={{ padding: 10 }}>
+            Total Amount: {totalAmount}
+          </Card>
+          <Card
+            bodyStyle={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              minWidth: 150,
+              height: 30,
+              backgroundColor: 'rgb(120, 177, 235)',
+              borderRadius: 5,
+            }}
+            headStyle={{ padding: 10 }}
+            size='small'>
+            Users Count: {usersCount}
+          </Card>
+        </div>
+        <div className={classes.expandAllButton}>
+          <Button
+            size='small'
+            style={{ borderRadius: '40% 40% 40% 40%' }}
+            onClick={handleToggleAllRows}>
+            {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}
+          </Button>
+        </div>
       </div>
+
       <div>
         <InfiniteScroll
           next={queryData.fetchNextPage}
           loader={<NotificationSpinner />}
           hasMore={!!queryData.hasNextPage}
           dataLength={transactionList?.length || 0}>
-          <div className={classes.expandAllButton}>
-            <Button
-              size='small'
-              style={{ borderRadius: '40% 40% 40% 40%' }}
-              onClick={handleToggleAllRows}>
-              {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}
-            </Button>
-          </div>
           <Table
             rowKey={data => data.id}
             rowClassName={data => (data.is_manual === 1 ? classes.manual : '')}
