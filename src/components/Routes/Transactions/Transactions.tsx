@@ -50,6 +50,7 @@ const Transactions: FC = () => {
     phone: '',
     playerId: 0,
     remoteId: '',
+    token: '',
     paymentTransactionId: '',
     transactionId: +'',
     opType: [],
@@ -227,6 +228,7 @@ const Transactions: FC = () => {
         ),
     },
     { title: 'Code', dataIndex: 'code', key: 'code' },
+    { title: 'Token', dataIndex: 'token', key: 'token' },
     { title: 'MSISDN', dataIndex: 'msisdn', key: 'msisdn' },
     { title: 'Operator', dataIndex: 'op_name', key: 'op_name' },
     {

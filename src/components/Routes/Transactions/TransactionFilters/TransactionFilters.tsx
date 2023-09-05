@@ -94,6 +94,7 @@ const TransactionFilters: FC<PropTypes> = ({
     if (filter.amountFrom === '') delete body.amountFrom;
     if (filter.phone === '') delete body.phone;
     if (filter.remoteId === '') delete body.remoteId;
+    if (filter.token === '') delete body.token;
     delete body.page;
     delete body.limit;
 
@@ -133,6 +134,7 @@ const TransactionFilters: FC<PropTypes> = ({
       };
       remove();
       refetch();
+      form.resetFields();
 
       return newFilters;
     });
@@ -152,50 +154,65 @@ const TransactionFilters: FC<PropTypes> = ({
           dateFrom: dayjs(initialFilters.dateFrom),
           dateTo: dayjs(initialFilters.dateTo),
         }}>
-        <Row gutter={25}>
-          <Col span={2.5}>
+        <Row gutter={40}>
+          <Col span={3}>
             <Form.Item name='dateFrom'>
-              <DatePicker showTime placeholder='date from' allowClear={false} />
+              <DatePicker
+                size='large'
+                showTime
+                placeholder='date from'
+                allowClear={false}
+              />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='dateTo'>
-              <DatePicker showTime placeholder='date to' allowClear={false} />
+              <DatePicker
+                size='large'
+                showTime
+                placeholder='date to'
+                allowClear={false}
+              />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='playerId'>
               <Input type='number' placeholder='Player ID' />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='paymentTransactionId'>
               <Input placeholder='Payment Transaction ID' />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='transactionId'>
               <Input type='number' placeholder='TRX ID' />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='amountFrom'>
               <Input type='number' placeholder='Amount From' />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='amountTo'>
               <Input type='number' placeholder='Amount To' />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='msisdn'>
               <Input type='number' placeholder='Phone Number' />
             </Form.Item>
           </Col>
-          <Col span={2.5}>
+          <Col span={3}>
             <Form.Item name='remoteId'>
               <Input placeholder='Remote ID' />
+            </Form.Item>
+          </Col>
+          <Col span={3}>
+            <Form.Item name='token'>
+              <Input placeholder='Token' />
             </Form.Item>
           </Col>
         </Row>
