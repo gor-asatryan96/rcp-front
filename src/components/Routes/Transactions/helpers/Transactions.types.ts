@@ -41,6 +41,7 @@ export interface TRXfiltersForm {
   amountFrom: number | string;
   phone: string;
   remoteId: string;
+  token: string;
   amountTo: number | string;
   playerId: number | string;
   paymentTransactionId: string;
