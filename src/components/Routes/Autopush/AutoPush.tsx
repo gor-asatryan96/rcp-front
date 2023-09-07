@@ -69,6 +69,7 @@ const AutoPush: FC = () => {
     },
     onSuccess: () => {
       toast.success(t('Status has successfully changed'));
+      operatorListData.refetch();
     },
     onError: err => {
       const error = err as unknown as AxiosError<IErrorMessage>;
