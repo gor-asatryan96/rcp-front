@@ -134,8 +134,6 @@ const TransactionFilters: FC<PropTypes> = ({
       };
       remove();
       refetch();
-      form.resetFields();
-
       return newFilters;
     });
   };
