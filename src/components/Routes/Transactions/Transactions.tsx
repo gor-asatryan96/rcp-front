@@ -98,15 +98,15 @@ const Transactions: FC = () => {
   };
   const mutation = useMutation({
     mutationFn: ({
-      transactionId,
+      transactionsIds,
       status,
     }: {
-      transactionId: number;
+      transactionsIds: number[];
       status: string;
     }) => {
       return axios.post('/transaction/update-status', {
         status,
-        transactionId,
+        transactionsIds,
       });
     },
     onSuccess: () => {
@@ -120,8 +120,8 @@ const Transactions: FC = () => {
     },
   });
 
-  const onStatusChange = (transactionId: number, status: string) => {
-    mutation.mutate({ transactionId, status });
+  const onStatusChange = (transactionsIds: number[], status: string) => {
+    mutation.mutate({ transactionsIds, status });
   };
 
   const TransactionsColumns: ColumnsType<ITransaction> = [
@@ -225,7 +225,10 @@ const Transactions: FC = () => {
           <Select
             onChange={value => {
               data.status = value;
-              onStatusChange(data.id, value);
+              onStatusChange(
+                data.is_bulk ? data.children.map(tr => tr.id) : [data.id],
+                value,
+              );
             }}
             style={{
               width: '7rem',
@@ -234,6 +237,7 @@ const Transactions: FC = () => {
               borderColor: statusColors[data.status],
             }}
             defaultValue={getTransactionStatus(data)}
+            disabled={!getTransactionStatus(data)}
             options={validOptionsList[data.status]}
           />
         ),
@@ -285,15 +289,13 @@ const Transactions: FC = () => {
         <Card
           className={classes.check}
           style={{ backgroundColor: colors[data.aa_status] }}>
-          {!data.is_bulk && (
-            <div>
-              {data.aa_status === Approved.REJECTED ? (
-                <InfoOutlined />
-              ) : (
-                <DownCircleOutlined />
-              )}
-            </div>
-          )}
+          <div>
+            {data.aa_status === Approved.REJECTED ? (
+              <InfoOutlined />
+            ) : (
+              <DownCircleOutlined />
+            )}
+          </div>
         </Card>
       ),
     },
@@ -513,6 +515,7 @@ const Transactions: FC = () => {
                 data.aa_status === 'REJECTED' || data.is_bulk,
               expandedRowKeys: expandedRows,
               onExpand: (status, tr) => onExpanded(status, tr),
+              childrenColumnName: 'children_old',
             }}
             dataSource={transactionList}
             loading={queryData.isLoading}
