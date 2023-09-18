@@ -31,6 +31,7 @@ export interface ITransaction {
   created_at: string;
   gateway_trx_id: string;
   is_bulk: boolean;
+  token: string;
   tries: number | null;
   bonus_checked: number | null;
   auto_approved: number | null;
