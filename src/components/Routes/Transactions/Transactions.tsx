@@ -33,6 +33,7 @@ import {
 } from './helpers/Transactions.types';
 import { colors, statusColors, validOptionsList } from './helpers/Constans';
 import MetaInfo from './MetaInfo/MetaInfo';
+import { getTransactionStatus } from './helpers/Helpers';
 
 const Transactions: FC = () => {
   const activeCountryId = useSelector(selectActiveProjectID);
@@ -128,6 +129,9 @@ const Transactions: FC = () => {
       title: 'TRX ID',
       dataIndex: 'id',
       key: 'id',
+      render: (_, data) => {
+        return data.is_bulk ? `Bulk (${data.count})` : data.id;
+      },
     },
     {
       title: 'UID',
@@ -157,8 +161,13 @@ const Transactions: FC = () => {
         const amountB = parseFloat(b.amount);
         return amountA - amountB;
       },
-
-      render: (_, data) => <div>{data.amount.split('.')[0]}</div>,
+      render: (_, data) => {
+        return (
+          <div>
+            {(data.is_bulk ? 'Total Amount: ' : '') + data.amount.split('.')[0]}
+          </div>
+        );
+      },
     },
     { title: 'Currency', dataIndex: 'currency', key: 'currency' },
     {
@@ -183,17 +192,19 @@ const Transactions: FC = () => {
         const dateB = new Date(b.updated_at);
         return dateA.getTime() - dateB.getTime();
       },
-      render: (_, data) => (
-        <div>
-          <div>{dayjs.utc(data.updated_at).format('DD/MM/YYYY HH:mm')}</div>
-        </div>
-      ),
+      render: (_, data) =>
+        !data.is_bulk && (
+          <div>
+            <div>{dayjs.utc(data.updated_at).format('DD/MM/YYYY HH:mm')}</div>
+          </div>
+        ),
     },
     { title: 'Kind', dataIndex: 'op_type', key: 'op_type' },
     {
       title: 'PTRX ID',
       dataIndex: 'gateway_response',
       key: 'gateway_response',
+      render: (_, data) => (data.is_bulk ? '' : data.gateway_trx_id),
     },
     {
       title: 'Status',
@@ -222,7 +233,7 @@ const Transactions: FC = () => {
               borderRadius: '10px',
               borderColor: statusColors[data.status],
             }}
-            defaultValue={data.status}
+            defaultValue={getTransactionStatus(data)}
             options={validOptionsList[data.status]}
           />
         ),
@@ -241,7 +252,7 @@ const Transactions: FC = () => {
       dataIndex: 'username',
       key: 'username',
       render: (_, data) => {
-        if (data.meta_info) {
+        if (data.meta_info && !data.is_bulk) {
           try {
             return <div>{JSON.parse(data.meta_info).sa_username}</div>;
           } catch {
@@ -256,7 +267,7 @@ const Transactions: FC = () => {
       dataIndex: 'reason',
       key: 'reason',
       render: (_, data) => {
-        if (data.meta_info) {
+        if (data.meta_info && !data.is_bulk) {
           try {
             return <div>{JSON.parse(data.meta_info).reason}</div>;
           } catch {
@@ -274,26 +285,18 @@ const Transactions: FC = () => {
         <Card
           className={classes.check}
           style={{ backgroundColor: colors[data.aa_status] }}>
-          <div>
-            {data.aa_status === Approved.REJECTED ? (
-              <InfoOutlined />
-            ) : (
-              <DownCircleOutlined />
-            )}
-          </div>
+          {!data.is_bulk && (
+            <div>
+              {data.aa_status === Approved.REJECTED ? (
+                <InfoOutlined />
+              ) : (
+                <DownCircleOutlined />
+              )}
+            </div>
+          )}
         </Card>
       ),
     },
-    // {
-    //   fixed: 'right',
-    //   title: (
-    //     <div style={{ display: 'flex', justifyContent: 'center' }}>
-    //       <Button size='small' onClick={handleToggleAllRows}>
-    //         {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}
-    //       </Button>
-    //     </div>
-    //   ),
-    // },
     Table.EXPAND_COLUMN,
     {
       title: 'PUSH',
@@ -344,7 +347,24 @@ const Transactions: FC = () => {
   }, [activeCountryId]);
 
   const MetaInfoExtandable = useCallback(
-    (data: ITransaction) => <MetaInfo key={data.id} data={data?.meta_info} />,
+    (transaction: ITransaction) => (
+      <>
+        {transaction.aa_status === 'REJECTED' && (
+          <MetaInfo key={transaction.id} data={transaction?.meta_info} />
+        )}
+
+        {transaction.is_bulk && (
+          <Table
+            rowKey={data => data.id}
+            size='small'
+            columns={TransactionsColumns as any}
+            dataSource={transaction.children}
+            footer={() => null}
+            pagination={false}
+          />
+        )}
+      </>
+    ),
     [],
   );
 
@@ -489,7 +509,8 @@ const Transactions: FC = () => {
             columns={TransactionsColumns}
             expandable={{
               expandedRowRender: MetaInfoExtandable,
-              rowExpandable: data => data.aa_status === 'REJECTED',
+              rowExpandable: data =>
+                data.aa_status === 'REJECTED' || data.is_bulk,
               expandedRowKeys: expandedRows,
               onExpand: (status, tr) => onExpanded(status, tr),
             }}
