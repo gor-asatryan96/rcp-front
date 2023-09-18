@@ -7,6 +7,19 @@ export enum Approved {
   APPROVED = 'APPROVED',
 }
 
+export type IChildren = {
+  id: number;
+  user_id: number | null;
+  amount: string;
+  count: string;
+  currency: string;
+  created_at: string;
+  kind: string;
+  status: CheckboxValueType[];
+  token: string;
+  msisdn: string;
+};
+
 export interface ITransaction {
   id: number;
   user_id: number | null;
@@ -17,6 +30,8 @@ export interface ITransaction {
   updated_at: string;
   created_at: string;
   gateway_trx_id: string;
+  is_bulk: boolean;
+  token: string;
   tries: number | null;
   bonus_checked: number | null;
   auto_approved: number | null;
@@ -24,6 +39,8 @@ export interface ITransaction {
   aa_status: Approved;
   meta_info: string;
   is_manual: number;
+  count?: number;
+  children: Array<IChildren>;
 }
 
 export interface ITRXFilter {
