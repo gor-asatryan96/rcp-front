@@ -513,6 +513,7 @@ const Transactions: FC = () => {
                 data.aa_status === 'REJECTED' || data.is_bulk,
               expandedRowKeys: expandedRows,
               onExpand: (status, tr) => onExpanded(status, tr),
+              childrenColumnName: 'children_old',
             }}
             dataSource={transactionList}
             loading={queryData.isLoading}
