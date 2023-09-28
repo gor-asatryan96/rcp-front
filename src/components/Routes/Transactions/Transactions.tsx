@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   DownCircleOutlined,
   FilterTwoTone,
@@ -42,6 +42,9 @@ const Transactions: FC = () => {
   const [isOutBoModalOpen, setIsOutBoModalOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
   const [TRXId, setTRXId] = useState<number>();
+  const [transactionStatus, setTransactionStatus] = useState<{
+    [key: number]: string;
+  }>({});
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const [filters, setFilters] = useState<TRXfiltersForm>({
     dateFrom: dayjs().startOf('day'),
@@ -120,7 +123,22 @@ const Transactions: FC = () => {
     },
   });
 
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const savedScrollPositionRef = useRef<number>(0);
+
+  const rememberScrollPosition = () => {
+    if (scrollRef.current) {
+      savedScrollPositionRef.current = scrollRef.current.scrollTop;
+    }
+  };
+
+  const restoreScrollPosition = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = savedScrollPositionRef.current;
+    }
+  };
   const onStatusChange = (transactionsIds: number[], status: string) => {
+    rememberScrollPosition();
     mutation.mutate({ transactionsIds, status });
   };
 
@@ -224,7 +242,10 @@ const Transactions: FC = () => {
         ) : (
           <Select
             onChange={value => {
-              data.status = value;
+              setTransactionStatus({
+                ...transactionStatus,
+                [data.id]: value,
+              });
               onStatusChange(
                 data.is_bulk ? data.children.map(tr => tr.id) : [data.id],
                 value,
@@ -234,9 +255,13 @@ const Transactions: FC = () => {
               width: '7rem',
               border: 'solid 3px',
               borderRadius: '10px',
-              borderColor: statusColors[data.status],
+              borderColor:
+                statusColors[transactionStatus[data.id] || data.status],
             }}
-            defaultValue={getTransactionStatus(data)}
+            defaultValue={
+              transactionStatus[data.id] || getTransactionStatus(data)
+            }
+            value={transactionStatus[data.id] || getTransactionStatus(data)}
             disabled={!getTransactionStatus(data)}
             options={validOptionsList[data.status]}
           />
@@ -348,6 +373,14 @@ const Transactions: FC = () => {
     TRXInsert.refetch();
   }, [activeCountryId]);
 
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      queryData.refetch().then(() => {
+        restoreScrollPosition();
+      });
+    }
+  }, [mutation.isSuccess, queryData.data, InfiniteScroll]);
+
   const MetaInfoExtandable = useCallback(
     (transaction: ITransaction) => (
       <>
@@ -357,6 +390,7 @@ const Transactions: FC = () => {
 
         {transaction.is_bulk && (
           <Table
+            rowClassName={classes.childRowColor}
             rowKey={data => data.id}
             size='small'
             columns={TransactionsColumns as any}
