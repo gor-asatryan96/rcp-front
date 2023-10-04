@@ -389,15 +389,17 @@ const Transactions: FC = () => {
         )}
 
         {transaction.is_bulk && (
-          <Table
-            rowClassName={classes.childRowColor}
-            rowKey={data => data.id}
-            size='small'
-            columns={TransactionsColumns as any}
-            dataSource={transaction.children}
-            footer={() => null}
-            pagination={false}
-          />
+          <div className={classes.trxTabBody}>
+            <Table
+              rowClassName={classes.childRowColor}
+              rowKey={data => data.id}
+              size='small'
+              columns={TransactionsColumns as any}
+              dataSource={transaction.children}
+              footer={() => null}
+              pagination={false}
+            />
+          </div>
         )}
       </>
     ),
@@ -538,24 +540,28 @@ const Transactions: FC = () => {
           loader={<NotificationSpinner />}
           hasMore={!!queryData.hasNextPage}
           dataLength={transactionList?.length || 0}>
-          <Table
-            rowKey={data => data.id}
-            rowClassName={data => (data.is_manual === 1 ? classes.manual : '')}
-            size='small'
-            columns={TransactionsColumns}
-            expandable={{
-              expandedRowRender: MetaInfoExtandable,
-              rowExpandable: data =>
-                data.aa_status === 'REJECTED' || data.is_bulk,
-              expandedRowKeys: expandedRows,
-              onExpand: (status, tr) => onExpanded(status, tr),
-              childrenColumnName: 'children_old',
-            }}
-            dataSource={transactionList}
-            loading={queryData.isLoading}
-            footer={() => null}
-            pagination={false}
-          />
+          <div className={classes.trxTabBody}>
+            <Table
+              rowKey={data => data.id}
+              rowClassName={data =>
+                data.is_manual === 1 ? classes.manual : ''
+              }
+              size='small'
+              columns={TransactionsColumns}
+              expandable={{
+                expandedRowRender: MetaInfoExtandable,
+                rowExpandable: data =>
+                  data.aa_status === 'REJECTED' || data.is_bulk,
+                expandedRowKeys: expandedRows,
+                onExpand: (status, tr) => onExpanded(status, tr),
+                childrenColumnName: 'children_old',
+              }}
+              dataSource={transactionList}
+              loading={queryData.isLoading}
+              footer={() => null}
+              pagination={false}
+            />
+          </div>
         </InfiniteScroll>
       </div>
     </>

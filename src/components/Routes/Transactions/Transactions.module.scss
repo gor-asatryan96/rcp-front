@@ -24,6 +24,12 @@
   justify-content: center;
 }
 
+.trxTabBody {
+  :global(.ant-table-cell-row-hover) {
+    background-color: inherit !important;
+  }
+}
+
 .childRowColor {
-  background-color: rgb(228, 223, 223);
+  background-color: rgb(241, 235, 235);
 }
