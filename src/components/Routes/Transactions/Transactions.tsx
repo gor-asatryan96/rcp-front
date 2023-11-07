@@ -281,7 +281,7 @@ const Transactions: FC = () => {
       dataIndex: 'username',
       key: 'username',
       render: (_, data) => {
-        if (data.meta_info && !data.is_bulk) {
+        if (data.meta_info) {
           try {
             return <div>{JSON.parse(data.meta_info).sa_username}</div>;
           } catch {
