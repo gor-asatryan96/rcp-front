@@ -223,14 +223,17 @@ const MetaInfo: FC<MetaInfoData> = ({ data }) => {
   const parsedData: MetaInfoType = JSON.parse(data);
 
   return (
-    <Table
-      style={{ marginRight: 45 }}
-      bordered
-      size='small'
-      pagination={false}
-      dataSource={[parsedData.aa_messages]}
-      columns={metaInfoColumns}
-    />
+    <div className={classes.trxTabBody}>
+      <Table
+        style={{ marginRight: 45 }}
+        // bordered
+        size='small'
+        rowClassName={classes.childRowColor}
+        pagination={false}
+        dataSource={[parsedData.aa_messages]}
+        columns={metaInfoColumns}
+      />
+    </div>
   );
 };
 
