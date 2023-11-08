@@ -239,7 +239,7 @@ const Transactions: FC = () => {
       title: 'PTRX ID',
       dataIndex: 'gateway_response',
       key: 'gateway_response',
-      render: (_, data) => (data.is_bulk ? '' : data.gateway_trx_id),
+      render: (_, data) => (data.is_bulk ? '' : data.gateway_response),
     },
     {
       title: 'Status',
@@ -292,6 +292,7 @@ const Transactions: FC = () => {
       title: 'RTX ID',
       dataIndex: 'gateway_trx_id',
       key: 'gateway_trx_id',
+      render: (_, data) => (data.is_bulk ? '' : data.gateway_trx_id),
     },
     {
       title: 'Username',
