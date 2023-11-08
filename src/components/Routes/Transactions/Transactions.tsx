@@ -164,7 +164,7 @@ const Transactions: FC = () => {
       render: (_, data) => (
         <a
           target='_blank'
-          href={`http://fbo.betunit.com/internet/ccuser/${data.user_id}/`}
+          href={`https://risks.betunit.com//internet/ccuser/${data.user_id}/`}
           rel='noreferrer'>
           {data.user_id}
         </a>
