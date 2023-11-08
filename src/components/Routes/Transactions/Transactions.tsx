@@ -142,6 +142,23 @@ const Transactions: FC = () => {
     mutation.mutate({ transactionsIds, status });
   };
 
+  const onExpanded = (status: boolean, tr: any) => {
+    if (status) setExpandedRows([...expandedRows, tr.id]);
+    else setExpandedRows(expandedRows.filter(id => id !== tr.id));
+  };
+  const transactionList = queryData.data?.pages?.reduce<ITransaction[]>(
+    (acc, b) => [...acc, ...b.list],
+    [],
+  );
+
+  const handleToggleAllRows = () => {
+    if (expandedRows.length === 0 && Array.isArray(transactionList)) {
+      setExpandedRows(transactionList.map(tr => tr.id));
+    } else {
+      setExpandedRows([]);
+    }
+  };
+
   const TransactionsColumns: ColumnsType<ITransaction> = [
     {
       title: 'TRX ID',
@@ -324,7 +341,15 @@ const Transactions: FC = () => {
         </Card>
       ),
     },
+    {
+      title: (
+        <Button size='small' onClick={handleToggleAllRows}>
+          {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}
+        </Button>
+      ),
+    },
     Table.EXPAND_COLUMN,
+
     {
       title: 'PUSH',
       key: 'autoPush',
@@ -405,22 +430,6 @@ const Transactions: FC = () => {
     ),
     [],
   );
-
-  const onExpanded = (status: boolean, tr: any) => {
-    if (status) setExpandedRows([...expandedRows, tr.id]);
-    else setExpandedRows(expandedRows.filter(id => id !== tr.id));
-  };
-  const transactionList = queryData.data?.pages?.reduce<ITransaction[]>(
-    (acc, b) => [...acc, ...b.list],
-    [],
-  );
-  const handleToggleAllRows = () => {
-    if (expandedRows.length === 0 && Array.isArray(transactionList)) {
-      setExpandedRows(transactionList.map(tr => tr.id));
-    } else {
-      setExpandedRows([]);
-    }
-  };
 
   return (
     <>
@@ -523,14 +532,6 @@ const Transactions: FC = () => {
             size='small'>
             Users Count: {usersCount}
           </Card>
-        </div>
-        <div className={classes.expandAllButton}>
-          <Button
-            size='small'
-            style={{ borderRadius: '40% 40% 40% 40%' }}
-            onClick={handleToggleAllRows}>
-            {expandedRows.length === 0 ? <PlusOutlined /> : <MinusOutlined />}
-          </Button>
         </div>
       </div>
 
