@@ -30,17 +30,14 @@ const InBoModal: FC<PropTypes> = ({
   const [form] = Form.useForm();
 
   const activeCountryId = useSelector(selectActiveProjectID);
-
   const amountData = useQuery(['project/info'], ProjectService.getProjectInfo);
   const maxAmountData = amountData.data?.mi_limit;
   const numericLimit = maxAmountData ? parseFloat(maxAmountData) : undefined;
-
   const [amountValue, setAmountValue] = useState<string>('');
 
   useEffect(() => {
     amountData.refetch();
   }, [activeCountryId]);
-
   useEffect(() => {
     if (!isInBoModalOpen) {
       form.resetFields();
@@ -95,6 +92,7 @@ const InBoModal: FC<PropTypes> = ({
       opType: data?.opType,
       usersIds: data.usersInput.split(',').map(Number),
       paymentTransactionId: data.paymentTransactionId,
+      remoteTransactionId: data.remoteTransactionId,
       reason: data.reason,
       type: 'IN',
       token: data.token,
@@ -175,12 +173,18 @@ const InBoModal: FC<PropTypes> = ({
             <Form.Item name='paymentTransactionId'>
               <Input placeholder='Payment TRX ID' />
             </Form.Item>
+            {activeCountryId === 3 ? (
+              <Form.Item name='remoteTransactionId'>
+                <Input placeholder='Remote TRX ID' />
+              </Form.Item>
+            ) : (
+              ''
+            )}
             <Form.Item name='reason'>
-              <Input style={{ marginTop: '1rem' }} placeholder='Reason' />
+              <Input placeholder='Reason' />
             </Form.Item>
             <Form.Item name='token'>
               <Input.Password
-                style={{ marginTop: '1rem' }}
                 prefix={<LockOutlined className='site-form-item-icon' />}
                 placeholder='Secret Token '
               />

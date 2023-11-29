@@ -78,10 +78,12 @@ const OutBoModal: FC<PropTypes> = ({
       opType: data.opType,
       usersIds: data.usersInput.split(',').map(Number),
       paymentTransactionId: data.paymentTransactionId,
+      remoteTransactionId: data.remoteTransactionId,
       reason: data.reason,
       type: 'OUT',
       token: data.token,
     };
+
     mutation.mutate(requestBody);
   };
 
@@ -127,11 +129,10 @@ const OutBoModal: FC<PropTypes> = ({
               <Input placeholder='Payment TRX ID' />
             </Form.Item>
             <Form.Item name='reason'>
-              <Input style={{ marginTop: '1rem' }} placeholder='Reason' />
+              <Input placeholder='Reason' />
             </Form.Item>
             <Form.Item name='token'>
               <Input.Password
-                style={{ marginTop: '1rem' }}
                 prefix={<LockOutlined className='site-form-item-icon' />}
                 placeholder='Secret Token '
               />

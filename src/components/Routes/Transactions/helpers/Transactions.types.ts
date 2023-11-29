@@ -30,6 +30,7 @@ export interface ITransaction {
   updated_at: string;
   created_at: string;
   gateway_trx_id: string;
+  gateway_response: string;
   is_bulk: boolean;
   token: string;
   tries: number | null;
