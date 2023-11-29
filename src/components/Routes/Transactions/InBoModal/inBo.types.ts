@@ -3,6 +3,7 @@ interface IInBo {
   type: string;
   reason: string;
   paymentTransactionId: number;
+  remoteTransactionId: number;
   token: string;
 }
 
