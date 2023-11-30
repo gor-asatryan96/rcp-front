@@ -173,7 +173,7 @@ const InBoModal: FC<PropTypes> = ({
             <Form.Item name='paymentTransactionId'>
               <Input placeholder='Payment TRX ID' />
             </Form.Item>
-            {activeCountryId === 3 ? (
+            {activeCountryId === 3 || activeCountryId === 21 ? (
               <Form.Item name='remoteTransactionId'>
                 <Input placeholder='Remote TRX ID' />
               </Form.Item>
