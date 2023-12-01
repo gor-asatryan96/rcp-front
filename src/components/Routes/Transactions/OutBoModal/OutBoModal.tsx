@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
-import { LockOutlined, SaveOutlined } from '@ant-design/icons';
+import { SaveOutlined } from '@ant-design/icons';
 import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
@@ -131,12 +131,12 @@ const OutBoModal: FC<PropTypes> = ({
             <Form.Item name='reason'>
               <Input placeholder='Reason' />
             </Form.Item>
-            <Form.Item name='token'>
+            {/* <Form.Item name='token'>
               <Input.Password
                 prefix={<LockOutlined className='site-form-item-icon' />}
                 placeholder='Secret Token '
               />
-            </Form.Item>
+            </Form.Item> */}
           </Col>
         </Row>
         <div className={Classes.SaveAndCancelButtons}>
